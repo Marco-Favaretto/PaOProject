@@ -1,0 +1,10 @@
+- inventario videogioco:
+    UI: inventario a schede
+                obj (effect()=0)
+    +---------------+-------+--------------------+
+consumable                weapon =0            passive
+   +-------+            +-------+---------+      (ring/armor)     
+static     ot        strike   thrust   regular
+
+view ---- model con container e iteratore ----- classe base ( gerarchia )
+view ---- model --- container e iteratore ----- classe base ( gerarchia )
