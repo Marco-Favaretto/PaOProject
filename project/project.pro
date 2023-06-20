@@ -9,10 +9,18 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    item.cpp \
+    consumable.cpp \
+    overTime.cpp \
+    weapon.cpp \
     main.cpp \
     player.cpp
 
 HEADERS += \
+    item.h \
+    consumable.h \
+    overTime.h \
+    weapon.h \
     player.h
 
 # Default rules for deployment.

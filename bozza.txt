@@ -14,6 +14,10 @@ static     ot        strike   thrust   regular
    +-------+           +-------+    
 static     ot       strike   regular
 
+
+eliminazione static
+overTime diventa specializzazione di consumable, che se overTime forza la chiamata effect() ogni timer
+
 view ---- model --- container e iteratore ----- classe base ( gerarchia )
 
 model = Player* e container
