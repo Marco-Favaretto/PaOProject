@@ -1,18 +1,20 @@
 inventario videogioco:
+UI: inventario a schede
 
-    UI: inventario a schede
                 item (effect()=0)
     +---------------+-------+----------/ /--------+
 consumable                weapon =0            passive
    +-------+            +-------+---------+      (ring/armor)     
 static     ot        strike   thrust   regular
 
-    UI: inventario a schede
+
                 item (effect()=0)
     +-----------+---------+
  consumable =0?        weapon =0?
    +-------+           +-------+    
 static     ot       strike   regular
 
-view ---- model con container e iteratore ----- classe base ( gerarchia )
 view ---- model --- container e iteratore ----- classe base ( gerarchia )
+
+model = Player* e container
+contenitore di item -> array allocato dinamicamente
