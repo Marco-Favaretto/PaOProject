@@ -21,6 +21,7 @@ class overTime : public Consumable {
     public slots:
         virtual void effect();
         void stopOT();
+        void startOT();
 };
 
 #endif // OVERTIME_H
