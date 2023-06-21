@@ -4,6 +4,8 @@ Player::Player(u_int base, STATUS status, std::string _path) : hp(base), st(stat
     if(!pathCorrectness()) pathCorrect();
 }
 
+Player::~Player() {}
+
 u_int Player::getHP() const {
     return hp;
 }
@@ -12,16 +14,20 @@ STATUS Player::getStatus() const {
     return st;
 }
 
+// modifica hp del player, se hp tocca lo 0, player muore
 void Player::changeHP(int _hp) {
     hp += _hp;
     if(hp <= 0) changeStatus(DEAD);
 }
 
+// cambia lo status del player per situazioni di avvelenamento, cura e morte
 void Player::changeStatus(STATUS _st) {
     st = _st;
+    emit statusChange(_st);
     if(!pathCorrectness()) pathCorrect();
 }
 
+// controlla che l'immagine assegnata sia corretta
 bool Player::pathCorrectness() const {
     switch(st) {
         case NORMAL:
@@ -36,6 +42,7 @@ bool Player::pathCorrectness() const {
     }
 }
 
+// corregge errori di assegnazione dell'immagine
 void Player::pathCorrect() {
     switch(st) {
         case NORMAL:

@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include<QObject>
 #include <string>
 
 #define u_int unsigned int
@@ -13,7 +14,8 @@
 
 enum STATUS {NORMAL, POISONED, DEAD};
 
-class Player {
+class Player : public QObject {
+    Q_OBJECT
     private:
         u_int hp;
         STATUS st;
@@ -24,8 +26,12 @@ class Player {
         Player(u_int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC);
         u_int getHP() const;
         STATUS getStatus() const;
+        virtual ~Player();
+    public slots:
         void changeHP(int);
         void changeStatus(STATUS);
+    signals:
+        void statusChange(STATUS);
 };
 
 #endif // PLAYER_H
