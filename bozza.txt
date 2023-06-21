@@ -14,12 +14,13 @@ static     ot        strike   thrust   regular
    +-------+           +-------+    
 cure     ot       strike   regular
 
-cure tiene un riferimento a ot per fermare timer / oppure cura = sempre ot, ma con timer nullo
-cura cambia stato di Player
-Player lancia segnale che è tornato normale, viene raccolto da ot che blocca il timer
 
 eliminazione static
 overTime diventa specializzazione di consumable, che se overTime forza la chiamata effect() ogni timer
+
+cure tiene un riferimento a ot per fermare timer / oppure cura = sempre ot, ma con timer nullo
+cura cambia stato di Player
+Player lancia segnale che è tornato normale, viene raccolto da ot che blocca il timer
 
 view ---- model --- container e iteratore ----- classe base ( gerarchia )
 
