@@ -12,9 +12,9 @@ static     ot        strike   thrust   regular
     +-----------+---------+
  consumable =0?        weapon =0?
    +-------+           +-------+    
-static     ot       strike   regular
+cure     ot       strike   regular
 
-
+cure tiene un riferimento a ot per fermare timer / oppure cura = sempre ot, ma con timer nullo
 eliminazione static
 overTime diventa specializzazione di consumable, che se overTime forza la chiamata effect() ogni timer
 

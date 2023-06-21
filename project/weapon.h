@@ -15,7 +15,7 @@ class Weapon : public Item {
         w_type tipo;
         u_int atk;
     public:
-        Weapon(u_int = 10, w_type = THRUST, string = "unnamed_item", string = "error");
+        Weapon(w_type = THRUST, u_int = 10, string = "unnamed_item", string = "error");
         virtual void effect();
         virtual ~Weapon() =0;
 };

@@ -1,7 +1,7 @@
 #include "weapon.h"
 
-Weapon::Weapon(u_int _atk, w_type _tipo, string _name, string _path) 
-    : Item(_name, _path), atk(_atk), tipo(_tipo) {}
+Weapon::Weapon(w_type _tipo, u_int _atk, string _name, string _path)
+    : Item(_name, _path), tipo(_tipo), atk(_atk) {}
 
 void Weapon::effect() {}
 

@@ -8,10 +8,12 @@ using std::string;
 
 class Consumable : public Item {
     private:
+        int hpEffect;
     public:
-        Consumable(string = "unnamed_item", string = "error");
-        virtual void effect();
+        Consumable(string = "unnamed_item", string = "error", int=0);
         virtual ~Consumable() =0;
+    public slots:
+        virtual void effect();
 };
 
 #endif // CONSUMABLE_H
