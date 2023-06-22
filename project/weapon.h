@@ -8,16 +8,14 @@
 #include<string>
 using std::string;
 
-enum w_type {THRUST, STRIKE};
-
 class Weapon : public Item {
     private:
-        w_type tipo;
         u_int atk;
     public:
-        Weapon(w_type = THRUST, u_int = 10, string = "unnamed_item", string = "error");
-        virtual void effect();
+        Weapon(u_int = 10, string = "unnamed_item", string = "error");
         virtual ~Weapon() =0;
+    public slots:
+        virtual void effect();
 };
 
 #endif // WEAPON_H

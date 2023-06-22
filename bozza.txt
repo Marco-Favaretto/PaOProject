@@ -30,3 +30,11 @@ contenitore di item -> array allocato dinamicamente
 
 rendere il model il Player e il gestore dei timer, ossia:
 model = hp, timer, contenitore
+
+view -> emette segnale uso item -> raccolto da item -> SLOT(item::effect()) ->
+SLOT(item::effect()) -> emette segnale che lancia hp -> raccolto da Player
+
+container: (array dinamico oppure lista)
+- insert (se lista, in cima)
+- delete (se lista bisogna solo cambiare next)
+- iteratore
