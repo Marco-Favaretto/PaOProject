@@ -22,7 +22,11 @@ cure tiene un riferimento a ot per fermare timer / oppure cura = sempre ot, ma c
 cura cambia stato di Player
 Player lancia segnale che è tornato normale, viene raccolto da ot che blocca il timer
 
+
 view ---- model --- container e iteratore ----- classe base ( gerarchia )
 
 model = Player* e container
 contenitore di item -> array allocato dinamicamente
+
+rendere il model il Player e il gestore dei timer, ossia:
+model = hp, timer, contenitore
