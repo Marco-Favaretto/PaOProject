@@ -27,9 +27,11 @@ view ---- model --- container e iteratore ----- classe base ( gerarchia )
 
 model = Player* e container
 contenitore di item -> array allocato dinamicamente
-
-rendere il model il Player e il gestore dei timer, ossia:
-model = hp, timer, contenitore
+(
+   Oppure
+   rendere il model il Player e il gestore dei timer, ossia:
+   model = hp, timer, contenitore
+)
 
 view -> emette segnale uso item -> raccolto da item -> SLOT(item::effect()) ->
 SLOT(item::effect()) -> emette segnale che lancia hp -> raccolto da Player
