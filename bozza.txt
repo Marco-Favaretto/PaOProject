@@ -34,6 +34,13 @@ model = hp, timer, contenitore
 view -> emette segnale uso item -> raccolto da item -> SLOT(item::effect()) ->
 SLOT(item::effect()) -> emette segnale che lancia hp -> raccolto da Player
 
+view seleziona item -> view invia item a model -> model ha funzione che:
+- connect(player, item*)
+- cose rr 34-35:
+   - view invia segnale con item* a modello
+   - modello connette item a player
+   - item e player si lancia a vicenda i segnali e gli slot
+
 container: (array dinamico oppure lista)
 - insert (se lista, in cima)
 - delete (se lista bisogna solo cambiare next)
