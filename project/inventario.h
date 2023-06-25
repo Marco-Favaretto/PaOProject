@@ -35,7 +35,8 @@ class Inventario {
         Item& operator[] (const iteratore&) const;
 
         Inventario();
-        void aggiungiInTesta(Item* x);
+        void insert(Item*);
+        void remove(Item*);
 };
 
 #endif // INVENTARIO_H

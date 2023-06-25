@@ -2,8 +2,27 @@
 
 Inventario::Inventario() : first(0) {}
 
-void Inventario::aggiungiInTesta(Item *x) {
+void Inventario::insert(Item *x) {
     first = new nodo(x,first);
+}
+
+void Inventario::remove(Item *x) {
+    if(first->itm != x) {
+        nodo *current = first;
+        nodo *prev = first;
+        while(current && current->itm != x) {
+            prev = current;
+            current = current->next;
+        }
+        if(current) {
+            prev->next = current->next;
+            delete current;
+        }
+    } else {
+        nodo *aux = first;
+        first = first->next;
+        delete aux;
+    }
 }
 
 Inventario::nodo::nodo(Item* x, nodo* p)
