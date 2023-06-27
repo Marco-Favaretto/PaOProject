@@ -12,7 +12,7 @@ static     ot        strike   thrust   regular
     +-----------+---------+
  consumable =0?        weapon =0?
    +-------+           +-------+    
-cure     ot       strike   regular
+cure     ot       shield   regular
 
 
 eliminazione static
