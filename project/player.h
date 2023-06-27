@@ -18,13 +18,15 @@ class Player : public QObject {
     Q_OBJECT
     private:
         u_int hp;
+        u_int def;
         STATUS st;
         std::string path;
         bool pathCorrectness() const;
         void pathCorrect();
     public:
-        Player(u_int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC);
+        Player(u_int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC, u_int = 10);
         u_int getHP() const;
+        void setDefense(u_int);
         STATUS getStatus() const;
         virtual ~Player();
     public slots:

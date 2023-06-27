@@ -3,7 +3,7 @@
 Inventario::Inventario() : first(0) {}
 
 void Inventario::insert(Item *x) {
-    first = new nodo(x,first);
+    first = new nodo(x, first);
 }
 
 void Inventario::remove(Item *x) {
@@ -37,11 +37,14 @@ bool Inventario::iteratore::operator!= (const iteratore& i) const {
 }
 
 Inventario::iteratore& Inventario::iteratore::operator++() {
-    if(ptr) ptr = ptr->next; return *this;
+    if(ptr) ptr = ptr->next;
+    return *this;
 }
 
 Inventario::iteratore Inventario::iteratore::operator++(int) {
-    iteratore aux = *this; if(ptr) {ptr = ptr->next;} return aux;
+    iteratore aux = *this;
+    if(ptr) {ptr = ptr->next;}
+    return aux;
 }
 
 Item& Inventario::iteratore::operator*() const {

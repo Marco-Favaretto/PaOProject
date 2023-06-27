@@ -1,6 +1,7 @@
 #include "player.h"
 
-Player::Player(u_int base, STATUS status, std::string _path) : hp(base), st(status), path(_path) {
+Player::Player(u_int base, STATUS status, std::string _path, u_int _def) 
+    : hp(base), def(_def), st(status), path(_path) {
     if(!pathCorrectness()) pathCorrect();
 }
 
@@ -8,6 +9,10 @@ Player::~Player() {}
 
 u_int Player::getHP() const {
     return hp;
+}
+
+void Player::setDefense(u_int _def) {
+    def = _def;
 }
 
 STATUS Player::getStatus() const {

@@ -12,9 +12,10 @@ SOURCES += \
     inventario.cpp \
     item.cpp \
     consumable.cpp \
+    model.cpp \
     overTime.cpp \
-    strike.cpp \
-    thrust.cpp \
+    regular.cpp \
+    shield.cpp \
     weapon.cpp \
     main.cpp \
     player.cpp
@@ -23,9 +24,10 @@ HEADERS += \
     inventario.h \
     item.h \
     consumable.h \
+    model.h \
     overTime.h \
-    strike.h \
-    thrust.h \
+    regular.h \
+    shield.h \
     weapon.h \
     player.h
 
