@@ -47,7 +47,7 @@ view seleziona item -> view invia item a model -> model ha funzione che:
 container: (array dinamico oppure lista)
 - insert (se lista, in cima)
 - remove (se lista bisogna solo cambiare next)
-- aggiunta metodo swap tra due inventari
+- aggiunta metodo swap tra due inventari (inventario&, item*)
 - iteratore
 
 model:
@@ -56,4 +56,5 @@ model:
    - inventario equipped
    - insert into inventario
    - remove from inventario
+   - equip item
    - selezione e attivazione oggetto inventario
