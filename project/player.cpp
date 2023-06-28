@@ -1,7 +1,7 @@
 #include "player.h"
 
-Player::Player(u_int base, STATUS status, std::string _path, u_int _def) 
-    : hp(base), def(_def), st(status), path(_path) {
+Player::Player(u_int base, STATUS status, std::string _path, u_int _def, u_int _atk)
+    : hp(base), def(_def), atk(_atk), st(status), path(_path) {
     if(!pathCorrectness()) pathCorrect();
 }
 
@@ -13,6 +13,10 @@ u_int Player::getHP() const {
 
 void Player::setDefense(u_int _def) {
     def = _def;
+}
+
+void Player::setAttack(u_int _atk) {
+    atk = _atk;
 }
 
 STATUS Player::getStatus() const {
@@ -28,8 +32,8 @@ void Player::changeHP(int _hp) {
 // cambia lo status del player per situazioni di avvelenamento, cura e morte
 void Player::changeStatus(STATUS _st) {
     st = _st;
-    emit statusChange(_st);
     if(!pathCorrectness()) pathCorrect();
+    emit statusChanged(_st);
 }
 
 // controlla che l'immagine assegnata sia corretta

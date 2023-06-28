@@ -19,21 +19,23 @@ class Player : public QObject {
     private:
         u_int hp;
         u_int def;
+        u_int atk;
         STATUS st;
         std::string path;
         bool pathCorrectness() const;
         void pathCorrect();
     public:
-        Player(u_int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC, u_int = 10);
+        Player(u_int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC, u_int = 10, u_int = 10);
         u_int getHP() const;
         void setDefense(u_int);
+        void setAttack(u_int);
         STATUS getStatus() const;
         virtual ~Player();
     public slots:
         void changeHP(int);
         void changeStatus(STATUS);
     signals:
-        void statusChange(STATUS);
+        void statusChanged(STATUS);
 };
 
 #endif // PLAYER_H

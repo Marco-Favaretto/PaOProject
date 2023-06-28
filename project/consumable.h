@@ -13,7 +13,7 @@ class Consumable : public Item {
         Consumable(string = "unnamed_item", string = "error", int=0);
         virtual ~Consumable() =0;
     public slots:
-        virtual void effect();
+        virtual int effect();
 };
 
 #endif // CONSUMABLE_H

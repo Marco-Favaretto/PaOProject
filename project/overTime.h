@@ -16,10 +16,10 @@ class overTime : public Consumable {
         bool status;
     public:
         overTime(string = "unnamed_item", string = "error", u_int = STDTIMER);
-        virtual ~overTime() =0;
+        virtual ~overTime();
         bool isActive() const;
     public slots:
-        virtual void effect();
+        virtual int effect();
         void stopOT();
         void startOT();
 };
