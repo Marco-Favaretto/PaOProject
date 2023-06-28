@@ -12,11 +12,12 @@ static     ot        strike   thrust   regular
     +-----------+---------+
  consumable =0?        weapon =0?
    +-------+           +-------+    
-cure     ot       shield   regular
+(cure)     ot       shield   regular
 
 
 eliminazione static
 overTime diventa specializzazione di consumable, che se overTime forza la chiamata effect() ogni timer
+overTime tiene variabile counter che emette segnale per terminare effetto dopo tot
 
 cure tiene un riferimento a ot per fermare timer / oppure cura = sempre ot, ma con timer nullo
 cura cambia stato di Player
@@ -46,11 +47,13 @@ view seleziona item -> view invia item a model -> model ha funzione che:
 container: (array dinamico oppure lista)
 - insert (se lista, in cima)
 - remove (se lista bisogna solo cambiare next)
+- aggiunta metodo swap tra due inventari
 - iteratore
 
 model:
    - Player
    - inventario
+   - inventario equipped
    - insert into inventario
    - remove from inventario
    - selezione e attivazione oggetto inventario
