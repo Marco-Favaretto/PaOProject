@@ -37,6 +37,9 @@ contenitore di item -> array allocato dinamicamente
 view -> emette segnale uso item -> raccolto da item -> SLOT(item::effect()) ->
 SLOT(item::effect()) -> emette segnale che lancia hp -> raccolto da Player
 
+effect() è praticamente un getter-emit di determinati parametri
+Cambiano paramentri e modi di richiamarlo a seconda della classe
+
 view seleziona item -> view invia item a model -> model ha funzione che:
 - fa le varie connect(player, item*)
 - cose rr 36-37:
