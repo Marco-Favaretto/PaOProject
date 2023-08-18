@@ -2,7 +2,9 @@
 
 overTime::overTime(string _name, string _path, int hp, u_int time, int c)
     : Consumable(_name, _path, hp),
-      timer(new QTimer()), counter(c == 0 ? -1 : c) {
+      timer(new QTimer()), counter(c) {
+    if(c == 0) c = INFCOUNTER;
+    if(c > MAXCOUNTER) c = MAXCOUNTER;
     timer->setInterval(time);
     connect(timer, SIGNAL(timeout()), this, SLOT(effect()));
     status = false;

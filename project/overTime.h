@@ -9,6 +9,8 @@ using std::string;
 
 #include <QTimer>
 #define STDTIMER 5000
+#define MAXCOUNTER 10
+#define INFCOUNTER -1
 
 class overTime : public Consumable {
     private:
@@ -17,7 +19,7 @@ class overTime : public Consumable {
         int hp;
         int counter;
     public:
-        overTime(string = "unnamed_item", string = "error", int hp = 0, u_int = STDTIMER, int c = -1);
+        overTime(string = "unnamed_item", string = "error", int hp = 0, u_int = STDTIMER, int c = INFCOUNTER);
         virtual ~overTime();
         bool isActive() const;
     public slots:
