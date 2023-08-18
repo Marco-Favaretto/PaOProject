@@ -4,6 +4,8 @@
 #include "weapon.h"
 
 class Shield : public Weapon {
+private:
+    u_int def;
 public:
     Shield(u_int = 10, string = "unnamed_item", string = "error");
 };

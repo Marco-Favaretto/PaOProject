@@ -1,20 +1,6 @@
 inventario videogioco:
 UI: inventario a schede
 
-                item (effect()=0)
-    +---------------+-------+----------/ /--------+
-consumable                weapon =0            passive
-   +-------+            +-------+---------+      (ring/armor)     
-static     ot        strike   thrust   regular
-
-
-                item (effect()=0)
-    +-----------+---------+
- consumable =0?        weapon =0?
-   +-------+           +-------+    
-(cure)     ot       shield   regular
-
-
 eliminazione static
 overTime diventa specializzazione di consumable, che se overTime forza la chiamata effect() ogni timer
 overTime tiene variabile counter che emette segnale per terminare effetto dopo tot
@@ -61,3 +47,73 @@ model:
    - remove from inventario
    - equip item
    - selezione e attivazione oggetto inventario
+
+---------------------------------------------------------
+
+             item (effect()=0)             | Player | Model | View        
+    +-----------+---------+                |        | + inv |
+ consumable             weapon             |        | + pl  |
+      |                +-------+           |        |       |
+   overTime         shield   regular       |        |       |
+
+item:                     // classe astratta in cima alla gerarchia
+   - nome, path dell'img
+   + slot effect()
+
+consumable: item
+   - hpEffect            // può essere positivo o negativo a seconda di cosa sia
+   + effect()
+
+overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
+   - timer               // ogni quanto tempo viene attivato l'effetto
+   - status              // se attivo o meno (di default: no)
+   - counter             // attivazioni massime (default: -1 -> infinite)
+   + effect              // modifica counter e ritorna il valore direttamente da Consumable::effect() -> hpEffect
+   + stopOT              // ferma l'effetto fermando il timer (emette segnale di stop)
+   + startOT             // attiva il timer
+
+weapon: item
+   - atk
+   + effect()            // ritorna atk
+
+regular: weapon
+   - atk
+   + effect()
+
+shield: weapon
+   - def                 // percentuale riduzione danni fisici
+   + effect()
+
+Player: 
+   - hp
+   - atk
+   - def
+   - status
+   - path
+   - pathCorrect()
+   - pathCorrectness() const
+   + getStatus() const
+   + setDef()
+   + setAtk()            
+   + changeHP()          // slot
+   + changeStatus()      // slot
+   + statusChanged()     // signal
+
+inventario:
+   - nodo:
+      + item* itm
+      + nodo* next
+   - nodo* first
+   + iteratore:
+      - nodo* ptr
+      + operator..
+   + begin() const
+   + end() const
+   + insertItm(item*)
+   + removeItm(item*)
+
+model: 
+   - Player* pl
+   - inventario* inv
+   + insert(item*)
+   + remove(item*)

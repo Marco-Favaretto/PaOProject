@@ -7,7 +7,7 @@
 
 
 class Inventario {
-    private:                  //dopo C++03 non serve mettere "friend class iteratore;"
+    private:
         class nodo {
             public:
                 nodo();
