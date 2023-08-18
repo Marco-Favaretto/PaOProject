@@ -6,6 +6,7 @@ model::~model() {}
 
 void model::insert(Item *x) {
     inventory->insert(x);
+//    connetti(x);
 }
 
 void model::remove(Item *x) {
@@ -13,5 +14,14 @@ void model::remove(Item *x) {
 }
 
 void model::connetti(const Item *x) {
-//    connect(x, SIGNAL(), player, SLOT());
+//   connect(x, SIGNAL(), player, SLOT());
+    /* Possibili connessioni:
+     * se x è consumable -> connect(x, SIGNAL(emit hpEffect), player, SLOT(changeHp))
+     * se x è overTime   -> connect(x, SIGNAL(emit hpEffect), player, SLOT(changeHP))
+     *                   -> connect(player, SIGNAL(statusChanged(_st)), x, SLOT(stopOT(_st)))
+     *                   -> mettere stopOT(_st) if(_st!=poisoned)
+     * in ogni caso:
+     *      connect(x, SIGNAL(used(true), this, SLOT(itemUsed(true)))
+     *      itemUsed(bool) dovrà eliminare item* x { remove(x) }
+    */
 }

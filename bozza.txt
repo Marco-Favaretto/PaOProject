@@ -1,10 +1,6 @@
 inventario videogioco:
 UI: inventario a schede
 
-eliminazione static
-overTime diventa specializzazione di consumable, che se overTime forza la chiamata effect() ogni timer
-overTime tiene variabile counter che emette segnale per terminare effetto dopo tot
-
 cure tiene un riferimento a ot per fermare timer / oppure cura = sempre ot, ma con timer nullo
 cura cambia stato di Player
 Player lancia segnale che è tornato normale, viene raccolto da ot che blocca il timer
@@ -31,7 +27,7 @@ view seleziona item -> view invia item a model -> model ha funzione che:
 - cose rr 36-37:
    - view invia segnale con item* a modello
    - modello connette item a player
-   - item e player si lancia a vicenda i segnali e gli slot
+   - item e player si lanciano a vicenda i segnali e gli slot
 
 container: (array dinamico oppure lista)
 - insert (se lista, in cima)
@@ -50,15 +46,16 @@ model:
 
 ---------------------------------------------------------
 
-             item (effect()=0)             | Player | Model | View        
-    +-----------+---------+                |        | + inv |
- consumable             weapon             |        | + pl  |
-      |                +-------+           |        |       |
-   overTime         shield   regular       |        |       |
+             item (effect()=0)        |Inventario | Player | Model | View        
+    +-----------+---------+           | lista di  |        | + inv |
+ consumable             weapon        | item in   |        | + pl  |
+      |                +-------+      | possesso  |        |       |
+   overTime         shield   regular  |           |        |       |
 
 item:                     // classe astratta in cima alla gerarchia
-   - nome, path dell'img
-   + slot effect()
+   - nome
+   - path
+   + slot effect()=0
 
 consumable: item
    - hpEffect            // può essere positivo o negativo a seconda di cosa sia
@@ -117,3 +114,7 @@ model:
    - inventario* inv
    + insert(item*)
    + remove(item*)
+
+---------------------------------------------
+
+Cose da connettere del modello
