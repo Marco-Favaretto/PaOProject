@@ -7,6 +7,7 @@
 using std::string;
 
 class Consumable : public Item {
+    Q_OBJECT
     private:
         int hpEffect;
     public:
@@ -15,7 +16,7 @@ class Consumable : public Item {
     public slots:
         virtual void effect();
     signals:
-       int effectSignal(int);
+       void effectSignal(int);
 };
 
 #endif // CONSUMABLE_H

@@ -9,6 +9,7 @@
 using std::string;
 
 class Weapon : public Item {
+    Q_OBJECT
     private:
         u_int atk;
     public:
@@ -17,7 +18,7 @@ class Weapon : public Item {
     public slots:
         virtual void effect();
     signals:
-        u_int statSignal(u_int);
+        void statSignal(u_int);
 };
 
 #endif // WEAPON_H

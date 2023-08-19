@@ -13,6 +13,7 @@ using std::string;
 #define INFCOUNTER -1
 
 class overTime : public Consumable {
+    Q_OBJECT
     private:
         QTimer* timer;
         bool status;
