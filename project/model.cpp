@@ -6,7 +6,6 @@ model::~model() {}
 
 void model::insert(Item *x) {
     inventory->insert(x);
-//    connetti(x);
 }
 
 void model::remove(Item *x) {
@@ -15,6 +14,8 @@ void model::remove(Item *x) {
 
 void model::connetti(const Item *x) {
 //   connect(x, SIGNAL(), player, SLOT());
+
+
     /* Possibili connessioni:
      * se x è consumable -> connect(x, SIGNAL(emit hpEffect), player, SLOT(changeHp))
      * se x è overTime   -> connect(x, SIGNAL(emit hpEffect), player, SLOT(changeHP))

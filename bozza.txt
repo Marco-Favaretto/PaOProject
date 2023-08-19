@@ -118,3 +118,5 @@ model:
 ---------------------------------------------
 
 Cose da connettere del modello
+
+Connettere oggetto solo quando usato/equipaggiato
