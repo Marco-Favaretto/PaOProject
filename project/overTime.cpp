@@ -3,8 +3,8 @@
 overTime::overTime(string _name, string _path, int hp, u_int time, int c)
     : Consumable(_name, _path, hp),
       timer(new QTimer()), counter(c) {
-    if(c == 0) c = INFCOUNTER;
-    if(c > MAXCOUNTER) c = MAXCOUNTER;
+    if(c == 0) counter = INFCOUNTER;
+    if(c > MAXCOUNTER) counter = MAXCOUNTER;
     timer->setInterval(time);
     connect(timer, SIGNAL(timeout()), this, SLOT(effect()));
     status = false;
@@ -18,13 +18,13 @@ overTime::~overTime() {
     delete timer;
 }
 
-int overTime::effect() {
+void overTime::effect() {
     if(counter == 0) {
         stopOT();
     }
     else {
         counter--;
-        return Consumable::effect();
+        emit Consumable::effectSignal(hp);
     }
 }
 

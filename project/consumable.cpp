@@ -2,6 +2,8 @@
 
 Consumable::Consumable(string a, string b, int c) : Item(a, b), hpEffect(c) {}
 
-int Consumable::effect() {}
+void Consumable::effect() {
+    emit effectSignal(hpEffect);
+}
 
 Consumable::~Consumable() {}

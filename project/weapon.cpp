@@ -3,6 +3,6 @@
 Weapon::Weapon(u_int _atk, string _name, string _path)
     : Item(_name, _path), atk(_atk) {}
 
-int Weapon::effect() { return atk; }
+void Weapon::effect() { emit statSignal(atk); }
 
 Weapon::~Weapon() {}

@@ -15,7 +15,7 @@ class Item : public QObject {
         Item(string = "unnamed_item", string = "error");
         virtual ~Item() =0;
     public slots:
-        virtual int effect() =0;
+        virtual void effect() =0;
 };
 
 #endif // ITEM_H

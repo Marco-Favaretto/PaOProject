@@ -23,7 +23,7 @@ class overTime : public Consumable {
         virtual ~overTime();
         bool isActive() const;
     public slots:
-        virtual int effect();
+        virtual void effect();
         void stopOT();
         void startOT();
     signals:

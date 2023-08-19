@@ -15,7 +15,9 @@ class Weapon : public Item {
         Weapon(u_int = 10, string = "unnamed_item", string = "error");
         virtual ~Weapon() =0;
     public slots:
-        virtual int effect();
+        virtual void effect();
+    signals:
+        u_int statSignal(u_int);
 };
 
 #endif // WEAPON_H
