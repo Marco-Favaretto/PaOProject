@@ -11,6 +11,14 @@ u_int Player::getHP() const {
     return hp;
 }
 
+unsigned int Player::getAtk() const {
+    return atk;
+}
+
+unsigned int Player::getDef() const {
+    return def;
+}
+
 void Player::setDefense(u_int _def) {
     def = _def;
 }

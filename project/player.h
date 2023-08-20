@@ -27,15 +27,18 @@ class Player : public QObject {
     public:
         Player(u_int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC, u_int = 10, u_int = 10);
         u_int getHP() const;
-        void setDefense(u_int);
-        void setAttack(u_int);
+        u_int getAtk() const;
+        u_int getDef() const;
         STATUS getStatus() const;
         virtual ~Player();
     public slots:
         void changeHP(int);
+        void setDefense(u_int);
+        void setAttack(u_int);
         void changeStatus(STATUS);
     signals:
         void statusChanged(STATUS);
+        void hpChanged();
 };
 
 #endif // PLAYER_H
