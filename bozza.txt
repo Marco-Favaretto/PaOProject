@@ -55,19 +55,24 @@ Prima versione {
 item:                     // classe astratta in cima alla gerarchia
    - nome
    - path
+   + string getName()
    + slot effect()=0
 
 consumable: item
    - hpEffect            // può essere positivo o negativo a seconda di cosa sia
    + effect()
+   + getEffect()
+   + effectSignal(int)  // segnale
 
 overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
    - timer               // ogni quanto tempo viene attivato l'effetto
    - status              // se attivo o meno (di default: no)
    - counter             // attivazioni massime (default: -1 -> infinite)
-   + effect              // modifica counter e ritorna il valore direttamente da Consumable::effect() -> hpEffect
-   + stopOT              // ferma l'effetto fermando il timer (emette segnale di stop)
-   + startOT             // attiva il timer
+   + isActive
+   + effect()              // modifica counter e ritorna il valore direttamente da Consumable::effect() -> hpEffect
+   + stopOT()              // ferma l'effetto fermando il timer (emette segnale di stop)
+   + startOT()             // attiva il timer
+   + over()                // segnale di termine effetto
 
 weapon: item
    - atk
@@ -90,8 +95,12 @@ Player:
    - pathCorrect()
    - pathCorrectness() const
    + getStatus() const
-   + setDef()
-   + setAtk()            
+   + getStatusString() const
+   + getHp() const
+   + getDefense() const
+   + getAttack() const
+   + setDef()            // slot
+   + setAtk()            // slot
    + changeHP()          // slot
    + changeStatus()      // slot
    + statusChanged()     // signal
@@ -111,10 +120,12 @@ inventario:
 
 model: 
    - Player* pl
-   - inventario* inv
+   - inventario inv
    + insert(item*)
    + remove(item*)
    + use(item*)
+   + stopOverTime()  // slot
+   + printStat()     // slot
 
 ---------------------------------------------
 
