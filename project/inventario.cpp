@@ -26,7 +26,7 @@ void Inventario::remove(Item *x) {
 }
 
 Inventario::nodo::nodo(Item* x, nodo* p)
-    : itm(x), next(p){}
+    : itm(x), next(p) {}
 
 bool Inventario::iteratore::operator==(const iteratore& i) const  {
     return ptr == i.ptr;
