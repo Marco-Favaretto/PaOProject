@@ -25,7 +25,11 @@ STATUS Player::getStatus() const {
 
 // modifica hp del player, se hp tocca lo 0, player muore
 void Player::changeHP(int _hp) {
-    hp += _hp;
+    if(hp + _hp > 0 && hp + _hp < MAX_HEALTH) hp += _hp;
+    else if(hp + _hp < 0) hp = 0;
+    else hp = MAX_HEALTH;
+
+    emit hpChanged();
     if(hp <= 0) changeStatus(DEAD);
 }
 
