@@ -14,6 +14,7 @@ class Item : public QObject {
     public:
         Item(string = "unnamed_item", string = "error");
         virtual ~Item() =0;
+        string getName() const;
     public slots:
         virtual void effect() =0;
 };
