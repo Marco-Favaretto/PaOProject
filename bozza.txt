@@ -44,10 +44,23 @@ Prima versione {
       - equip item
       - selezione e attivazione oggetto inventario
 }
+
+cose da fare:
+
+- terminare ot se uso cura
+- collegare equipaggia per armi e scudi
+- fare effettiva gui 
+- fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
+- gestione salvataggio su file
+- gestione upload file
+- test su vm
+- relazione
+
+
 ---------------------------------------------------------
 
              item (effect()=0)        |Inventario | Player | Model | View        
-    +-----------+---------+           | lista di  |        | + inv |
+      +---------+---------+           | lista di  |        | + inv |
  consumable             weapon        | item in   |        | + pl  |
       |                +-------+      | possesso  |        |       |
    overTime         shield   regular  |           |        |       |
@@ -62,7 +75,7 @@ consumable: item
    - hpEffect            // può essere positivo o negativo a seconda di cosa sia
    + effect()
    + getEffect()
-   + effectSignal(int)  // segnale
+   + effectSignal(int)   // segnale
 
 overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
    - timer               // ogni quanto tempo viene attivato l'effetto
@@ -128,7 +141,3 @@ model:
    + printStat()     // slot
 
 ---------------------------------------------
-
-Cose da connettere del modello
-
-Connettere oggetto solo quando usato/equipaggiato
