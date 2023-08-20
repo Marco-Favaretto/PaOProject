@@ -19,7 +19,7 @@ class overTime : public Consumable {
         bool status;
         int counter;
     public:
-        overTime(string = "unnamed_item", string = "error", int hp = 0, u_int = STDTIMER, int c = INFCOUNTER);
+        overTime(int hp = 0, u_int = STDTIMER, int c = INFCOUNTER, string = "unnamed_item", string = "error");
         virtual ~overTime();
         bool isActive() const;
     public slots:

@@ -114,6 +114,7 @@ model:
    - inventario* inv
    + insert(item*)
    + remove(item*)
+   + use(item*)
 
 ---------------------------------------------
 

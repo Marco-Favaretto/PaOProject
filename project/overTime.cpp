@@ -3,7 +3,7 @@
 #include<iostream>
 using std::cout; using std::endl;
 
-overTime::overTime(string _name, string _path, int hp, u_int time, int c)
+overTime::overTime(int hp, u_int time, int c, string _name, string _path)
     : Consumable(hp, _name, _path),
       timer(new QTimer()), counter(c) {
     if(c == 0) counter = INFCOUNTER;
