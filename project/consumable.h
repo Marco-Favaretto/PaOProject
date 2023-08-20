@@ -11,8 +11,9 @@ class Consumable : public Item {
     private:
         int hpEffect;
     public:
-        Consumable(string = "unnamed_item", string = "error", int=0);
-        virtual ~Consumable() =0;
+        Consumable(int=0, string = "unnamed_item", string = "error");
+        virtual ~Consumable();
+        int getEffect() const;
     public slots:
         virtual void effect();
     signals:

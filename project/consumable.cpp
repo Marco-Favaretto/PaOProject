@@ -1,9 +1,13 @@
 #include "consumable.h"
 
-Consumable::Consumable(string a, string b, int c) : Item(a, b), hpEffect(c) {}
+Consumable::Consumable(int c, string a, string b) : Item(a, b), hpEffect(c) {}
 
 void Consumable::effect() {
-    emit effectSignal(hpEffect);
+    emit effectSignal(getEffect());
 }
 
 Consumable::~Consumable() {}
+
+int Consumable::getEffect() const {
+    return hpEffect;
+}
