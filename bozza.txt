@@ -48,11 +48,15 @@ Prima versione {
 cose da fare:
 
 - terminare ot se uso cura
+- valutare idea implementazione potion:consumable (per cura veleno o tossicità)
 - collegare equipaggia per armi e scudi
+- collegare cambiamenti del player alla view
+- mettere immagini
 - fare effettiva gui 
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
 - gestione upload file
+- riposizionare in private player e inventario del model
 - test su vm
 - relazione
 
