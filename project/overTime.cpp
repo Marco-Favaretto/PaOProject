@@ -1,12 +1,14 @@
 #include "overTime.h"
 
+#include<iostream>
+using std::cout; using std::endl;
+
 overTime::overTime(string _name, string _path, int hp, u_int time, int c)
-    : Consumable(_name, _path, hp),
+    : Consumable(hp, _name, _path),
       timer(new QTimer()), counter(c) {
     if(c == 0) counter = INFCOUNTER;
     if(c > MAXCOUNTER) counter = MAXCOUNTER;
     timer->setInterval(time);
-    connect(timer, SIGNAL(timeout()), this, SLOT(effect()));
     status = false;
 }
 
@@ -24,17 +26,18 @@ void overTime::effect() {
     }
     else {
         counter--;
-        emit Consumable::effectSignal(hp);
+        emit effectSignal(getEffect());
     }
 }
 
 void overTime::stopOT() {
     status = false;
     timer->stop();
-    emit over();
+    emit over(this);
 }
 
 void overTime::startOT(){
-    status = true;
+    connect(timer, SIGNAL(timeout()), this, SLOT(effect()));
     timer->start();
+    status = true;
 }

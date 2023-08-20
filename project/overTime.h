@@ -17,7 +17,6 @@ class overTime : public Consumable {
     private:
         QTimer* timer;
         bool status;
-        int hp;
         int counter;
     public:
         overTime(string = "unnamed_item", string = "error", int hp = 0, u_int = STDTIMER, int c = INFCOUNTER);
@@ -28,7 +27,7 @@ class overTime : public Consumable {
         void stopOT();
         void startOT();
     signals:
-        void over();
+        void over(overTime*);
 };
 
 #endif // OVERTIME_H
