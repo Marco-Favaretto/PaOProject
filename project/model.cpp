@@ -1,28 +1,48 @@
 #include "model.h"
+#include "consumable.h"
 
-model::model() {}
+#include<iostream>
+using std::cout; using std::endl;
+
+model::model(Player* _pl, Inventario _inv) : player(_pl), inventory(_inv) {
+    connect(player, SIGNAL(hpChanged()), this, SLOT(printStat()));
+    connect(player, SIGNAL(statusChanged()), this, SLOT(printStat()));
+}
 
 model::~model() {}
 
 void model::insert(Item *x) {
-    inventory->insert(x);
+    inventory.insert(x);
 }
 
 void model::remove(Item *x) {
-    inventory->remove(x);
+    inventory.remove(x);
 }
 
-void model::connetti(const Item *x) {
-//   connect(x, SIGNAL(), player, SLOT());
+void model::use(Item *x) {
+    Consumable* c = dynamic_cast<Consumable*>(x);
+    overTime* ot = dynamic_cast<overTime*>(x);
 
+    if(c && !ot) {
+        connect(c, SIGNAL(effectSignal(int)), player, SLOT(changeHP(int)));
+        c->effect();
+    }
+    else if (ot) {
+        connect(ot, SIGNAL(effectSignal(int)), player, SLOT(changeHP(int)));
+        connect(ot, SIGNAL(over(overTime*)), this, SLOT(stopOverTime(overTime*)));
+        ot->startOT();
+        player->changeStatus(POISONED);
+    }
 
-    /* Possibili connessioni:
-     * se x è consumable -> connect(x, SIGNAL(emit hpEffect), player, SLOT(changeHp))
-     * se x è overTime   -> connect(x, SIGNAL(emit hpEffect), player, SLOT(changeHP))
-     *                   -> connect(player, SIGNAL(statusChanged(_st)), x, SLOT(stopOT(_st)))
-     *                   -> mettere stopOT(_st) if(_st!=poisoned)
-     * in ogni caso:
-     *      connect(x, SIGNAL(used(true), this, SLOT(itemUsed(true)))
-     *      itemUsed(bool) dovrà eliminare item* x { remove(x) }
-    */
+}
+
+void model::stopOverTime(overTime *x) {
+    player->changeStatus(NORMAL);
+    remove(x);
+}
+
+void model::printStat() {
+    cout << "Status: " << player->getStatusString()
+         << " | hp: " << player->getHP() << " / " << MAX_HEALTH
+         << endl;
 }
