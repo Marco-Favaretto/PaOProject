@@ -50,9 +50,9 @@ cose da fare:
 - terminare ot se uso cura
 - valutare idea implementazione potion:consumable (per cura veleno o tossicità)
 - collegare equipaggia per armi e scudi
-- collegare cambiamenti del player alla view
-- mettere immagini
 - fare effettiva gui 
+- collegare cambiamenti del player alla view (player manda segnali a model, model li rilancia a view. Quindi model avrà doppi segnali e slot)
+- mettere immagini
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
 - gestione upload file
@@ -63,7 +63,7 @@ cose da fare:
 
 ---------------------------------------------------------
 
-             item (effect()=0)        |Inventario | Player | Model | View        
+             item (effect()=0)        |Inventario | Player | Model | View
       +---------+---------+           | lista di  |        | + inv |
  consumable             weapon        | item in   |        | + pl  |
       |                +-------+      | possesso  |        |       |
