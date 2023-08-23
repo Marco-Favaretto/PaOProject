@@ -47,11 +47,7 @@ Prima versione {
 
 cose da fare:
 
-- capire come gestire l'unicità di oggetti multipli nell'inventario
-   Proposal: item: u_int id, in inventario::insert(item* x) { assegnaID(); ...;}
-- getSize() inventario -> funzionale a gestione ID degli item dell'inventario per l'unicità
 - implementare unicità tramite ID
-- valutare idea implementazione potion:consumable (per cura veleno o tossicità)
 - terminare ot se uso potion (pressoché fatto)
 - collegare equipaggia per armi e scudi
 - fare effettiva gui 
