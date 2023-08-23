@@ -47,8 +47,6 @@ Prima versione {
 
 cose da fare:
 
-- implementare unicità tramite ID
-- terminare ot se uso potion (pressoché fatto)
 - collegare equipaggia per armi e scudi
 - fare effettiva gui 
 - collegare cambiamenti del player alla view (player manda segnali a model, model li rilancia a view. Quindi model avrà doppi segnali e slot)
