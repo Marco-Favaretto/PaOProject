@@ -1,4 +1,6 @@
 #include "player.h"
+using namespace player;
+using namespace player::classe;
 
 Player::Player(u_int base, STATUS status, std::string _path, u_int _def, u_int _atk)
     : hp(base), def(_def), atk(_atk), st(status), path(_path) {
@@ -19,6 +21,10 @@ unsigned int Player::getDef() const {
     return def;
 }
 
+std::string Player::getPath() const {
+    return path;
+}
+
 void Player::setDefense(u_int _def) {
     def = _def;
 }
@@ -29,6 +35,23 @@ void Player::setAttack(u_int _atk) {
 
 STATUS Player::getStatus() const {
     return st;
+}
+
+std::string Player::getStatusString() const {
+    switch(st) {
+        case NORMAL:
+            return "NORMAL";
+            break;
+        case POISONED:
+            return "POISONED";
+            break;
+        case TOXIC:
+            return "TOXIC";
+            break;
+        case DEAD:
+            return "DEAD";
+            break;
+    }
 }
 
 // modifica hp del player, se hp tocca lo 0, player muore
@@ -45,7 +68,7 @@ void Player::changeHP(int _hp) {
 void Player::changeStatus(STATUS _st) {
     st = _st;
     if(!pathCorrectness()) pathCorrect();
-    emit statusChanged(_st);
+    emit statusChanged();
 }
 
 // controlla che l'immagine assegnata sia corretta
@@ -56,6 +79,9 @@ bool Player::pathCorrectness() const {
             break;
         case POISONED:
             return path == POISONED_PIC;
+            break;
+        case TOXIC:
+            return path == TOXIC_PIC;
             break;
         case DEAD:
             return path == DEAD_PIC;
@@ -71,6 +97,9 @@ void Player::pathCorrect() {
             break;
         case POISONED:
             path = POISONED_PIC;
+            break;
+        case TOXIC:
+            path = TOXIC_PIC;
             break;
         case DEAD:
             path = DEAD_PIC;

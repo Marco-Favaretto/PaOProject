@@ -5,15 +5,20 @@
 #include<string>
 using std::string;
 
-enum tipo{POISON, TOXIC};
+namespace potion {
 
-class Potion : public Consumable
-{
-    Q_OBJECT
-private:
-    tipo t;
-public:
-    Potion(tipo _t, string = "unnamed_item", string = "error");
-};
+    enum tipo{POISON, TOXIC};
 
+    namespace classe {
+        class Potion : public Consumable
+        {
+            Q_OBJECT
+        private:
+            tipo t;
+        public:
+            Potion(tipo, string = "unnamed_item", string = "error");
+            tipo getType() const;
+        };
+    }
+}
 #endif // POTION_H

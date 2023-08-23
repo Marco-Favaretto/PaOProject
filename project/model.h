@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include "player.h"
+using namespace player::classe;
 #include "inventario.h"
 #include "item.h"
 #include "overtime.h"

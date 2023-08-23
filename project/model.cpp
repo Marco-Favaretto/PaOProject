@@ -1,6 +1,8 @@
 #include "model.h"
-#include "consumable.h"
 
+#include "consumable.h"
+#include "potion.h"
+using namespace potion::classe;
 #include<iostream>
 using std::cout; using std::endl;
 
@@ -22,11 +24,13 @@ void model::remove(Item *x) {
 void model::use(Item *x) {
     Consumable* c = dynamic_cast<Consumable*>(x);
     overTime* ot = dynamic_cast<overTime*>(x);
+    Potion* pt = dynamic_cast<Potion*>(x);
 
-    if(c && !ot) {
-        if(c->getName() != "cure4poison" && c->getName() != "cure4toxic"){
+    if((c || pt) && !ot) {
+        if(!pt) {            // caso in cui è solo consumable
             connect(c, SIGNAL(effectSignal(int)), player, SLOT(changeHP(int)));
             c->effect();
+
         } else {
             // ricerca overtime attivi
             bool found = false;
@@ -34,24 +38,30 @@ void model::use(Item *x) {
                 overTime* it = dynamic_cast<overTime*>(&inventory[i]);
                 if(it && it->isActive()) {
                     connect(it, SIGNAL(over(overTime*)), this, SLOT(stopOverTime(overTime*)));
-                    if((it->getName() == "toxic" && c->getName() == "cure4toxic")) { it->stopOT(); found = true;}
-                    if((it->getName() == "poison" && c->getName() == "cure4poison")) { it->stopOT(); found = true;}
+                    if(it->getName() == "toxic" &&  (pt->getType() == potion::TOXIC  && player->getStatus() == player::TOXIC)) {
+                        it->stopOT();
+                        found = true;
+                    }
+                    if(it->getName() == "poison" && (pt->getType() == potion::POISON && player->getStatus() == player::POISONED)) {
+                        it->stopOT();
+                        found = true;
+                    }
                 }
             }
-            if(player->getStatus() == POISONED) player->changeStatus(NORMAL);
         }
     }
     else if (ot) {
         connect(ot, SIGNAL(effectSignal(int)), player, SLOT(changeHP(int)));
         connect(ot, SIGNAL(over(overTime*)), this, SLOT(stopOverTime(overTime*)));
         ot->startOT();
-        player->changeStatus(POISONED);
+        if(ot->getName() == "poison") player->changeStatus(player::POISONED);
+        if(ot->getName() == "toxic") player->changeStatus(player::TOXIC);
     }
 
 }
 
 void model::stopOverTime(overTime *x) {
-    player->changeStatus(NORMAL);
+    player->changeStatus(player::NORMAL);
     remove(x);
 }
 
