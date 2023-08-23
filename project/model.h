@@ -19,9 +19,19 @@ public:
     void insert(Item*);
     void remove(Item*);
     void use(Item*);
+    void connectToPlayer();
 public slots:
     void stopOverTime(overTime*);
     void printStat();
+    void playerHpChanged();
+    void playerStatusChanged();
+    void playerAtkChanged();
+    void playerDefChanged();
+signals:
+    void changedHp();
+    void changedStatus();
+    void changedAtk();
+    void changedDef();
 };
 
 #endif // MODEL_H

@@ -7,8 +7,10 @@ using namespace potion::classe;
 using std::cout; using std::endl;
 
 model::model(Player* _pl, Inventario _inv) : player(_pl), inventory(_inv) {
-    connect(player, SIGNAL(hpChanged()), this, SLOT(printStat()));
-    connect(player, SIGNAL(statusChanged()), this, SLOT(printStat()));
+//    connect(player, SIGNAL(hpChanged()), this, SLOT(printStat()));
+//    connect(player, SIGNAL(statusChanged()), this, SLOT(printStat()));
+
+    connectToPlayer();
 }
 
 model::~model() {}
@@ -60,6 +62,13 @@ void model::use(Item *x) {
 
 }
 
+void model::connectToPlayer() {
+    connect(player, SIGNAL(hpChanged()), this, SLOT(playerHpChanged()));
+    connect(player, SIGNAL(statusChanged()), this, SLOT(playerStatusChanged()));
+    connect(player, SIGNAL(atkChanged()), this, SLOT(playerAtkChanged()));
+    connect(player, SIGNAL(defChanged()), this, SLOT(playerDefChanged()));
+}
+
 void model::stopOverTime(overTime *x) {
     player->changeStatus(player::NORMAL);
     remove(x);
@@ -69,4 +78,20 @@ void model::printStat() {
     cout << "Status: " << player->getStatusString()
          << " | hp: " << player->getHP() << " / " << MAX_HEALTH
          << endl;
+}
+
+void model::playerHpChanged() {
+    emit changedHp();
+}
+
+void model::playerStatusChanged() {
+    emit changedStatus();
+}
+
+void model::playerAtkChanged() {
+    emit changedAtk();
+}
+
+void model::playerDefChanged() {
+    emit changedDef();
 }

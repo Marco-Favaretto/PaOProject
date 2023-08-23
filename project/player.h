@@ -45,6 +45,8 @@ namespace player {
         signals:
             void statusChanged();
             void hpChanged();
+            void defChanged();
+            void atkChanged();
         };
     }
 }

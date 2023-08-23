@@ -48,9 +48,9 @@ Prima versione {
 cose da fare:
 
 - collegare equipaggia per armi e scudi
-- fare effettiva gui 
+- fare effettiva gui
+- collegare cambiamenti player-model alla view
 - mettere immagini
-- collegare cambiamenti del player alla view (player manda segnali a model, model li rilancia a view. Quindi model avrà doppi segnali e slot)
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
 - gestione upload file

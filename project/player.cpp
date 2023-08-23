@@ -27,10 +27,12 @@ std::string Player::getPath() const {
 
 void Player::setDefense(u_int _def) {
     def = _def;
+    emit defChanged();
 }
 
 void Player::setAttack(u_int _atk) {
     atk = _atk;
+    emit atkChanged();
 }
 
 STATUS Player::getStatus() const {
