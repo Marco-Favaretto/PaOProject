@@ -11,12 +11,17 @@ class Item : public QObject {
     private:
         string name;
         string path;
+        unsigned int id;
     public:
         Item(string = "unnamed_item", string = "error");
         virtual ~Item() =0;
         string getName() const;
+        string getItemPath() const;
+        unsigned int getID() const;
+        void setID(unsigned int);
     public slots:
         virtual void effect() =0;
 };
+
 
 #endif // ITEM_H

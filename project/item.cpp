@@ -6,4 +6,16 @@ string Item::getName() const {
     return name;
 }
 
+string Item::getItemPath() const {
+    return path;
+}
+
+unsigned int Item::getID() const {
+    return id;
+}
+
+void Item::setID(unsigned int _id) {
+    id = _id;
+}
+
 Item::~Item() {}

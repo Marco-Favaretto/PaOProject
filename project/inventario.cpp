@@ -3,6 +3,7 @@
 Inventario::Inventario() : first(0) {}
 
 void Inventario::insert(Item *x) {
+    setID(x);
     first = new nodo(x, first);
 }
 
@@ -53,6 +54,18 @@ Item& Inventario::iteratore::operator*() const {
 
 Item* Inventario::iteratore::operator->() const {
     return ptr->itm;
+}
+
+void Inventario::setID(Item* x) {
+    x->setID(size());
+}
+
+unsigned int Inventario::size() const {
+    u_int size = 0;
+    for(iteratore i = begin(); i != end(); i++) {
+        size++;
+    }
+    return size;
 }
 
 Inventario::iteratore Inventario::begin() const {

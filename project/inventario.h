@@ -17,6 +17,7 @@ class Inventario {
                 // u_int quantity;
         };
         nodo* first;
+        void setID(Item*);
     public:
         class iteratore {
             friend class Inventario;
@@ -35,6 +36,7 @@ class Inventario {
         Item& operator[] (const iteratore&) const;
 
         Inventario();
+        u_int size() const;
         void insert(Item*);
         void remove(Item*);
 };
