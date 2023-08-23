@@ -64,12 +64,15 @@ cose da fare:
             item (effect()=0)         |Inventario | Player | Model | View
       +---------+---------+           | lista di  |        | + inv |
  consumable             weapon        | item in   |        | + pl  |
-      |                +-------+      | possesso  |        |       |
-   overTime         shield   regular  |           |        |       |
+   |     |             +-------+      | possesso  |        |       |
+potion overTime     shield   regular  |           |        |       |
 
 item:                     // classe astratta in cima alla gerarchia
    - nome
    - path
+   - id
+   + getID();
+   + setID(u_int);
    + string getName()
    + slot effect()=0
 
@@ -88,6 +91,10 @@ overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
    + stopOT()              // ferma l'effetto fermando il timer (emette segnale di stop)
    + startOT()             // attiva il timer
    + over()                // segnale di termine effetto
+
+potion: consumable
+   - tipo t 
+   + getType()
 
 weapon: item
    - atk
@@ -129,10 +136,12 @@ inventario:
    + iteratore:
       - nodo* ptr
       + operator..
+   - setID(item*)
    + begin() const
    + end() const
    + insertItm(item*)
    + removeItm(item*)
+   + size()
 
 model: 
    - Player* pl
