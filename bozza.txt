@@ -47,8 +47,11 @@ Prima versione {
 
 cose da fare:
 
-- terminare ot se uso cura
+- capire come gestire l'unicità di oggetti multipli nell'inventario
+   Proposal: item: u_int id, in inventario::insert(item* x) { assegnaID(); ...;}
 - valutare idea implementazione potion:consumable (per cura veleno o tossicità)
+- getSize() inventario -> funzionale a gestione ID degli item dell'inventario per l'unicità
+- terminare ot se uso cura (pressoché fatto)
 - collegare equipaggia per armi e scudi
 - fare effettiva gui 
 - collegare cambiamenti del player alla view (player manda segnali a model, model li rilancia a view. Quindi model avrà doppi segnali e slot)
@@ -63,7 +66,7 @@ cose da fare:
 
 ---------------------------------------------------------
 
-             item (effect()=0)        |Inventario | Player | Model | View
+            item (effect()=0)         |Inventario | Player | Model | View
       +---------+---------+           | lista di  |        | + inv |
  consumable             weapon        | item in   |        | + pl  |
       |                +-------+      | possesso  |        |       |
@@ -121,6 +124,7 @@ Player:
    + changeHP()          // slot
    + changeStatus()      // slot
    + statusChanged()     // signal
+   + hpChanged()         // signal
 
 inventario:
    - nodo:
@@ -143,5 +147,8 @@ model:
    + use(item*)
    + stopOverTime()  // slot
    + printStat()     // slot
+
+View:
+   - model*
 
 ---------------------------------------------
