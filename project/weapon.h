@@ -12,9 +12,11 @@ class Weapon : public Item {
     Q_OBJECT
     private:
         u_int atk;
+        bool equip;
     public:
         Weapon(u_int = 10, string = "unnamed_item", string = "error");
         virtual ~Weapon() =0;
+        bool isEquipped() const;
     public slots:
         virtual void effect();
     signals:

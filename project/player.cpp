@@ -66,7 +66,7 @@ void Player::changeHP(int _hp) {
 
 // cambia lo status del player per situazioni di avvelenamento, cura e morte
 void Player::changeStatus(STATUS _st) {
-    st = _st;
+    if(st != _st) st = _st;
     if(!pathCorrectness()) pathCorrect();
     emit statusChanged();
 }

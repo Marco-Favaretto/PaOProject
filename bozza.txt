@@ -49,8 +49,8 @@ cose da fare:
 
 - collegare equipaggia per armi e scudi
 - fare effettiva gui 
-- collegare cambiamenti del player alla view (player manda segnali a model, model li rilancia a view. Quindi model avrà doppi segnali e slot)
 - mettere immagini
+- collegare cambiamenti del player alla view (player manda segnali a model, model li rilancia a view. Quindi model avrà doppi segnali e slot)
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
 - gestione upload file
@@ -98,7 +98,9 @@ potion: consumable
 
 weapon: item
    - atk
+   - bool equipped
    + effect()            // ritorna atk
+   + isEquipped()
 
 regular: weapon
    - atk
