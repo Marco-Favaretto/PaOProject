@@ -14,6 +14,7 @@ SOURCES += \
     consumable.cpp \
     model.cpp \
     overTime.cpp \
+    potion.cpp \
     regular.cpp \
     shield.cpp \
     weapon.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     consumable.h \
     model.h \
     overTime.h \
+    potion.h \
     regular.h \
     shield.h \
     weapon.h \
