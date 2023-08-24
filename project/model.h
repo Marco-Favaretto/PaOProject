@@ -5,7 +5,7 @@
 using namespace player::classe;
 #include "inventario.h"
 #include "item.h"
-#include "overtime.h"
+#include "overTime.h"
 
 #include <QObject>
 

@@ -5,6 +5,7 @@ cose da fare:
 - fare effettiva gui
 - gestione salvataggio su file
 - gestione upload file
+- decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
 - test su vm
 - relazione
 
