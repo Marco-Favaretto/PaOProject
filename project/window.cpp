@@ -10,6 +10,7 @@ using namespace potion::classe;
 #include "player.h"
 using namespace player::classe;
 
+#include<iostream>
 
 Window::Window(QWidget *parent)
     : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
@@ -61,15 +62,8 @@ void Window::loadInv() {
     tableHeaders.append("Name");
     tableHeaders.append("Description");
     invDisplay->setHorizontalHeaderLabels(tableHeaders);
-    for(u_int i = 0; i < mod->invSize(); i++) {
-        {
-            int rows = invDisplay->rowCount();
-            invDisplay->insertRow(rows);
-            invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(mod->searchItemByID(i)->getID())));
-            invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->getName())));
-            invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
-        }
-    }
+    Item *x;
+    showOnly(x);
 }
 
 void Window::connectModel() {
@@ -127,6 +121,38 @@ void Window::onEquipButton() {
 }
 
 
+void Window::loadRow(u_int i) {
+    int rows = invDisplay->rowCount();
+    invDisplay->insertRow(rows);
+    invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(mod->searchItemByID(i)->getID())));
+    invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->getName())));
+    invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
+}
+
+void Window::showOnly(Item* x) {
+    invDisplay->setRowCount(0); // reset tabella
+    // tipo richiesto -> se tutti falliscono è Item*
+    Consumable* c = dynamic_cast<Consumable*>(x);
+    overTime* ot  = dynamic_cast<overTime*>(x);
+    Potion* pt    = dynamic_cast<Potion*>(x);
+    Weapon* w     = dynamic_cast<Weapon*>(x);
+
+    for(u_int i = 0; i < mod->invSize(); i++) {
+        // tipo oggetto dell'inventario in esame
+        Consumable* it_c  = dynamic_cast<Consumable*>(mod->searchItemByID(i));
+        overTime*   it_ot = dynamic_cast<overTime*>(mod->searchItemByID(i));
+        Potion*     it_pt = dynamic_cast<Potion*>(mod->searchItemByID(i));
+        Weapon*     it_w  = dynamic_cast<Weapon*>(mod->searchItemByID(i));
+        // esame di corrispondenza
+        if(w && it_w)        {std::cout << "w\n"; loadRow(i);}
+        else if(pt && it_pt) {std::cout << "p\n"; loadRow(i);}
+        else if(ot && it_ot) {std::cout << "ot\n";loadRow(i);}
+        else if(c && it_c)   {std::cout << "c\n"; loadRow(i);}
+        else                 {std::cout << "i\n"; loadRow(i);}
+    }
+}
+
+
 
 
 
@@ -145,6 +171,13 @@ void Window::connectGui() {
     connect(useButton, SIGNAL(clicked()), this, SLOT(onUseButton()));
     connect(equipButton, SIGNAL(clicked()), this, SLOT(onEquipButton()));
     connect(createButton, SIGNAL(clicked()), this, SLOT(onCreateButton()));
+    // up buttons
+    connect(dispTutto, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispCons, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispOT, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispPot, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispWeap, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    // menu
 }
 
 Window::~Window() {
@@ -197,15 +230,15 @@ void Window::setupGui() {
 
     // setup bottoni in alto
     upButtonLayout = new QHBoxLayout();
-    dispTutto = new ShowButton("Tutto", centralWidget);
+    dispTutto = new ShowButton(TUTTI, "Tutto", centralWidget);
     upButtonLayout->addWidget(dispTutto);
-    dispCons = new ShowButton("Consumabili", centralWidget);
+    dispCons = new ShowButton(CONSUMABILI, "Consumabili", centralWidget);
     upButtonLayout->addWidget(dispCons);
-    dispOT = new ShowButton("Oggetti a Tempo", centralWidget);
+    dispOT = new ShowButton(TEMPO, "Oggetti a Tempo", centralWidget);
     upButtonLayout->addWidget(dispOT);
-    dispPot = new ShowButton("Pozioni", centralWidget);
+    dispPot = new ShowButton(POZIONI, "Pozioni", centralWidget);
     upButtonLayout->addWidget(dispPot);
-    dispWeap = new ShowButton("Armi e Scudi", centralWidget);
+    dispWeap = new ShowButton(ARMI, "Armi e Scudi", centralWidget);
     upButtonLayout->addWidget(dispWeap);
     inv_layout->addLayout(upButtonLayout);
 

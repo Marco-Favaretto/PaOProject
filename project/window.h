@@ -32,6 +32,7 @@ private:
     void connectModel();
     void fillInv();
     void loadInv();
+    void loadRow(u_int);
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
@@ -50,6 +51,7 @@ private slots:
     void onUseButton();
     void onEquipButton();
     // up Buttons
+    void showOnly(Item*);
     // menu
 
 // elementi gui

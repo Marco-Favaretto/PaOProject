@@ -4,11 +4,21 @@
 #include <QPushButton>
 #include <QString>
 
+#include "item.h"
+
+enum tipo {TUTTI, CONSUMABILI, TEMPO, POZIONI, ARMI};
+
 class ShowButton : public QPushButton
 {
     Q_OBJECT
+private:
+    tipo t;
 public:
-    ShowButton(QString title, QWidget* parent = nullptr);
+    ShowButton(tipo, QString title, QWidget* parent = nullptr);
+public slots:
+    void onClicked();
+signals:
+    void clicked(Item*);
 };
 
 #endif // SHOWBUTTON_H
