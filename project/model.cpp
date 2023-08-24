@@ -3,13 +3,14 @@
 #include "consumable.h"
 #include "potion.h"
 using namespace potion::classe;
+
+#include "weapon.h"
+#include "shield.h"
+#include "regular.h"
 #include<iostream>
 using std::cout; using std::endl;
 
 model::model(Player* _pl, Inventario _inv) : player(_pl), inventory(_inv) {
-//    connect(player, SIGNAL(hpChanged()), this, SLOT(printStat()));
-//    connect(player, SIGNAL(statusChanged()), this, SLOT(printStat()));
-
     connectToPlayer();
 }
 
@@ -27,6 +28,8 @@ void model::use(Item *x) {
     Consumable* c = dynamic_cast<Consumable*>(x);
     overTime* ot = dynamic_cast<overTime*>(x);
     Potion* pt = dynamic_cast<Potion*>(x);
+    Regular* r = dynamic_cast<Regular*>(x);
+    Shield* s = dynamic_cast<Shield*>(x);
 
     if((c || pt) && !ot) {
         if(!pt) {            // caso in cui è solo consumable
@@ -59,10 +62,37 @@ void model::use(Item *x) {
         if(ot->getName() == "poison") player->changeStatus(player::POISONED);
         if(ot->getName() == "toxic") player->changeStatus(player::TOXIC);
     }
+    if(s) {
+        connect(s, SIGNAL(statSignal(uint)), player, SLOT(setDefense(uint)));
+        s->effect();
+    }
+    if(r) {
+        connect(r, SIGNAL(statSignal(uint)), player, SLOT(setAttack(uint)));
+        r->effect();
+    }
 
 }
 
-void model::connectToPlayer() {
+Item *model::searchItemByID(u_int _id) const {
+    bool found = false;
+    for(Inventario::iteratore i = inventory.begin(); i != inventory.end() && !found; i++) {
+        if((inventory[i]).getID() == _id) {
+            found = true;
+            return &(inventory[i]);
+        }
+    }
+    if(!found) return nullptr;
+}
+
+unsigned int model::invSize() const {
+    return inventory.size();
+}
+
+Player *model::getPlayer() const {
+    return player;
+}
+
+void model::connectToPlayer() const {
     connect(player, SIGNAL(hpChanged()), this, SLOT(playerHpChanged()));
     connect(player, SIGNAL(statusChanged()), this, SLOT(playerStatusChanged()));
     connect(player, SIGNAL(atkChanged()), this, SLOT(playerAtkChanged()));
@@ -72,12 +102,6 @@ void model::connectToPlayer() {
 void model::stopOverTime(overTime *x) {
     player->changeStatus(player::NORMAL);
     remove(x);
-}
-
-void model::printStat() {
-    cout << "Status: " << player->getStatusString()
-         << " | hp: " << player->getHP() << " / " << MAX_HEALTH
-         << endl;
 }
 
 void model::playerHpChanged() {

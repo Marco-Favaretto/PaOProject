@@ -11,18 +11,21 @@ using namespace player::classe;
 
 class model : public QObject {
     Q_OBJECT
-public:
+private:
     Player* player;
     Inventario inventory;
+    void connectToPlayer() const;
+public:
     model(Player*, Inventario);
     ~model();
     void insert(Item*);
     void remove(Item*);
     void use(Item*);
-    void connectToPlayer();
+    Item* searchItemByID(u_int) const;
+    u_int invSize() const;
+    Player* getPlayer() const;
 public slots:
     void stopOverTime(overTime*);
-    void printStat();
     void playerHpChanged();
     void playerStatusChanged();
     void playerAtkChanged();
