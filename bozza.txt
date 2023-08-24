@@ -1,50 +1,3 @@
-inventario videogioco:
-UI: inventario a schede
-Prima versione {
-   cure tiene un riferimento a ot per fermare timer / oppure cura = sempre ot, ma con timer nullo
-   cura cambia stato di Player
-   Player lancia segnale che è tornato normale, viene raccolto da ot che blocca il timer
-
-
-   view ---- model --- container e iteratore ----- classe base ( gerarchia )
-
-   model = Player* e container
-   contenitore di item -> array allocato dinamicamente
-   (
-      Oppure
-      rendere il model il Player e il gestore dei timer, ossia:
-      model = hp, timer, contenitore
-   )
-
-   view -> emette segnale uso item -> raccolto da item -> SLOT(item::effect()) ->
-   SLOT(item::effect()) -> emette segnale che lancia hp -> raccolto da Player
-
-   effect() è praticamente un getter-emit di determinati parametri
-   Cambiano paramentri e modi di richiamarlo a seconda della classe
-
-   view seleziona item -> view invia item a model -> model ha funzione che:
-   - fa le varie connect(player, item*)
-   - cose rr 36-37:
-      - view invia segnale con item* a modello
-      - modello connette item a player
-      - item e player si lanciano a vicenda i segnali e gli slot
-
-   container: (array dinamico oppure lista)
-   - insert (se lista, in cima)
-   - remove (se lista bisogna solo cambiare next)
-   - aggiunta metodo swap tra due inventari (inventario&, item*)
-   - iteratore
-
-   model:
-      - Player
-      - inventario
-      - inventario equipped
-      - insert into inventario
-      - remove from inventario
-      - equip item
-      - selezione e attivazione oggetto inventario
-}
-
 cose da fare:
 
 - fare effettiva gui
@@ -57,7 +10,6 @@ cose da fare:
 - riposizionare in private player e inventario del model
 - test su vm
 - relazione
-
 
 ---------------------------------------------------------
 
