@@ -17,9 +17,11 @@ SOURCES += \
     potion.cpp \
     regular.cpp \
     shield.cpp \
+    showbutton.cpp \
     weapon.cpp \
     main.cpp \
-    player.cpp
+    player.cpp \
+    window.cpp
 
 HEADERS += \
     inventario.h \
@@ -30,8 +32,10 @@ HEADERS += \
     potion.h \
     regular.h \
     shield.h \
+    showbutton.h \
     weapon.h \
-    player.h
+    player.h \
+    window.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
