@@ -18,7 +18,7 @@ public:
 public slots:
     void onClicked();
 signals:
-    void clicked(Item*);
+    void click(tipo);
 };
 
 #endif // SHOWBUTTON_H

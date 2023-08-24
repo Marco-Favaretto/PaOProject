@@ -51,7 +51,7 @@ private slots:
     void onUseButton();
     void onEquipButton();
     // up Buttons
-    void showOnly(Item*);
+    void showOnly(tipo);
     // menu
 
 // elementi gui

@@ -63,8 +63,7 @@ void Window::loadInv() {
     tableHeaders.append("Name");
     tableHeaders.append("Description");
     invDisplay->setHorizontalHeaderLabels(tableHeaders);
-    Item *x;
-    showOnly(x);
+    showOnly(TUTTI);
 }
 
 void Window::connectModel() {
@@ -130,26 +129,34 @@ void Window::loadRow(u_int i) {
     invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
 }
 
-void Window::showOnly(Item* x) {
+void Window::showOnly(tipo t) {
+    std::cout<<"fino a qui tutto bene ";
     invDisplay->setRowCount(0); // reset tabella
-    // tipo richiesto -> se tutti falliscono è Item*
-    Consumable* c = dynamic_cast<Consumable*>(x);
-    overTime* ot  = dynamic_cast<overTime*>(x);
-    Potion* pt    = dynamic_cast<Potion*>(x);
-    Weapon* w     = dynamic_cast<Weapon*>(x);
-
-    for(u_int i = 0; i < mod->invSize(); i++) {
-        // tipo oggetto dell'inventario in esame
-        Consumable* it_c  = dynamic_cast<Consumable*>(mod->searchItemByID(i));
-        overTime*   it_ot = dynamic_cast<overTime*>(mod->searchItemByID(i));
-        Potion*     it_pt = dynamic_cast<Potion*>(mod->searchItemByID(i));
-        Weapon*     it_w  = dynamic_cast<Weapon*>(mod->searchItemByID(i));
-        // esame di corrispondenza
-        if(w && it_w)        {std::cout << "w\n"; loadRow(i);}
-        else if(pt && it_pt) {std::cout << "p\n"; loadRow(i);}
-        else if(ot && it_ot) {std::cout << "ot\n";loadRow(i);}
-        else if(c && it_c)   {std::cout << "c\n"; loadRow(i);}
-        else                 {std::cout << "i\n"; loadRow(i);}
+    std::cout<<"fino a qui tutto bene ";
+    switch(t) {
+        case TUTTI:
+            for(u_int i = 0; i < mod->invSize(); i++) loadRow(i);
+        break;
+        case CONSUMABILI:
+            for(u_int i = 0; i < mod->invSize(); i++) {
+                if(dynamic_cast<Consumable*>(mod->searchItemByID(i))) loadRow(i);
+            }
+        break;
+        case TEMPO:
+            for(u_int i = 0; i < mod->invSize(); i++) {
+                if(dynamic_cast<overTime*>(mod->searchItemByID(i))) loadRow(i);
+            }
+        break;
+        case POZIONI:
+            for(u_int i = 0; i < mod->invSize(); i++) {
+                if(dynamic_cast<Potion*>(mod->searchItemByID(i))) loadRow(i);
+            }
+        break;
+        case ARMI:
+            for(u_int i = 0; i < mod->invSize(); i++) {
+                if(dynamic_cast<Weapon*>(mod->searchItemByID(i))) loadRow(i);
+            }
+        break;
     }
 }
 
@@ -173,11 +180,11 @@ void Window::connectGui() {
     connect(equipButton,  SIGNAL(clicked()), this, SLOT(onEquipButton()) );
     connect(createButton, SIGNAL(clicked()), this, SLOT(onCreateButton()));
     // up buttons
-    connect(dispTutto, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispCons,  SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispOT,    SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispPot,   SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispWeap,  SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispTutto, SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
+    connect(dispCons,  SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
+    connect(dispOT,    SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
+    connect(dispPot,   SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
+    connect(dispWeap,  SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
     // menu
 }
 

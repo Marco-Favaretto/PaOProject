@@ -1,10 +1,10 @@
 #include "showbutton.h"
 
-#include "consumable.h"
-#include "overTime.h"
-#include "potion.h"
-using namespace potion::classe;
-#include "weapon.h"
+//#include "consumable.h"
+//#include "overTime.h"
+//#include "potion.h"
+//using namespace potion::classe;
+//#include "weapon.h"
 
 #include<iostream>
 
@@ -16,29 +16,29 @@ ShowButton::ShowButton(tipo _t, QString title, QWidget *parent) :
 void ShowButton::onClicked() {
     switch(t) {
         case TUTTI:
-            Item* x;
+//            Item* x;
             std::cout << "item*"<<std::endl;
-            emit clicked(x);
+            emit click(TUTTI);
         break;
         case CONSUMABILI:
-            Consumable* c;
+//            Consumable* c;
             std::cout << "consumable*"<<std::endl;
-            emit clicked(c);
+            emit click(CONSUMABILI);
         break;
         case TEMPO:
-            overTime* ot;
+//            overTime* ot;
             std::cout << "overtime*"<<std::endl;
-            emit clicked(ot);
+            emit click(TEMPO);
         break;
         case POZIONI:
-            Potion* pt;
+//            Potion* pt;
             std::cout << "potion*"<<std::endl;
-            emit clicked(pt);
+            emit click(POZIONI);
         break;
         case ARMI:
-            Weapon* w;
+//            Weapon* w;
             std::cout << "weapon*"<<std::endl;
-            emit clicked(w);
+            emit click(ARMI);
         break;
     }
 }
