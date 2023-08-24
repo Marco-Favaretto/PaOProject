@@ -56,8 +56,16 @@ Item* Inventario::iteratore::operator->() const {
     return ptr->itm;
 }
 
+u_int Inventario::getHighestID() const {
+    u_int maxID = 0;
+    for(iteratore i = begin(); i != end(); i++) {
+        if(i->getID() > maxID) maxID = i->getID();
+    }
+    return maxID;
+}
+
 void Inventario::setID(Item* x) {
-    x->setID(size());
+    x->setID(getHighestID()+1);
 }
 
 unsigned int Inventario::size() const {
