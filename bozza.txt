@@ -7,7 +7,6 @@ cose da fare:
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
 - gestione upload file
-- riposizionare in private player e inventario del model
 - test su vm
 - relazione
 
@@ -114,8 +113,12 @@ inventario:
    + size()
 
 model: 
-   + Player* pl
-   + inventario inv
+   - Player* pl
+   - inventario inv 
+   - connectToPlayer() const
+   + Item* selectItemByID(int id) const
+   + invSize() const
+   + Player* getPlayer() const;
    + insert(item*)
    + remove(item*)
    + use(item*)
