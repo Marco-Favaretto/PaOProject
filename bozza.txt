@@ -47,9 +47,9 @@ Prima versione {
 
 cose da fare:
 
-- collegare equipaggia per armi e scudi
 - fare effettiva gui
-- collegare cambiamenti player-model alla view
+- QPushButton per mostrare polimorfismo (mostra solo X-tipo)
+- collegare cambiamenti player-model alla view (pressoché fatto)
 - mettere immagini
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
@@ -71,22 +71,26 @@ item:                     // classe astratta in cima alla gerarchia
    - nome
    - path
    - id
-   + getID();
-   + setID(u_int);
-   + string getName()
-   + slot effect()=0
+   + getID() const
+   + setID(u_int)
+   + string getName() const
+   + virtual string descrizione() const
+   + effect() =0         // slot
 
 consumable: item
    - hpEffect            // può essere positivo o negativo a seconda di cosa sia
-   + effect()
-   + getEffect()
+   + getEffect() const
+   + virtual string descrizione() const
+   + effect()            // slot
    + effectSignal(int)   // segnale
 
 overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
    - timer               // ogni quanto tempo viene attivato l'effetto
    - status              // se attivo o meno (di default: no)
    - counter             // attivazioni massime (default: -1 -> infinite)
-   + isActive
+   + isActive() const
+   + getTimer() const
+   + virtual string descrizione() const
    + effect()              // modifica counter e ritorna il valore direttamente da Consumable::effect() -> hpEffect
    + stopOT()              // ferma l'effetto fermando il timer (emette segnale di stop)
    + startOT()             // attiva il timer
@@ -94,21 +98,29 @@ overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
 
 potion: consumable
    - tipo t 
-   + getType()
+   + getType() const
+   + getTypeString() const
+   + virtual string descrizione() const
 
 weapon: item
    - atk
    - bool equipped
+   + getValue() const
    + effect()            // ritorna atk
-   + isEquipped()
+   + isEquipped() const
+   + virtual string descrizione() const
 
 regular: weapon
    - atk
    + effect()
+   + getAtTK() const
+   + virtual string descrizione() const
 
 shield: weapon
    - def                 // percentuale riduzione danni fisici
    + effect()
+   + getDEF() const
+   + virtual string descrizione() const
 
 Player: 
    - hp
@@ -119,6 +131,7 @@ Player:
    - pathCorrect()
    - pathCorrectness() const
    + getStatus() const
+   + getPath() const
    + getStatusString() const
    + getHp() const
    + getDefense() const
@@ -129,6 +142,8 @@ Player:
    + changeStatus()      // slot
    + statusChanged()     // signal
    + hpChanged()         // signal
+   + atkChanged()        // signal
+   + defChanged()        // signal
 
 inventario:
    - nodo:
@@ -139,6 +154,7 @@ inventario:
       - nodo* ptr
       + operator..
    - setID(item*)
+   + operator[] const
    + begin() const
    + end() const
    + insertItm(item*)
@@ -146,13 +162,20 @@ inventario:
    + size()
 
 model: 
-   - Player* pl
-   - inventario inv
+   + Player* pl
+   + inventario inv
    + insert(item*)
    + remove(item*)
    + use(item*)
-   + stopOverTime()  // slot
-   + printStat()     // slot
+   + stopOverTime()         // slot
+   + playerHpChanged();     // slot
+   + playerStatusChanged(); // slot
+   + playerAtkChanged();    // slot
+   + playerDefChanged();    // slot
+   + changedHp();           // signal
+   + changedStatus();       // signal
+   + changedAtk();          // signal
+   + changedDef();          // signal
 
 View:
    - model*
