@@ -16,9 +16,10 @@ Window::Window(QWidget *parent)
     : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
 {
     setupGui();
+    connectModel();
+    connectGui();
     fillInv();
     loadInv();
-    connectModel();
     hpChanged();
     statusChanged();
     atkChanged();
@@ -67,10 +68,10 @@ void Window::loadInv() {
 }
 
 void Window::connectModel() {
-    connect(mod, SIGNAL(changedHp()), this, SLOT(hpChanged()));
+    connect(mod, SIGNAL(changedHp()),     this, SLOT(hpChanged()));
     connect(mod, SIGNAL(changedStatus()), this, SLOT(statusChanged()));
-    connect(mod, SIGNAL(changedAtk()), this, SLOT(atkChanged()));
-    connect(mod, SIGNAL(changedDef()), this, SLOT(defChanged()));
+    connect(mod, SIGNAL(changedAtk()),    this, SLOT(atkChanged()));
+    connect(mod, SIGNAL(changedDef()),    this, SLOT(defChanged()));
 }
 
 void Window::hpChanged() {
@@ -165,18 +166,18 @@ void Window::showOnly(Item* x) {
 
 void Window::connectGui() {
     // tabella
-    connect(invDisplay, SIGNAL(cellChanged(int,int)), this, SLOT(cellSelected(int,int)));
+    connect(invDisplay, SIGNAL(cellClicked(int,int)), this, SLOT(cellSelected(int,int)));
     // bottomButtons
     connect(removeButton, SIGNAL(clicked()), this, SLOT(onRemoveButton()));
-    connect(useButton, SIGNAL(clicked()), this, SLOT(onUseButton()));
-    connect(equipButton, SIGNAL(clicked()), this, SLOT(onEquipButton()));
+    connect(useButton,    SIGNAL(clicked()), this, SLOT(onUseButton())   );
+    connect(equipButton,  SIGNAL(clicked()), this, SLOT(onEquipButton()) );
     connect(createButton, SIGNAL(clicked()), this, SLOT(onCreateButton()));
     // up buttons
     connect(dispTutto, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispCons, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispOT, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispPot, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
-    connect(dispWeap, SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispCons,  SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispOT,    SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispPot,   SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
+    connect(dispWeap,  SIGNAL(clicked(Item*)), this, SLOT(showOnly(Item*)));
     // menu
 }
 

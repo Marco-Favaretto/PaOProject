@@ -113,7 +113,7 @@ private:
     QPushButton *saveButton;
     QPushButton *loadButton;
 
-    // invDisplay
+    // inventario
     QVBoxLayout *inv_layout;
     // buttons on top -> diventano buttons del mio tipo
     QHBoxLayout *upButtonLayout;

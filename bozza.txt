@@ -1,5 +1,6 @@
 cose da fare:
 
+- Inventario::setID() deve basarsi su ID più alto +1 e non su invSize(); -> altrimenti ambiguità
 - fare effettiva gui
 - QPushButton per mostrare polimorfismo (mostra solo X-tipo)
 - mettere immagini
