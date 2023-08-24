@@ -22,6 +22,8 @@ class overTime : public Consumable {
         overTime(int hp = 0, u_int = STDTIMER, int c = INFCOUNTER, string = "unnamed_item", string = "error");
         virtual ~overTime();
         bool isActive() const;
+        double getTimer() const;
+        virtual string description() const;
     public slots:
         virtual void effect();
         void stopOT();

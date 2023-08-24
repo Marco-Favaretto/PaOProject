@@ -19,9 +19,9 @@ class Item : public QObject {
         string getItemPath() const;
         unsigned int getID() const;
         void setID(unsigned int);
+        virtual string description() const;
     public slots:
         virtual void effect() =0;
 };
-
 
 #endif // ITEM_H

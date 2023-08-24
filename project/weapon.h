@@ -17,6 +17,8 @@ class Weapon : public Item {
         Weapon(u_int = 10, string = "unnamed_item", string = "error");
         virtual ~Weapon() =0;
         bool isEquipped() const;
+        u_int getValue() const;
+        virtual string description() const;
     public slots:
         virtual void effect();
     signals:

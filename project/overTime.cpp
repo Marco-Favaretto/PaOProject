@@ -2,6 +2,8 @@
 
 #include<iostream>
 using std::cout; using std::endl;
+#include <iomanip>
+#include <sstream>
 
 overTime::overTime(int hp, u_int time, int c, string _name, string _path)
     : Consumable(hp, _name, _path),
@@ -14,6 +16,18 @@ overTime::overTime(int hp, u_int time, int c, string _name, string _path)
 
 bool overTime::isActive() const {
     return status;
+}
+
+double overTime::getTimer() const {
+    return timer->interval() / 1000.00;
+}
+
+string overTime::description() const {
+    string s = Consumable::description() + " ogni ";
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(1) << getTimer();
+    s += stream.str() + "s";
+    return s;
 }
 
 overTime::~overTime() {

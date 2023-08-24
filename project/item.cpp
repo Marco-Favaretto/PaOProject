@@ -18,4 +18,9 @@ void Item::setID(unsigned int _id) {
     id = _id;
 }
 
+string Item::description() const {
+    string s = getName();
+    return s;
+}
+
 Item::~Item() {}

@@ -18,6 +18,8 @@ namespace potion {
         public:
             Potion(tipo, string = "unnamed_item", string = "error");
             tipo getType() const;
+            string getTypeString() const;
+            virtual string description() const;
         };
     }
 }

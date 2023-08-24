@@ -14,6 +14,7 @@ class Consumable : public Item {
         Consumable(int=0, string = "unnamed_item", string = "error");
         virtual ~Consumable();
         int getEffect() const;
+        virtual string description() const;
     public slots:
         virtual void effect();
     signals:
