@@ -27,6 +27,7 @@ string overTime::description() const {
     std::stringstream stream;
     stream << std::fixed << std::setprecision(1) << getTimer();
     s += stream.str() + "s";
+    if(counter != -1) s += " per " + std::to_string(counter) + " volte";
     return s;
 }
 
