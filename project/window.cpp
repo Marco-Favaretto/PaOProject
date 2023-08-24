@@ -1,15 +1,155 @@
 #include "window.h"
 
+#include "consumable.h"
+#include "overTime.h"
+#include "potion.h"
+using namespace potion::classe;
+#include "shield.h"
+#include "regular.h"
+#include "inventario.h"
+#include "player.h"
+using namespace player::classe;
+
+
 Window::Window(QWidget *parent)
     : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
 {
     setupGui();
+    fillInv();
+    loadInv();
+    connectModel();
+    hpChanged();
+    statusChanged();
+    atkChanged();
+    defChanged();
+}
+
+void Window::fillInv() {
+    Consumable* cure1 = new Consumable(20, "cure", "error");
+    Consumable* cure2 = new Consumable(10, "cure", "error");
+    Consumable* cure3 = new Consumable(15, "cure", "error");
+    Consumable* cure4 = new Consumable(5 , "cure", "error");
+    mod->insert(cure1);
+    mod->insert(cure2);
+    mod->insert(cure3);
+    mod->insert(cure4);
+    overTime* ot = new overTime(-10, 2000, 8, "poison", "error");
+    mod->insert(ot);
+    overTime* otoxic = new overTime(-20, 500, 4, "toxic", "error");
+    mod->insert(otoxic);
+    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison", "error");
+    mod->insert(cure4poison);
+    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic", "error");
+    mod->insert(cure4toxic);
+    Regular* swrd = new Regular(25, "longSword");
+    Regular* swrd2 = new Regular(15, "shortSword");
+    Shield* shild = new Shield(15, "shield1");
+    Shield* shild2 = new Shield(30, "PortoneDeCasa");
+    mod->insert(swrd);
+    mod->insert(swrd2);
+    mod->insert(shild);
+    mod->insert(shild2);
+}
+
+void Window::loadInv() {
+    invDisplay->horizontalHeader()->setStretchLastSection(true);
+    invDisplay->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    invDisplay->verticalHeader()->setVisible(false);
+    invDisplay->setColumnCount(3);
+    QStringList tableHeaders;
+    tableHeaders.append("ID");
+    tableHeaders.append("Name");
+    tableHeaders.append("Description");
+    invDisplay->setHorizontalHeaderLabels(tableHeaders);
+    for(u_int i = 0; i < mod->invSize(); i++) {
+        {
+            int rows = invDisplay->rowCount();
+            invDisplay->insertRow(rows);
+            invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(mod->searchItemByID(i)->getID())));
+            invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->getName())));
+            invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
+        }
+    }
+}
+
+void Window::connectModel() {
+    connect(mod, SIGNAL(changedHp()), this, SLOT(hpChanged()));
+    connect(mod, SIGNAL(changedStatus()), this, SLOT(statusChanged()));
+    connect(mod, SIGNAL(changedAtk()), this, SLOT(atkChanged()));
+    connect(mod, SIGNAL(changedDef()), this, SLOT(defChanged()));
+}
+
+void Window::hpChanged() {
+    hpValue->setText(QString::number(mod->getPlayer()->getHP()) + " / " + QString::number(MAX_HEALTH));
+    hpProgressBar->setValue(mod->getPlayer()->getHP());
+}
+
+void Window::statusChanged() {
+    statusTxt->setText(QString::fromStdString(mod->getPlayer()->getStatusString()));
+}
+
+void Window::atkChanged() {
+    atkTxt->setText(QString::number(mod->getPlayer()->getAtk()));
+}
+
+void Window::defChanged() {
+    defTxt->setText(QString::number(mod->getPlayer()->getDef()) + "%");
+}
+
+void Window::cellSelected(int row, int column) {
+    rowSel = row;
+    colSel = column;
+}
+
+void Window::onRemoveButton() {
+    QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
+    mod->remove(mod->searchItemByID(it->text().toInt()));
+    invDisplay->removeRow(invDisplay->currentRow());
+    delete it;
+}
+
+void Window::onCreateButton() {
+    // crea prompt per nuovo oggetto
+    // mod->insert
+    // table->insert
+}
+
+void Window::onUseButton() {
+    QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
+    mod->use(mod->searchItemByID(it->text().toInt()));
+    invDisplay->removeRow(invDisplay->currentRow());
+    delete it;
+}
+
+void Window::onEquipButton() {
+    QTableWidgetItem* it = invDisplay->item(rowSel, 0);
+    mod->use(mod->searchItemByID(it->text().toInt()));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void Window::connectGui() {
+    // tabella
+    connect(invDisplay, SIGNAL(cellChanged(int,int)), this, SLOT(cellSelected(int,int)));
+    // bottomButtons
+    connect(removeButton, SIGNAL(clicked()), this, SLOT(onRemoveButton()));
+    connect(useButton, SIGNAL(clicked()), this, SLOT(onUseButton()));
+    connect(equipButton, SIGNAL(clicked()), this, SLOT(onEquipButton()));
+    connect(createButton, SIGNAL(clicked()), this, SLOT(onCreateButton()));
 }
 
 Window::~Window() {
     delete mod;
 }
-
 
 void Window::setupGui() {
     setObjectName("Progetto PaO");
@@ -114,6 +254,7 @@ void Window::setupGui() {
     hpLabel = new QLabel("HP", statDisp);
     statHL1->addWidget(hpLabel);
     hpProgressBar = new QProgressBar(statDisp);
+    hpProgressBar->setMaximum(MAX_HEALTH);
     hpProgressBar->setTextVisible(false);
     statHL1->addWidget(hpProgressBar);
     hpValue = new QLabel("x/x", statDisp);

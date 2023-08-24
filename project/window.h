@@ -32,13 +32,32 @@ private:
     void connectModel();
     void fillInv();
     void loadInv();
-    void setUpGui();
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
 
-// cose per gui
+private slots:
+    // model
+    void hpChanged();
+    void statusChanged();
+    void atkChanged();
+    void defChanged();
+    // tabella
+    void cellSelected(int,int);
+    // bottom Buttons
+    void onRemoveButton();
+    void onCreateButton();
+    void onUseButton();
+    void onEquipButton();
+    // up Buttons
+    // menu
+
+// elementi gui
 private:
+    // metodi per la costruzione della gui
+    void setupGui();
+    void connectGui();
+
     // menu
     QMenuBar *menubar;
     // menu->file
@@ -109,9 +128,6 @@ private:
     QPushButton *useButton;
     QPushButton *equipButton;
     QPushButton *removeButton;
-
-    // metodi per la costruzione della gui
-    void setupGui();
 
 };
 
