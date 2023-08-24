@@ -1,9 +1,8 @@
 cose da fare:
 
-- Inventario::setID() deve basarsi su ID più alto +1 e non su invSize(); -> altrimenti ambiguità
-- fare effettiva gui
 - mettere immagini
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
+- fare effettiva gui
 - gestione salvataggio su file
 - gestione upload file
 - test su vm
@@ -103,13 +102,14 @@ inventario:
    + iteratore:
       - nodo* ptr
       + operator..
+   - getHighestID() const
    - setID(item*)
    + operator[] const
    + begin() const
    + end() const
    + insertItm(item*)
    + removeItm(item*)
-   + size()
+   + size() const
 
 model: 
    - Player* pl
@@ -131,5 +131,22 @@ model:
    + changedAtk();          // signal
    + changedDef();          // signal
 
+ShowButton : QPushButton
+   - tipo tempo
+   + onClicked()    // slot
+   + click(tipo)
+
 View:
    - model*
+   - rowSel
+   - colSel
+   - ... (tutti elementi GUI)
+   - connectModel()
+   - setupGui()
+   - connectGui()
+   - loadInv()
+   - loadRow()
+   - slot per model: hp/status/atk/def
+   - slot per tabella: cellSelected
+   - slot per bottomButtons: on Remove/Create/Use/Equip
+   - slot per upButton: showOnly()

@@ -4,8 +4,6 @@
 #include <QPushButton>
 #include <QString>
 
-#include "item.h"
-
 enum tipo {TUTTI, CONSUMABILI, TEMPO, POZIONI, ARMI};
 
 class ShowButton : public QPushButton
