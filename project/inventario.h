@@ -17,6 +17,7 @@ class Inventario {
                 // u_int quantity;
         };
         nodo* first;
+        u_int getHighestID() const;
         void setID(Item*);
     public:
         class iteratore {

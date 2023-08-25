@@ -1,6 +1,8 @@
 #include "item.h"
 
-Item::Item(string a, string b) : name(a), path(b) {}
+Item::Item(string a, string b) : name(a), path(b) {
+    id = 0;
+}
 
 string Item::getName() const {
     return name;
