@@ -1,6 +1,7 @@
 cose da fare:
 
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
+- cambio costruttori per consentire meno modifiche possibili durante la creazione di oggetti
 - gestione salvataggio su file
 - gestione upload file
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
