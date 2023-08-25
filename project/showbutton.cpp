@@ -1,13 +1,5 @@
 #include "showbutton.h"
 
-//#include "consumable.h"
-//#include "overTime.h"
-//#include "potion.h"
-//using namespace potion::classe;
-//#include "weapon.h"
-
-#include<iostream>
-
 ShowButton::ShowButton(tipo _t, QString title, QWidget *parent) :
     QPushButton(title, parent), t(_t) {
     connect(this, SIGNAL(clicked()), this, SLOT(onClicked()));
