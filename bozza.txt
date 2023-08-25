@@ -1,10 +1,14 @@
 cose da fare:
 
+- mettere immagini:
+   - img player: fatte
+   - img item: cura, pozioni, funghi
+   - ascia, mazza, spada
+   - scudo assi di legno, scudo piccolo, scudo grande
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
 - gestione upload file
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
-- mettere immagini (da rivalutare)
 - test su vm
 - relazione
 

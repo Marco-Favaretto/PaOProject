@@ -29,21 +29,21 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-    Consumable* cure1 = new Consumable(20, "cure", "error");
-    Consumable* cure2 = new Consumable(10, "cure", "error");
-    Consumable* cure3 = new Consumable(15, "cure", "error");
-    Consumable* cure4 = new Consumable(5 , "cure", "error");
+    Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
+    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
+    Consumable* cure3 = new Consumable(15, "cure", CURA_PIC);
+    Consumable* cure4 = new Consumable(5 , "cure", CURA_PIC);
     mod->insert(cure1);
     mod->insert(cure2);
     mod->insert(cure3);
     mod->insert(cure4);
-    overTime* ot = new overTime(-10, 2000, 8, "poison", "error");
+    overTime* ot = new overTime(-10, 2000, 8, "poison", POISON_PIC);
     mod->insert(ot);
-    overTime* otoxic = new overTime(-20, 500, 4, "toxic", "error");
+    overTime* otoxic = new overTime(-20, 500, 4, "toxic", TOXIC_PIC);
     mod->insert(otoxic);
-    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison", "error");
+    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison", POISON_PIC);
     mod->insert(cure4poison);
-    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic", "error");
+    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic", TOXIC_PIC);
     mod->insert(cure4toxic);
     Regular* swrd = new Regular(25, "longSword");
     Regular* swrd2 = new Regular(15, "shortSword");
@@ -97,6 +97,7 @@ void Window::defChanged() {
 void Window::cellSelected(int row, int column) {
     rowSel = row;
     colSel = column;
+    loadItemPic();
 }
 
 void Window::onRemoveButton() {
@@ -104,6 +105,7 @@ void Window::onRemoveButton() {
     mod->remove(mod->searchItemByID(it->text().toInt()));
     invDisplay->removeRow(invDisplay->currentRow());
     delete it;
+    loadItemPicDefault();
 }
 
 void Window::onCreateButton() {
@@ -117,6 +119,7 @@ void Window::onUseButton() {
     mod->use(mod->searchItemByID(it->text().toInt()));
     invDisplay->removeRow(invDisplay->currentRow());
     delete it;
+    loadItemPicDefault();
 }
 
 void Window::onEquipButton() {
@@ -127,6 +130,17 @@ void Window::onEquipButton() {
 void Window::loadPlayerPic() {
     QPixmap playerPixmap(QString::fromStdString(mod->getPlayer()->getPath()));
     imgPlayer->setPixmap( playerPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
+}
+
+void Window::loadItemPic() {
+    QTableWidgetItem* it = invDisplay->item(rowSel, 0);
+    QPixmap itemPixmap(QString::fromStdString( mod->searchItemByID(it->text().toInt())->getItemPath() ));
+    imgItem->setPixmap( itemPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
+}
+
+void Window::loadItemPicDefault() {
+    QPixmap itemPixmap(QString::fromStdString( DEFAULTPIC ));
+    imgItem->setPixmap( itemPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
 }
 
 void Window::loadRow(u_int i) {
@@ -290,6 +304,7 @@ void Window::setupGui() {
 
     imgItem = new QLabel("ImgItem", imgDisp);
     imgItem->setGeometry(QRect(0, 0, 170, 151));
+    loadItemPicDefault();
     imgPlayer = new QLabel("ImgPlayer", imgDisp);
     imgPlayer->setGeometry(QRect(150, 0, 170, 151));
     imgLayout->addWidget(imgItem);

@@ -34,6 +34,8 @@ private:
     void loadInv();
     void loadRow(u_int);
     void loadPlayerPic();
+    void loadItemPic();
+    void loadItemPicDefault();
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();

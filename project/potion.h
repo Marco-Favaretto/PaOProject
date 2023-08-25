@@ -7,6 +7,9 @@ using std::string;
 
 namespace potion {
 
+#define TOXIC_PIC  ":/consumabili/images/curaT.png"
+#define POISON_PIC ":/consumabili/images/curaV.png"
+
     enum tipo{POISON, TOXIC};
 
     namespace classe {

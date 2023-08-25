@@ -9,4 +9,13 @@
         <file>images/playerT.png</file>
         <file>images/playerV.png</file>
     </qresource>
+    <qresource prefix="/consumabili">
+        <file>images/curaHP.png</file>
+        <file>images/curaT.png</file>
+        <file>images/curaV.png</file>
+        <file>images/tossicita.png</file>
+        <file>images/veleno.png</file>
+        <file>images/defaultItem.png</file>
+    </qresource>
+    <qresource prefix="/weapon"/>
 </RCC>

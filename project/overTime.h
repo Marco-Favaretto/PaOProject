@@ -11,6 +11,8 @@ using std::string;
 #define STDTIMER 2000
 #define MAXCOUNTER 10
 #define INFCOUNTER -1
+#define TOXIC_PIC  ":/consumabili/images/tossicita.png"
+#define POISON_PIC ":/consumabili/images/veleno.png"
 
 class overTime : public Consumable {
     Q_OBJECT
