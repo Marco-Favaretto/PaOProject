@@ -8,7 +8,7 @@
 using std::string;
 
 #include <QTimer>
-#define STDTIMER 5000
+#define STDTIMER 2000
 #define MAXCOUNTER 10
 #define INFCOUNTER -1
 
