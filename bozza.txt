@@ -1,10 +1,19 @@
 cose da fare:
 
 - mettere immagini:
-   - img player: fatte
-   - img item: cura, pozioni, funghi
-   - ascia, mazza, spada
-   - scudo assi di legno, scudo piccolo, scudo grande
+   Issue:
+      - ambiguità poison/toxic tra potion e overtime
+
+   - img player                                         : fatte
+   - img item: cura, pozioni, funghi                    : quasi fatte
+   - ascia, mazza, spada                                : da fare
+   - scudo assi di legno, scudo piccolo, scudo grande   : da fare
+
+- introduzione di tipo{poison, toxic} anche in overTime
+- pathCorrect e pathCorrectness anche in overtime e potion
+- modifica Player -> int hp e non u_int
+- modifica player.cpp -> prima controllo hp == 0, poi emit hpChanged()
+- modificare descrizione consumable.h "somma/sottrae"
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - gestione salvataggio su file
 - gestione upload file
