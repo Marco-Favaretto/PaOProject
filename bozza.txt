@@ -1,5 +1,6 @@
 cose da fare:
 
+- ~Model() { delete player; }
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - cambio costruttori per consentire meno modifiche possibili durante la creazione di oggetti
 - gestione salvataggio su file
