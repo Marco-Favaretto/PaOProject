@@ -10,6 +10,8 @@ using namespace potion::classe;
 #include "player.h"
 using namespace player::classe;
 
+#include <QPixmap>
+
 #include<iostream>
 
 Window::Window(QWidget *parent)
@@ -76,10 +78,12 @@ void Window::connectModel() {
 void Window::hpChanged() {
     hpValue->setText(QString::number(mod->getPlayer()->getHP()) + " / " + QString::number(MAX_HEALTH));
     hpProgressBar->setValue(mod->getPlayer()->getHP());
+    loadPlayerPic();
 }
 
 void Window::statusChanged() {
     statusTxt->setText(QString::fromStdString(mod->getPlayer()->getStatusString()));
+    loadPlayerPic();
 }
 
 void Window::atkChanged() {
@@ -120,6 +124,10 @@ void Window::onEquipButton() {
     mod->use(mod->searchItemByID(it->text().toInt()));
 }
 
+void Window::loadPlayerPic() {
+    QPixmap playerPixmap(QString::fromStdString(mod->getPlayer()->getPath()));
+    imgPlayer->setPixmap( playerPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
+}
 
 void Window::loadRow(u_int i) {
     int rows = invDisplay->rowCount();
@@ -130,9 +138,7 @@ void Window::loadRow(u_int i) {
 }
 
 void Window::showOnly(tipo t) {
-    std::cout<<"fino a qui tutto bene ";
     invDisplay->setRowCount(0); // reset tabella
-    std::cout<<"fino a qui tutto bene ";
     switch(t) {
         case TUTTI:
             for(u_int i = 0; i < mod->invSize(); i++) loadRow(i);
@@ -194,7 +200,7 @@ Window::~Window() {
 
 void Window::setupGui() {
     setObjectName("Progetto PaO");
-    resize(851, 595);
+    resize(900, 595);
     // setup centrale
     centralWidget = new QWidget(this);
     centralWidget->setGeometry(QRect(10, 10, 840, 560));
@@ -270,22 +276,28 @@ void Window::setupGui() {
 
     // setup laterale
     infoDisp = new QWidget(centralWidget);
-    infoDisp->setMinimumSize(QSize(300, 549));
+    infoDisp->setMinimumSize(QSize(200, 549));
+    infoDisp->setMaximumSize(QSize(300, 549));
     infoLayout = new QVBoxLayout(infoDisp);
     centralHL->addLayout(infoLayout);
 
     // immagini
     imgDisp = new QWidget(infoDisp);
-    imgDisp->setGeometry(QRect(0, 0, 301, 211));
+    imgDisp->setGeometry(QRect(0, 0, 200, 211));
+    imgLayout = new QHBoxLayout(imgDisp);
+    imgLayout->setContentsMargins(0, 0, 0, 0);
+    infoLayout->addWidget(imgDisp);
+
     imgItem = new QLabel("ImgItem", imgDisp);
     imgItem->setGeometry(QRect(0, 0, 170, 151));
     imgPlayer = new QLabel("ImgPlayer", imgDisp);
     imgPlayer->setGeometry(QRect(150, 0, 170, 151));
-    infoLayout->addWidget(imgDisp);
+    imgLayout->addWidget(imgItem);
+    imgLayout->addWidget(imgPlayer);
 
     // stat generale
     statDisp = new QWidget(infoDisp);
-    statDisp->setGeometry(QRect(-1, -1, 301, 276));
+    statDisp->setGeometry(QRect(-1, -1, 200, 276));
     statLayout = new QVBoxLayout(statDisp);
     statLayout->setContentsMargins(0, 0, 0, 0);
     infoLayout->addWidget(statDisp);
@@ -332,7 +344,7 @@ void Window::setupGui() {
 
     // save & load
     widgetSaveLoad = new QWidget(infoDisp);
-    widgetSaveLoad->setGeometry(QRect(0, 0, 301, 61));
+    widgetSaveLoad->setGeometry(QRect(0, 0, 300, 61));
     layoutSaveLoad = new QHBoxLayout(widgetSaveLoad);
     layoutSaveLoad->setContentsMargins(0, 0, 0, 0);
     saveButton = new QPushButton("Salva", widgetSaveLoad);

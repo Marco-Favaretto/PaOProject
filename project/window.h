@@ -33,6 +33,7 @@ private:
     void fillInv();
     void loadInv();
     void loadRow(u_int);
+    void loadPlayerPic();
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
@@ -85,6 +86,7 @@ private:
     QVBoxLayout* infoLayout;
     // info display -> img
     QWidget *imgDisp;
+    QHBoxLayout* imgLayout;
     QLabel *imgItem;
     QLabel *imgPlayer;
     // statDisp
