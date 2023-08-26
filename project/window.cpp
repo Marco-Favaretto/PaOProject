@@ -217,6 +217,7 @@ void Window::connectGui() {
     connect(dispPot,   SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(dispWeap,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // menu
+    // menu mostra solo
     connect(actionTutti,          SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionConsumabili,    SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionOggetti_a_Tempo,SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
