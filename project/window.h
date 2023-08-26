@@ -21,6 +21,8 @@
 using namespace showbutton;
 #include "showaction.h"
 using namespace showaction;
+#include "gameoverdialog.h"
+
 #include "model.h"
 
 class Window : public QMainWindow
@@ -29,6 +31,7 @@ class Window : public QMainWindow
 
 private:
     model* mod;
+    gameOverDialog* deathScreen;
     int rowSel;
     int colSel;
 

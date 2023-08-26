@@ -16,7 +16,10 @@ using namespace player::classe;
 #include<iostream>
 
 Window::Window(QWidget *parent)
-    : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
+    : QMainWindow{parent},
+      mod(new model(new Player(), Inventario())),
+      deathScreen(new gameOverDialog(this)),
+      rowSel(-1), colSel(-1)
 {
     setupGui();
     loadItemPicDefault();
@@ -36,11 +39,13 @@ void Window::fillInv() {
     Consumable* cure3 = new Consumable(15, "cure", CURA_PIC);
     Consumable* cure4 = new Consumable(5 , "cure", CURA_PIC);
     Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
+    Consumable* cura6 = new Consumable(-100 , "instaDeath", CURA_PIC);
     mod->insert(cure1);
     mod->insert(cure2);
     mod->insert(cure3);
     mod->insert(cure4);
     mod->insert(cura5);
+    mod->insert(cura6);
     overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
     mod->insert(ot);
     overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
@@ -102,7 +107,7 @@ void Window::defChanged() {
 void Window::playerDeath() {
     statusChanged();
     hpChanged();
-    // gameOver
+    deathScreen->show();
 }
 
 void Window::cellSelected(int row, int column) {
