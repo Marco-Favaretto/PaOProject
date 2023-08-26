@@ -6,16 +6,24 @@ cose da fare:
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
-- cambio costruttori per consentire meno modifiche possibili durante la creazione di oggetti
 - gestione salvataggio su file
 - gestione upload file
+
 - collegare QAction
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
    - prompt chiusura
    - prompt caricamento file
-- riconsiderare distruttori
+
 - test su vm
 - relazione
+
+----------------------
+Issue:
+- programma crasha quando manca un id (è stato rimosso)
+
+-------------------------
+Da ricordare:
+Scrivere dei distruttori di Qt in relazione
 
 ---------------------------------------------------------
 
@@ -158,6 +166,29 @@ ShowAction : QAction
    - tipo t
    + onClicked()    // slot
    + click(tipo)
+
+creationDialog: QDialog
+   - ... cose GUI
+   - rowSel
+   - fromComboTipo
+   - effetto
+   - nome
+   - turni
+   - bool tipo
+   - bool effect
+   - bool nomeCheck
+   - void setupDialog()
+   - void comboBoxTipo()
+   - void comboBoxNome()
+   - bool doneEverything() const
+   - void resetDialog()
+   - onListWidget()
+   - onTipoBox()            // slot
+   - onNomeBox()            // slot
+   - onEffetto()            // slot
+   - onturni()              // slot
+   - onCreationButton()     // slot
+   - onCreateButton(item*)  // signal
 
 View:
    - model*
