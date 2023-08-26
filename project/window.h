@@ -21,6 +21,8 @@
 using namespace showbutton;
 #include "showaction.h"
 using namespace showaction;
+#include "creationdialog.h"
+
 #include "model.h"
 
 class Window : public QMainWindow
@@ -31,6 +33,8 @@ private:
     model* mod;
     int rowSel;
     int colSel;
+
+    creationDialog* creation;
 
     void connectModel();
     void fillInv();
@@ -60,6 +64,8 @@ private slots:
     // up Buttons
     void showOnly(showbutton::tipo);
     // menu
+    // create
+    void creationItem(Item*);
 
 // elementi gui
 private:

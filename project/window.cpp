@@ -19,6 +19,7 @@ Window::Window(QWidget *parent)
     : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
 {
     setupGui();
+    creation = new creationDialog(this);
     loadItemPicDefault();
     connectModel();
     connectGui();
@@ -120,9 +121,8 @@ void Window::onRemoveButton() {
 }
 
 void Window::onCreateButton() {
-    // crea prompt per nuovo oggetto
-    // mod->insert
-    // table->insert
+    creation->show();
+    creation->setModal(true);
 }
 
 void Window::onUseButton() {
@@ -191,7 +191,11 @@ void Window::showOnly(showbutton::tipo t) {
     }
 }
 
-
+void Window::creationItem(Item* it) {
+    mod->insert(it);
+    loadInv();
+    creation->close();
+}
 
 
 
@@ -223,6 +227,8 @@ void Window::connectGui() {
     connect(actionOggetti_a_Tempo,SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionPozioni,        SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionArmi_e_Scudi,   SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    // creationDialog
+    connect(creation, SIGNAL(onCreateButton(Item*)), this, SLOT(creationItem(Item*)));
 }
 
 Window::~Window() {
