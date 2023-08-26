@@ -125,6 +125,12 @@ void Window::onCreateButton() {
     creation->setModal(true);
 }
 
+void Window::creationItem(Item* it) {
+    mod->insert(it);
+    loadInv();
+    creation->close();
+}
+
 void Window::onUseButton() {
     QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
     mod->use(mod->searchItemByID(it->text().toInt()));
@@ -189,12 +195,6 @@ void Window::showOnly(showbutton::tipo t) {
             }
         break;
     }
-}
-
-void Window::creationItem(Item* it) {
-    mod->insert(it);
-    loadInv();
-    creation->close();
 }
 
 

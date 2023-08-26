@@ -2,12 +2,12 @@
 
 Inventario::Inventario() : first(0) {}
 
-// Inventario::nodo::~nodo() {
-//     if(next) {
-//         delete next;
-//     }
-//     delete itm;
-// }
+Inventario::nodo::~nodo() {
+    if(next) {
+        delete next;
+    }
+    delete itm;
+}
 
 // void Inventario::distruggi(nodo* p) {
 //     if(p) {
@@ -35,6 +35,7 @@ void Inventario::remove(Item *x) {
         }
         if(current) {
             prev->next = current->next;
+            current->next = nullptr;
             delete current;
         }
     } else {

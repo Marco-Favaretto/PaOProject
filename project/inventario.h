@@ -12,10 +12,9 @@ class Inventario {
             public:
                 nodo();
                 nodo(Item* x, nodo* p);
-                // ~nodo();
+                ~nodo();
                 Item* itm;
                 nodo* next;
-                // u_int quantity;
         };
         nodo* first;
         u_int getHighestID() const;
