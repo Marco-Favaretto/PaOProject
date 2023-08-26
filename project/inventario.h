@@ -12,6 +12,7 @@ class Inventario {
             public:
                 nodo();
                 nodo(Item* x, nodo* p);
+                ~nodo();
                 Item* itm;
                 nodo* next;
                 // u_int quantity;
@@ -19,6 +20,7 @@ class Inventario {
         nodo* first;
         u_int getHighestID() const;
         void setID(Item*);
+        static void distruggi(nodo*);
     public:
         class iteratore {
             friend class Inventario;
@@ -37,6 +39,7 @@ class Inventario {
         Item& operator[] (const iteratore&) const;
 
         Inventario();
+        ~Inventario();
         u_int size() const;
         void insert(Item*);
         void remove(Item*);

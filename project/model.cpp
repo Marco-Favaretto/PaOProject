@@ -14,7 +14,9 @@ model::model(Player* _pl, Inventario _inv) : player(_pl), inventory(_inv) {
     connectToPlayer();
 }
 
-model::~model() {}
+model::~model() {
+    delete player;
+}
 
 void model::insert(Item *x) {
     inventory.insert(x);
@@ -42,7 +44,7 @@ void model::use(Item *x) {
             for(Inventario::iteratore i = inventory.begin(); i != inventory.end() && !found; i++) {
                 overTime* it = dynamic_cast<overTime*>(&inventory[i]);
                 if(it && it->isActive()) {
-                    connect(it, SIGNAL(over(overTime*)), this, SLOT(stopOverTime(overTime*)));
+                    connect(it, SIGNAL(over(overtime::classe::overTime*)), this, SLOT(stopOverTime(overtime::classe::overTime*)));
                     if(it->getName() == "toxic" &&  (pt->getType() == potion::TOXIC  && player->getStatus() == player::TOXIC)) {
                         it->stopOT();
                         found = true;
@@ -57,7 +59,7 @@ void model::use(Item *x) {
     }
     else if (ot) {
         connect(ot, SIGNAL(effectSignal(int)), player, SLOT(changeHP(int)));
-        connect(ot, SIGNAL(over(overTime*)), this, SLOT(stopOverTime(overTime*)));
+        connect(ot, SIGNAL(over(overtime::classe::overTime*)), this, SLOT(stopOverTime(overtime::classe::overTime*)));
         ot->startOT();
         if(ot->getName() == "poison") player->changeStatus(player::POISONED);
         if(ot->getName() == "toxic") player->changeStatus(player::TOXIC);

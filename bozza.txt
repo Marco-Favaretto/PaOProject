@@ -9,7 +9,8 @@ cose da fare:
 - modifica Player -> int hp e non u_int
 - modifica player.cpp -> prima controllo hp == 0, poi emit hpChanged()
 - modificare descrizione consumable.h "somma/sottrae"
-- ~Model() { delete player; }
+- stessa cosa showbutton -> QAction per mostra
+- collegare QAction
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - cambio costruttori per consentire meno modifiche possibili durante la creazione di oggetti
 - gestione salvataggio su file
@@ -44,9 +45,11 @@ consumable: item
    + effectSignal(int)   // segnale
 
 overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
-   - timer               // ogni quanto tempo viene attivato l'effetto
+   - tipo t              // se poison o toxic
    - status              // se attivo o meno (di default: no)
    - counter             // attivazioni massime (default: -1 -> infinite)
+   - pathCorrect()
+   - pathCorrectness() const
    + isActive() const
    + getTimer() const
    + virtual string descrizione() const
@@ -57,6 +60,8 @@ overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
 
 potion: consumable
    - tipo t 
+   - pathCorrect()
+   - pathCorrectness() const
    + getType() const
    + getTypeString() const
    + virtual string descrizione() const
@@ -112,6 +117,7 @@ inventario:
    + iteratore:
       - nodo* ptr
       + operator..
+   - distruggi static
    - getHighestID() const
    - setID(item*)
    + operator[] const
@@ -156,6 +162,9 @@ View:
    - connectGui()
    - loadInv()
    - loadRow()
+   - loadPlayerPic()
+   - loadItemPic()
+   - loadItemPicDefault();
    - slot per model: hp/status/atk/def
    - slot per tabella: cellSelected
    - slot per bottomButtons: on Remove/Create/Use/Equip
