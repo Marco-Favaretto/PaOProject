@@ -69,7 +69,7 @@ void Window::loadInv() {
     tableHeaders.append("Name");
     tableHeaders.append("Description");
     invDisplay->setHorizontalHeaderLabels(tableHeaders);
-    showOnly(TUTTI);
+    showOnly(showbutton::TUTTI);
 }
 
 void Window::connectModel() {
@@ -217,6 +217,11 @@ void Window::connectGui() {
     connect(dispPot,   SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(dispWeap,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // menu
+    connect(actionTutti,          SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(actionConsumabili,    SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(actionOggetti_a_Tempo,SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(actionPozioni,        SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(actionArmi_e_Scudi,   SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
 }
 
 Window::~Window() {
@@ -238,11 +243,11 @@ void Window::setupGui() {
     actionSalva = new QAction("Salva", this);
     actionCarica = new QAction("Carica", this);
     actionCrea_oggetto = new QAction("Crea Oggetto", this);
-    actionTutti = new QAction("Tutti", this);
-    actionConsumabili = new QAction("Consumabili", this);
-    actionOggetti_a_Tempo = new QAction("Oggetti a Tempo", this);
-    actionPozioni = new QAction("Pozioni", this);
-    actionArmi_e_Scudi = new QAction("Armi e Scudi", this);
+    actionTutti = new ShowAction(showbutton::TUTTI, "Tutti", this);
+    actionConsumabili = new ShowAction(showbutton::CONSUMABILI, "Consumabili", this);
+    actionOggetti_a_Tempo = new ShowAction(showbutton::TEMPO, "Oggetti a Tempo", this);
+    actionPozioni = new ShowAction(showbutton::POZIONI, "Pozioni", this);
+    actionArmi_e_Scudi = new ShowAction(showbutton::ARMI, "Armi e Scudi", this);
     // menu
     menubar = new QMenuBar(this);
     menubar->setGeometry(QRect(0, 0, 851, 25));
@@ -269,15 +274,15 @@ void Window::setupGui() {
 
     // setup bottoni in alto
     upButtonLayout = new QHBoxLayout();
-    dispTutto = new ShowButton(TUTTI, "Tutto", centralWidget);
+    dispTutto = new ShowButton(showbutton::TUTTI, "Tutto", centralWidget);
     upButtonLayout->addWidget(dispTutto);
-    dispCons = new ShowButton(CONSUMABILI, "Consumabili", centralWidget);
+    dispCons = new ShowButton(showbutton::CONSUMABILI, "Consumabili", centralWidget);
     upButtonLayout->addWidget(dispCons);
-    dispOT = new ShowButton(TEMPO, "Oggetti a Tempo", centralWidget);
+    dispOT = new ShowButton(showbutton::TEMPO, "Oggetti a Tempo", centralWidget);
     upButtonLayout->addWidget(dispOT);
-    dispPot = new ShowButton(POZIONI, "Pozioni", centralWidget);
+    dispPot = new ShowButton(showbutton::POZIONI, "Pozioni", centralWidget);
     upButtonLayout->addWidget(dispPot);
-    dispWeap = new ShowButton(ARMI, "Armi e Scudi", centralWidget);
+    dispWeap = new ShowButton(showbutton::ARMI, "Armi e Scudi", centralWidget);
     upButtonLayout->addWidget(dispWeap);
     inv_layout->addLayout(upButtonLayout);
 

@@ -17,6 +17,7 @@ SOURCES += \
     potion.cpp \
     regular.cpp \
     shield.cpp \
+    showaction.cpp \
     showbutton.cpp \
     weapon.cpp \
     main.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     potion.h \
     regular.h \
     shield.h \
+    showaction.h \
     showbutton.h \
     weapon.h \
     player.h \

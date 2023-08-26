@@ -19,6 +19,8 @@
 #include <QMainWindow>
 #include "showbutton.h"
 using namespace showbutton;
+#include "showaction.h"
+using namespace showaction;
 #include "model.h"
 
 class Window : public QMainWindow
@@ -76,11 +78,11 @@ private:
     QAction *actionCrea_oggetto;
     // menu->opzioni->mostra solo
     QMenu *menuMostra_Solo;
-    QAction *actionTutti;
-    QAction *actionConsumabili;
-    QAction *actionOggetti_a_Tempo;
-    QAction *actionPozioni;
-    QAction *actionArmi_e_Scudi;
+    ShowAction *actionTutti;
+    ShowAction *actionConsumabili;
+    ShowAction *actionOggetti_a_Tempo;
+    ShowAction *actionPozioni;
+    ShowAction *actionArmi_e_Scudi;
     // central widget
     QWidget *centralWidget; // QWidget *horizontalLayoutWidget_2;
     QHBoxLayout *centralHL;

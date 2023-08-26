@@ -6,7 +6,6 @@ cose da fare:
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
-- stessa cosa di showbutton -> QAction per mostra
 - collegare QAction
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - cambio costruttori per consentire meno modifiche possibili durante la creazione di oggetti
@@ -152,7 +151,12 @@ model:
    + playerDead()           // signal
 
 ShowButton : QPushButton
-   - tipo tempo
+   - tipo t
+   + onClicked()    // slot
+   + click(tipo)
+
+ShowAction : QAction
+   - tipo t
    + onClicked()    // slot
    + click(tipo)
 
