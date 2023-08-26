@@ -20,6 +20,10 @@ void Item::setID(unsigned int _id) {
     id = _id;
 }
 
+void Item::setPath(string _path) {
+    path = _path;
+}
+
 string Item::description() const {
     string s = getName();
     return s;

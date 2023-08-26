@@ -6,6 +6,8 @@
 #include<string>
 using std::string;
 
+#define CURA_PIC ":/consumabili/images/curaHP"
+
 class Consumable : public Item {
     Q_OBJECT
     private:

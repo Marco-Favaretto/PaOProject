@@ -61,7 +61,7 @@ void Player::changeHP(int _hp) {
     if(hp + _hp > 0 && hp + _hp < MAX_HEALTH) hp += _hp;
     else if(hp + _hp < 0) hp = 0;
     else hp = MAX_HEALTH;
-
+    if(!pathCorrectness()) pathCorrect();
     emit hpChanged();
     if(hp <= 0) changeStatus(DEAD);
 }
@@ -77,13 +77,17 @@ void Player::changeStatus(STATUS _st) {
 bool Player::pathCorrectness() const {
     switch(st) {
         case NORMAL:
-            return path == NORMAL_PIC;
+            if(hp == MAX_HEALTH) return path == NORMAL_PIC_FULL;
+            else if(hp <= MAX_HEALTH/3) return path == NORMAL_PIC_2;
+            else return path == NORMAL_PIC;
             break;
         case POISONED:
-            return path == POISONED_PIC;
+            if(hp <= MAX_HEALTH/3) return path == POISONED_PIC_2;
+            else return path == POISONED_PIC;
             break;
         case TOXIC:
-            return path == TOXIC_PIC;
+            if(hp <= MAX_HEALTH/3) return path == TOXIC_PIC_2;
+            else return path == TOXIC_PIC;
             break;
         case DEAD:
             return path == DEAD_PIC;
@@ -95,13 +99,17 @@ bool Player::pathCorrectness() const {
 void Player::pathCorrect() {
     switch(st) {
         case NORMAL:
-            path = NORMAL_PIC;
+            if(hp == MAX_HEALTH) path = NORMAL_PIC_FULL;
+            else if(hp <= MAX_HEALTH/3) path = NORMAL_PIC_2;
+            else path = NORMAL_PIC;
             break;
         case POISONED:
-            path = POISONED_PIC;
+            if(hp <= MAX_HEALTH/3) path = POISONED_PIC_2;
+            else path = POISONED_PIC;
             break;
         case TOXIC:
-            path = TOXIC_PIC;
+            if(hp <= MAX_HEALTH/3) path = TOXIC_PIC_2;
+            else path = TOXIC_PIC;
             break;
         case DEAD:
             path = DEAD_PIC;

@@ -1,17 +1,20 @@
 #include "overTime.h"
+using namespace overtime;
+using namespace overtime::classe;
 
-#include<iostream>
-using std::cout; using std::endl;
 #include <iomanip>
 #include <sstream>
 
-overTime::overTime(int hp, u_int time, int c, string _name, string _path)
+overTime::overTime(tipo _t, int hp, int c, string _name, string _path)
     : Consumable(hp, _name, _path),
-      timer(new QTimer()), counter(c) {
+      timer(new QTimer()), counter(c), t(_t) {
+    if(t == POISON) timer->setInterval(STDTIMERPOISON);
+    else timer->setInterval(STDTIMERTOXIC);
+
     if(c == 0) counter = INFCOUNTER;
     if(c > MAXCOUNTER) counter = MAXCOUNTER;
-    timer->setInterval(time);
     status = false;
+    if(!pathCorrectness()) pathCorrect();
 }
 
 bool overTime::isActive() const {
@@ -33,6 +36,28 @@ string overTime::description() const {
 
 overTime::~overTime() {
     delete timer;
+}
+
+bool overTime::pathCorrectness() const {
+    switch(t) {
+        case POISON:
+            return getItemPath() == POISON_PIC;
+            break;
+        case TOXIC:
+            return getItemPath() == TOXIC_PIC;
+            break;
+    }
+}
+
+void overTime::pathCorrect() {
+    switch(t) {
+        case POISON:
+            setPath(POISON_PIC);
+            break;
+        case TOXIC:
+            setPath(TOXIC_PIC);
+            break;
+    }
 }
 
 void overTime::effect() {

@@ -2,6 +2,7 @@
 
 #include "consumable.h"
 #include "overTime.h"
+using namespace overtime::classe;
 #include "potion.h"
 using namespace potion::classe;
 #include "shield.h"
@@ -10,12 +11,15 @@ using namespace potion::classe;
 #include "player.h"
 using namespace player::classe;
 
+#include <QPixmap>
+
 #include<iostream>
 
 Window::Window(QWidget *parent)
     : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
 {
     setupGui();
+    loadItemPicDefault();
     connectModel();
     connectGui();
     fillInv();
@@ -27,21 +31,21 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-    Consumable* cure1 = new Consumable(20, "cure", "error");
-    Consumable* cure2 = new Consumable(10, "cure", "error");
-    Consumable* cure3 = new Consumable(15, "cure", "error");
-    Consumable* cure4 = new Consumable(5 , "cure", "error");
+    Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
+    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
+    Consumable* cure3 = new Consumable(15, "cure", CURA_PIC);
+    Consumable* cure4 = new Consumable(5 , "cure", CURA_PIC);
     mod->insert(cure1);
     mod->insert(cure2);
     mod->insert(cure3);
     mod->insert(cure4);
-    overTime* ot = new overTime(-10, 2000, 8, "poison", "error");
+    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
     mod->insert(ot);
-    overTime* otoxic = new overTime(-20, 500, 4, "toxic", "error");
+    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
     mod->insert(otoxic);
-    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison", "error");
+    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
     mod->insert(cure4poison);
-    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic", "error");
+    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
     mod->insert(cure4toxic);
     Regular* swrd = new Regular(25, "longSword");
     Regular* swrd2 = new Regular(15, "shortSword");
@@ -76,10 +80,12 @@ void Window::connectModel() {
 void Window::hpChanged() {
     hpValue->setText(QString::number(mod->getPlayer()->getHP()) + " / " + QString::number(MAX_HEALTH));
     hpProgressBar->setValue(mod->getPlayer()->getHP());
+    loadPlayerPic();
 }
 
 void Window::statusChanged() {
     statusTxt->setText(QString::fromStdString(mod->getPlayer()->getStatusString()));
+    loadPlayerPic();
 }
 
 void Window::atkChanged() {
@@ -93,6 +99,7 @@ void Window::defChanged() {
 void Window::cellSelected(int row, int column) {
     rowSel = row;
     colSel = column;
+    loadItemPic();
 }
 
 void Window::onRemoveButton() {
@@ -100,6 +107,7 @@ void Window::onRemoveButton() {
     mod->remove(mod->searchItemByID(it->text().toInt()));
     invDisplay->removeRow(invDisplay->currentRow());
     delete it;
+    loadItemPicDefault();
 }
 
 void Window::onCreateButton() {
@@ -113,6 +121,7 @@ void Window::onUseButton() {
     mod->use(mod->searchItemByID(it->text().toInt()));
     invDisplay->removeRow(invDisplay->currentRow());
     delete it;
+    loadItemPicDefault();
 }
 
 void Window::onEquipButton() {
@@ -120,6 +129,21 @@ void Window::onEquipButton() {
     mod->use(mod->searchItemByID(it->text().toInt()));
 }
 
+void Window::loadPlayerPic() {
+    QPixmap playerPixmap(QString::fromStdString(mod->getPlayer()->getPath()));
+    imgPlayer->setPixmap( playerPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
+}
+
+void Window::loadItemPic() {
+    QTableWidgetItem* it = invDisplay->item(rowSel, 0);
+    QPixmap itemPixmap(QString::fromStdString( mod->searchItemByID(it->text().toInt())->getItemPath() ));
+    imgItem->setPixmap( itemPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
+}
+
+void Window::loadItemPicDefault() {
+    QPixmap itemPixmap(QString::fromStdString( DEFAULTPIC ));
+    imgItem->setPixmap( itemPixmap.scaled(imgItem->width(), imgItem->height(), Qt::KeepAspectRatio) );
+}
 
 void Window::loadRow(u_int i) {
     int rows = invDisplay->rowCount();
@@ -129,30 +153,28 @@ void Window::loadRow(u_int i) {
     invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
 }
 
-void Window::showOnly(tipo t) {
-    std::cout<<"fino a qui tutto bene ";
+void Window::showOnly(showbutton::tipo t) {
     invDisplay->setRowCount(0); // reset tabella
-    std::cout<<"fino a qui tutto bene ";
     switch(t) {
-        case TUTTI:
+        case showbutton::TUTTI:
             for(u_int i = 0; i < mod->invSize(); i++) loadRow(i);
         break;
-        case CONSUMABILI:
+        case showbutton::CONSUMABILI:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<Consumable*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
-        case TEMPO:
+        case showbutton::TEMPO:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<overTime*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
-        case POZIONI:
+        case showbutton::POZIONI:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<Potion*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
-        case ARMI:
+        case showbutton::ARMI:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<Weapon*>(mod->searchItemByID(i))) loadRow(i);
             }
@@ -180,11 +202,11 @@ void Window::connectGui() {
     connect(equipButton,  SIGNAL(clicked()), this, SLOT(onEquipButton()) );
     connect(createButton, SIGNAL(clicked()), this, SLOT(onCreateButton()));
     // up buttons
-    connect(dispTutto, SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispCons,  SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispOT,    SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispPot,   SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispWeap,  SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
+    connect(dispTutto, SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispCons,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispOT,    SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispPot,   SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispWeap,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // menu
 }
 
@@ -194,7 +216,7 @@ Window::~Window() {
 
 void Window::setupGui() {
     setObjectName("Progetto PaO");
-    resize(851, 595);
+    resize(900, 595);
     // setup centrale
     centralWidget = new QWidget(this);
     centralWidget->setGeometry(QRect(10, 10, 840, 560));
@@ -270,22 +292,28 @@ void Window::setupGui() {
 
     // setup laterale
     infoDisp = new QWidget(centralWidget);
-    infoDisp->setMinimumSize(QSize(300, 549));
+    infoDisp->setMinimumSize(QSize(200, 549));
+    infoDisp->setMaximumSize(QSize(300, 549));
     infoLayout = new QVBoxLayout(infoDisp);
     centralHL->addLayout(infoLayout);
 
     // immagini
     imgDisp = new QWidget(infoDisp);
-    imgDisp->setGeometry(QRect(0, 0, 301, 211));
+    imgDisp->setGeometry(QRect(0, 0, 200, 211));
+    imgLayout = new QHBoxLayout(imgDisp);
+    imgLayout->setContentsMargins(0, 0, 0, 0);
+    infoLayout->addWidget(imgDisp);
+
     imgItem = new QLabel("ImgItem", imgDisp);
     imgItem->setGeometry(QRect(0, 0, 170, 151));
     imgPlayer = new QLabel("ImgPlayer", imgDisp);
     imgPlayer->setGeometry(QRect(150, 0, 170, 151));
-    infoLayout->addWidget(imgDisp);
+    imgLayout->addWidget(imgItem);
+    imgLayout->addWidget(imgPlayer);
 
     // stat generale
     statDisp = new QWidget(infoDisp);
-    statDisp->setGeometry(QRect(-1, -1, 301, 276));
+    statDisp->setGeometry(QRect(-1, -1, 200, 276));
     statLayout = new QVBoxLayout(statDisp);
     statLayout->setContentsMargins(0, 0, 0, 0);
     infoLayout->addWidget(statDisp);
@@ -332,7 +360,7 @@ void Window::setupGui() {
 
     // save & load
     widgetSaveLoad = new QWidget(infoDisp);
-    widgetSaveLoad->setGeometry(QRect(0, 0, 301, 61));
+    widgetSaveLoad->setGeometry(QRect(0, 0, 300, 61));
     layoutSaveLoad = new QHBoxLayout(widgetSaveLoad);
     layoutSaveLoad->setContentsMargins(0, 0, 0, 0);
     saveButton = new QPushButton("Salva", widgetSaveLoad);

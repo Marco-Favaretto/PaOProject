@@ -18,6 +18,7 @@
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
 #include "showbutton.h"
+using namespace showbutton;
 #include "model.h"
 
 class Window : public QMainWindow
@@ -33,6 +34,9 @@ private:
     void fillInv();
     void loadInv();
     void loadRow(u_int);
+    void loadPlayerPic();
+    void loadItemPic();
+    void loadItemPicDefault();
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
@@ -51,7 +55,7 @@ private slots:
     void onUseButton();
     void onEquipButton();
     // up Buttons
-    void showOnly(tipo);
+    void showOnly(showbutton::tipo);
     // menu
 
 // elementi gui
@@ -85,6 +89,7 @@ private:
     QVBoxLayout* infoLayout;
     // info display -> img
     QWidget *imgDisp;
+    QHBoxLayout* imgLayout;
     QLabel *imgItem;
     QLabel *imgPlayer;
     // statDisp

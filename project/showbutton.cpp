@@ -1,4 +1,5 @@
 #include "showbutton.h"
+using namespace showbutton;
 
 ShowButton::ShowButton(tipo _t, QString title, QWidget *parent) :
     QPushButton(title, parent), t(_t) {
