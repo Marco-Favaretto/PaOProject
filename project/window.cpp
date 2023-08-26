@@ -35,10 +35,12 @@ void Window::fillInv() {
     Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
     Consumable* cure3 = new Consumable(15, "cure", CURA_PIC);
     Consumable* cure4 = new Consumable(5 , "cure", CURA_PIC);
+    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
     mod->insert(cure1);
     mod->insert(cure2);
     mod->insert(cure3);
     mod->insert(cure4);
+    mod->insert(cura5);
     overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
     mod->insert(ot);
     overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
@@ -75,6 +77,7 @@ void Window::connectModel() {
     connect(mod, SIGNAL(changedStatus()), this, SLOT(statusChanged()));
     connect(mod, SIGNAL(changedAtk()),    this, SLOT(atkChanged()));
     connect(mod, SIGNAL(changedDef()),    this, SLOT(defChanged()));
+    connect(mod, SIGNAL(playerDead()),    this, SLOT(playerDeath()));
 }
 
 void Window::hpChanged() {
@@ -94,6 +97,12 @@ void Window::atkChanged() {
 
 void Window::defChanged() {
     defTxt->setText(QString::number(mod->getPlayer()->getDef()) + "%");
+}
+
+void Window::playerDeath() {
+    statusChanged();
+    hpChanged();
+    // gameOver
 }
 
 void Window::cellSelected(int row, int column) {

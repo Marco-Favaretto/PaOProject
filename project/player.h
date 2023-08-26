@@ -6,7 +6,6 @@
 
 #define u_int unsigned int
 
-
 #define NORMAL_PIC ":player/images/playerN.png"
 #define NORMAL_PIC_2 ":player/images/player30hp.png"
 #define NORMAL_PIC_FULL ":player/images/playerHpFull.png"
@@ -25,16 +24,17 @@ namespace player {
         class Player : public QObject {
             Q_OBJECT
         private:
-            u_int hp;
+            int hp;
             u_int def;
             u_int atk;
             STATUS st;
             std::string path;
             bool pathCorrectness() const;
             void pathCorrect();
+            void death();
         public:
-            Player(u_int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC_FULL, u_int = 10, u_int = 10);
-            u_int getHP() const;
+            Player(int = MAX_HEALTH, STATUS = NORMAL, std::string = NORMAL_PIC_FULL, u_int = 10, u_int = 10);
+            int getHP() const;
             u_int getAtk() const;
             u_int getDef() const;
             std::string getPath() const;
@@ -51,6 +51,7 @@ namespace player {
             void hpChanged();
             void defChanged();
             void atkChanged();
+            void dead();
         };
     }
 }

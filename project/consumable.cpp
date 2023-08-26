@@ -13,6 +13,7 @@ int Consumable::getEffect() const {
 }
 
 string Consumable::description() const {
-    string s = " somma/sottrae " + std::to_string(getEffect()) + " HP al Player";
+    string s = getEffect() > 0 ? "somma" : "sottrae"; 
+    s += std::to_string(getEffect()) + " HP al Player";
     return s;
 }

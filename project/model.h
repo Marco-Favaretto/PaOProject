@@ -14,7 +14,7 @@ class model : public QObject {
     Q_OBJECT
 private:
     Player* player;
-    Inventario inventory;
+    Inventario inv;
     void connectToPlayer() const;
 public:
     model(Player*, Inventario);
@@ -31,11 +31,13 @@ public slots:
     void playerStatusChanged();
     void playerAtkChanged();
     void playerDefChanged();
+    void playerDied();
 signals:
     void changedHp();
     void changedStatus();
     void changedAtk();
     void changedDef();
+    void playerDead();
 };
 
 #endif // MODEL_H

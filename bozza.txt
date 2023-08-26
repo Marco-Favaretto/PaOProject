@@ -6,16 +6,15 @@ cose da fare:
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
-- modifica Player -> int hp e non u_int
-- modifica player.cpp -> prima controllo hp == 0, poi emit hpChanged()
-- modificare descrizione consumable.h "somma/sottrae"
-- stessa cosa showbutton -> QAction per mostra
+- stessa cosa di showbutton -> QAction per mostra
 - collegare QAction
 - fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
 - cambio costruttori per consentire meno modifiche possibili durante la creazione di oggetti
 - gestione salvataggio su file
 - gestione upload file
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
+   - prompt chiusura
+   - prompt caricamento file
 - riconsiderare distruttori
 - test su vm
 - relazione

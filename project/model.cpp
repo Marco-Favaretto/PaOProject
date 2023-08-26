@@ -10,7 +10,7 @@ using namespace potion::classe;
 #include<iostream>
 using std::cout; using std::endl;
 
-model::model(Player* _pl, Inventario _inv) : player(_pl), inventory(_inv) {
+model::model(Player* _pl, Inventario _inv) : player(_pl), inv(_inv) {
     connectToPlayer();
 }
 
@@ -19,11 +19,11 @@ model::model(Player* _pl, Inventario _inv) : player(_pl), inventory(_inv) {
 // }
 
 void model::insert(Item *x) {
-    inventory.insert(x);
+    inv.insert(x);
 }
 
 void model::remove(Item *x) {
-    inventory.remove(x);
+    inv.remove(x);
 }
 
 void model::use(Item *x) {
@@ -41,8 +41,8 @@ void model::use(Item *x) {
         } else {
             // ricerca overtime attivi
             bool found = false;
-            for(Inventario::iteratore i = inventory.begin(); i != inventory.end() && !found; i++) {
-                overTime* it = dynamic_cast<overTime*>(&inventory[i]);
+            for(Inventario::iteratore i = inv.begin(); i != inv.end() && !found; i++) {
+                overTime* it = dynamic_cast<overTime*>(&inv[i]);
                 if(it && it->isActive()) {
                     connect(it, SIGNAL(over(overtime::classe::overTime*)), this, SLOT(stopOverTime(overtime::classe::overTime*)));
                     if(it->getName() == "toxic" &&  (pt->getType() == potion::TOXIC  && player->getStatus() == player::TOXIC)) {
@@ -77,17 +77,17 @@ void model::use(Item *x) {
 
 Item *model::searchItemByID(u_int _id) const {
     bool found = false;
-    for(Inventario::iteratore i = inventory.begin(); i != inventory.end() && !found; i++) {
-        if((inventory[i]).getID() == _id) {
+    for(Inventario::iteratore i = inv.begin(); i != inv.end() && !found; i++) {
+        if((inv[i]).getID() == _id) {
             found = true;
-            return &(inventory[i]);
+            return &(inv[i]);
         }
     }
     if(!found) return nullptr;
 }
 
 unsigned int model::invSize() const {
-    return inventory.size();
+    return inv.size();
 }
 
 Player *model::getPlayer() const {
@@ -99,11 +99,12 @@ void model::connectToPlayer() const {
     connect(player, SIGNAL(statusChanged()), this, SLOT(playerStatusChanged()));
     connect(player, SIGNAL(atkChanged()), this, SLOT(playerAtkChanged()));
     connect(player, SIGNAL(defChanged()), this, SLOT(playerDefChanged()));
+    connect(player, SIGNAL(dead()), this, SLOT(playerDied()));
 }
 
 void model::stopOverTime(overTime *x) {
-    player->changeStatus(player::NORMAL);
-    remove(x);
+    if(player->getStatus() != player::DEAD) player->changeStatus(player::NORMAL);
+//    remove(x);
 }
 
 void model::playerHpChanged() {
@@ -120,4 +121,12 @@ void model::playerAtkChanged() {
 
 void model::playerDefChanged() {
     emit changedDef();
+}
+
+void model::playerDied() {
+    for(Inventario::iteratore it = inv.begin(); it != inv.end(); it++) {
+        overTime* ot = dynamic_cast<overTime*>(&inv[it]);
+        if(ot && ot->isActive()) ot->stopOT();
+    }
+    emit playerDead();
 }

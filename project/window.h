@@ -47,6 +47,7 @@ private slots:
     void statusChanged();
     void atkChanged();
     void defChanged();
+    void playerDeath();
     // tabella
     void cellSelected(int,int);
     // bottom Buttons
