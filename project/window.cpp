@@ -2,6 +2,7 @@
 
 #include "consumable.h"
 #include "overTime.h"
+using namespace overtime::classe;
 #include "potion.h"
 using namespace potion::classe;
 #include "shield.h"
@@ -18,6 +19,7 @@ Window::Window(QWidget *parent)
     : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
 {
     setupGui();
+    loadItemPicDefault();
     connectModel();
     connectGui();
     fillInv();
@@ -37,13 +39,13 @@ void Window::fillInv() {
     mod->insert(cure2);
     mod->insert(cure3);
     mod->insert(cure4);
-    overTime* ot = new overTime(-10, 2000, 8, "poison", POISON_PIC);
+    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
     mod->insert(ot);
-    overTime* otoxic = new overTime(-20, 500, 4, "toxic", TOXIC_PIC);
+    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
     mod->insert(otoxic);
-    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison", POISON_PIC);
+    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
     mod->insert(cure4poison);
-    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic", TOXIC_PIC);
+    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
     mod->insert(cure4toxic);
     Regular* swrd = new Regular(25, "longSword");
     Regular* swrd2 = new Regular(15, "shortSword");
@@ -140,7 +142,7 @@ void Window::loadItemPic() {
 
 void Window::loadItemPicDefault() {
     QPixmap itemPixmap(QString::fromStdString( DEFAULTPIC ));
-    imgItem->setPixmap( itemPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
+    imgItem->setPixmap( itemPixmap.scaled(imgItem->width(), imgItem->height(), Qt::KeepAspectRatio) );
 }
 
 void Window::loadRow(u_int i) {
@@ -151,28 +153,28 @@ void Window::loadRow(u_int i) {
     invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
 }
 
-void Window::showOnly(tipo t) {
+void Window::showOnly(showbutton::tipo t) {
     invDisplay->setRowCount(0); // reset tabella
     switch(t) {
-        case TUTTI:
+        case showbutton::TUTTI:
             for(u_int i = 0; i < mod->invSize(); i++) loadRow(i);
         break;
-        case CONSUMABILI:
+        case showbutton::CONSUMABILI:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<Consumable*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
-        case TEMPO:
+        case showbutton::TEMPO:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<overTime*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
-        case POZIONI:
+        case showbutton::POZIONI:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<Potion*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
-        case ARMI:
+        case showbutton::ARMI:
             for(u_int i = 0; i < mod->invSize(); i++) {
                 if(dynamic_cast<Weapon*>(mod->searchItemByID(i))) loadRow(i);
             }
@@ -200,11 +202,11 @@ void Window::connectGui() {
     connect(equipButton,  SIGNAL(clicked()), this, SLOT(onEquipButton()) );
     connect(createButton, SIGNAL(clicked()), this, SLOT(onCreateButton()));
     // up buttons
-    connect(dispTutto, SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispCons,  SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispOT,    SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispPot,   SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
-    connect(dispWeap,  SIGNAL(click(tipo)), this, SLOT(showOnly(tipo)));
+    connect(dispTutto, SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispCons,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispOT,    SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispPot,   SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    connect(dispWeap,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // menu
 }
 
@@ -304,7 +306,6 @@ void Window::setupGui() {
 
     imgItem = new QLabel("ImgItem", imgDisp);
     imgItem->setGeometry(QRect(0, 0, 170, 151));
-    loadItemPicDefault();
     imgPlayer = new QLabel("ImgPlayer", imgDisp);
     imgPlayer->setGeometry(QRect(150, 0, 170, 151));
     imgLayout->addWidget(imgItem);

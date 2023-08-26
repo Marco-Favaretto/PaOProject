@@ -18,6 +18,7 @@
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
 #include "showbutton.h"
+using namespace showbutton;
 #include "model.h"
 
 class Window : public QMainWindow
@@ -54,7 +55,7 @@ private slots:
     void onUseButton();
     void onEquipButton();
     // up Buttons
-    void showOnly(tipo);
+    void showOnly(showbutton::tipo);
     // menu
 
 // elementi gui

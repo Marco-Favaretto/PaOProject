@@ -7,8 +7,8 @@ using std::string;
 
 namespace potion {
 
-#define TOXIC_PIC  ":/consumabili/images/curaT.png"
-#define POISON_PIC ":/consumabili/images/curaV.png"
+    #define POTIONT_PIC  ":/consumabili/images/curaT.png"
+    #define POTIONP_PIC ":/consumabili/images/curaV.png"
 
     enum tipo{POISON, TOXIC};
 
@@ -18,6 +18,8 @@ namespace potion {
             Q_OBJECT
         private:
             tipo t;
+            bool pathCorrectness() const;
+            void pathCorrect();
         public:
             Potion(tipo, string = "unnamed_item", string = "error");
             tipo getType() const;
