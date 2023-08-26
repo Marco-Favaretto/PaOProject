@@ -16,6 +16,7 @@ cose da fare:
 - gestione salvataggio su file
 - gestione upload file
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
+- riconsiderare distruttori
 - test su vm
 - relazione
 

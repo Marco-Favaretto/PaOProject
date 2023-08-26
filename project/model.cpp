@@ -14,9 +14,9 @@ model::model(Player* _pl, Inventario _inv) : player(_pl), inventory(_inv) {
     connectToPlayer();
 }
 
-model::~model() {
-    delete player;
-}
+// model::~model() {
+//     delete player;
+// }
 
 void model::insert(Item *x) {
     inventory.insert(x);

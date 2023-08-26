@@ -2,23 +2,23 @@
 
 Inventario::Inventario() : first(0) {}
 
-Inventario::nodo::~nodo() {
-    if(next) {
-        delete next;
-    }
-    delete itm;
-}
+// Inventario::nodo::~nodo() {
+//     if(next) {
+//         delete next;
+//     }
+//     delete itm;
+// }
 
-void Inventario::distruggi(nodo* p) {
-    if(p) {
-        distruggi(p->next);  //scorre tutta la lista e dealloca dall'ultimo al primo
-        delete p;
-    }
-}
+// void Inventario::distruggi(nodo* p) {
+//     if(p) {
+//         distruggi(p->next);  //scorre tutta la lista e dealloca dall'ultimo al primo
+//         delete p;
+//     }
+// }
 
-Inventario::~Inventario() {
-    if(first) distruggi(first);
-}
+// Inventario::~Inventario() {
+//     if(first) distruggi(first);
+// }
 
 void Inventario::insert(Item *x) {
     setID(x);

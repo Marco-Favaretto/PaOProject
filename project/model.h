@@ -18,7 +18,7 @@ private:
     void connectToPlayer() const;
 public:
     model(Player*, Inventario);
-    ~model();
+    // ~model();
     void insert(Item*);
     void remove(Item*);
     void use(Item*);
