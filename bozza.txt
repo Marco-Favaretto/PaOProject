@@ -94,6 +94,7 @@ Player:
    - path
    - pathCorrect()
    - pathCorrectness() const
+   - death()
    + getStatus() const
    + getPath() const
    + getStatusString() const
@@ -108,6 +109,7 @@ Player:
    + hpChanged()         // signal
    + atkChanged()        // signal
    + defChanged()        // signal
+   + dead()              // signal
 
 inventario:
    - nodo:
@@ -142,10 +144,12 @@ model:
    + playerStatusChanged(); // slot
    + playerAtkChanged();    // slot
    + playerDefChanged();    // slot
+   + playerDied()           // slot
    + changedHp();           // signal
    + changedStatus();       // signal
    + changedAtk();          // signal
    + changedDef();          // signal
+   + playerDead()           // signal
 
 ShowButton : QPushButton
    - tipo tempo
@@ -165,7 +169,8 @@ View:
    - loadPlayerPic()
    - loadItemPic()
    - loadItemPicDefault();
-   - slot per model: hp/status/atk/def
-   - slot per tabella: cellSelected
+   - slot per model:         playerDeath()
+   - slot per model:         hp/status/atk/def
+   - slot per tabella:       cellSelected
    - slot per bottomButtons: on Remove/Create/Use/Equip
-   - slot per upButton: showOnly()
+   - slot per upButton:      showOnly()
