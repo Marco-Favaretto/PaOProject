@@ -5,6 +5,12 @@
 
 #define u_int unsigned int
 
+/* -- Per lettura/scrittura file JSON -- */
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
 
 class Inventario {
     private:
@@ -37,7 +43,11 @@ class Inventario {
         iteratore end() const;
         Item& operator[] (const iteratore&) const;
 
+        static Inventario fromJson(const QJsonObject&);
+        QJsonObject toJson() const;
+
         Inventario();
+        Inventario(const Inventario&);
         // ~Inventario();
         u_int size() const;
         void insert(Item*);

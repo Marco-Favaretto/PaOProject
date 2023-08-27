@@ -6,6 +6,10 @@ Potion::Potion(tipo _t, std::string name, std::string pic) : Consumable(0, name,
     if(!pathCorrectness()) pathCorrect();
 }
 
+Potion::Potion(const Potion& other) : Consumable(other), t(other.t) {}
+
+Potion* Potion::clone() const { return new Potion(*this); }
+
 tipo Potion::getType() const {
     return t;
 }

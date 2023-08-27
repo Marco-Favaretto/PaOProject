@@ -4,6 +4,8 @@ Item::Item(string a, string b) : name(a), path(b) {
     id = 0;
 }
 
+Item::Item(const Item& other) : name(other.name), path(other.path) {}
+
 string Item::getName() const {
     return name;
 }

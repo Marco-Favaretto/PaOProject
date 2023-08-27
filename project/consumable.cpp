@@ -2,6 +2,12 @@
 
 Consumable::Consumable(int c, string a, string b) : Item(a, b), hpEffect(c) {}
 
+Consumable::Consumable(const Consumable& other) : Item(other), hpEffect(other.hpEffect) {}
+
+Consumable* Consumable::clone() const {
+    return new Consumable(*this);
+}
+
 void Consumable::effect() {
     emit effectSignal(getEffect());
 }

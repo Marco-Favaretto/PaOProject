@@ -22,6 +22,8 @@ namespace potion {
             void pathCorrect();
         public:
             Potion(tipo, string = "unnamed_item", string = "error");
+            Potion(const Potion&);
+            Potion* clone() const override;
             tipo getType() const;
             string getTypeString() const;
             virtual string description() const;

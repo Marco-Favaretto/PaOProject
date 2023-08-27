@@ -17,6 +17,10 @@ overTime::overTime(tipo _t, int hp, int c, string _name, string _path)
     if(!pathCorrectness()) pathCorrect();
 }
 
+overTime::overTime(const overTime& other) : Consumable(other), timer(other.timer), counter(other.counter), t(other.t) {}
+
+overTime* overTime::clone() const { return new overTime(*this); }
+
 bool overTime::isActive() const {
     return status;
 }

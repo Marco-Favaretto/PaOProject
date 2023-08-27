@@ -5,6 +5,12 @@ using std::cout; using std::endl;
 
 Inventario::Inventario() : first(0) {}
 
+Inventario::Inventario(const Inventario & other) {
+    for(iteratore i = other.begin(); i != other.end(); i++) {
+//        insert(new Item(other[i]));
+    }
+}
+
 Inventario::nodo::~nodo() {
     delete itm;
 }

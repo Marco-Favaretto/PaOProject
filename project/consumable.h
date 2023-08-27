@@ -14,9 +14,11 @@ class Consumable : public Item {
         int hpEffect;
     public:
         Consumable(int=0, string = "unnamed_item", string = "error");
+        Consumable(const Consumable&);
         virtual ~Consumable();
         int getEffect() const;
         virtual string description() const;
+        Consumable* clone() const override;
     public slots:
         virtual void effect();
     signals:
