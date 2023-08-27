@@ -57,6 +57,8 @@ void Window::fillInv() {
 }
 
 void Window::loadInv() {
+    invDisplay->clear();
+    invDisplay->clearSelection();
     invDisplay->horizontalHeader()->setStretchLastSection(true);
     invDisplay->setEditTriggers(QAbstractItemView::NoEditTriggers);
     invDisplay->verticalHeader()->setVisible(false);
@@ -109,11 +111,13 @@ void Window::cellSelected(int row, int column) {
 }
 
 void Window::onRemoveButton() {
-    QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
+    QTableWidgetItem* it = invDisplay->takeItem(invDisplay->currentRow(), 0);
     mod->remove(mod->searchItemByID(it->text().toInt()));
     invDisplay->removeRow(invDisplay->currentRow());
-    delete it;
     loadItemPicDefault();
+//    loadInv();
+    invDisplay->clearSelection();
+    delete it;
 }
 
 void Window::onCreateButton() {
@@ -124,21 +128,29 @@ void Window::onCreateButton() {
 
 void Window::creationItem(Item* it) {
     mod->insert(it);
-    loadInv();
+    loadRow(it->getID());
     creation->close();
 }
 
-void Window::onUseButton() {
+void Window::onUseButton() { // valido solo per ramo consumable della gerarchia
     QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
-    mod->use(mod->searchItemByID(it->text().toInt()));
-    invDisplay->removeRow(invDisplay->currentRow());
-    delete it;
-    loadItemPicDefault();
+    Weapon* w = dynamic_cast<Weapon*>(mod->searchItemByID(it->text().toInt()));
+    if(!w) {
+        mod->use(mod->searchItemByID(it->text().toInt()));
+        invDisplay->removeRow(invDisplay->currentRow());
+        delete it;
+        loadItemPicDefault();
+        invDisplay->clearSelection();
+    }
 }
 
-void Window::onEquipButton() {
+void Window::onEquipButton() { // valido solo per ramo weapon della gerarchia
     QTableWidgetItem* it = invDisplay->item(rowSel, 0);
-    mod->use(mod->searchItemByID(it->text().toInt()));
+    Consumable* c = dynamic_cast<Consumable*>(mod->searchItemByID(it->text().toInt()));
+    if(!c) {
+        mod->use(mod->searchItemByID(it->text().toInt()));
+        invDisplay->clearSelection();
+    }
 }
 
 void Window::loadPlayerPic() {
@@ -165,6 +177,7 @@ void Window::loadRow(u_int i) {
         invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(it->getID())));
         invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(it->getName())));
         invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(it->description())));
+        std::cout << it->getID() << ") " << it->getName() << "\n";
     }
 }
 
@@ -172,7 +185,8 @@ void Window::showOnly(showbutton::tipo t) {
     invDisplay->setRowCount(0); // reset tabella
     switch(t) {
         case showbutton::TUTTI:
-            for(u_int i = 0; i < mod->invSize(); i++) loadRow(i);
+        for(u_int i = 0; i < mod->invSize(); i++) {loadRow(i);}
+        std::cout << "--------------------\n";
         break;
         case showbutton::CONSUMABILI:
             for(u_int i = 0; i < mod->invSize(); i++) {
@@ -221,6 +235,7 @@ void Window::connectGui() {
     connect(dispPot,   SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(dispWeap,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // menu
+    connect(actionCrea_oggetto, SIGNAL(triggered()), this, SLOT(onCreateButton()));
     // menu mostra solo
     connect(actionTutti,          SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionConsumabili,    SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
@@ -228,7 +243,7 @@ void Window::connectGui() {
     connect(actionPozioni,        SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionArmi_e_Scudi,   SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // creationDialog
-    connect(creation, SIGNAL(onCreateButton(Item*)), this, SLOT(creationItem(Item*)));
+    connect(creation, SIGNAL(onCreationButton(Item*)), this, SLOT(creationItem(Item*)));
 }
 
 Window::~Window() {

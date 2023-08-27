@@ -35,7 +35,7 @@ void creationDialog::setupDialog() {
     modGB = new QGroupBox("Modifica le variabili dell'oggetto", this);
     modGB->setMinimumSize(QSize(0, 300));
     v2 = new QVBoxLayout(modGB);
-    v2->setContentsMargins(0, 0, 0, 0);
+    v2->setContentsMargins(3, 3, 3, 3);
 
     h1 = new QHBoxLayout(modGB);
     tipolabel = new QLabel("Tipologia", modGB);
@@ -131,8 +131,10 @@ void creationDialog::comboBoxTipo() {
         turniLineEdit->setReadOnly(true);
         break;
     default: // -1
-        tipobox->setPlaceholderText("");
+        tipobox->setPlaceholderText("Tipologia Oggetto");
         tipobox->clear();
+        effettoLineEdit->clear();
+        turniLineEdit->clear();
         effettoLineEdit->setReadOnly(true);
         turniLineEdit->setReadOnly(true);
         effettoLineEdit->setPlaceholderText("");
@@ -180,8 +182,8 @@ void creationDialog::comboBoxNome() {
         nomeComboBox->addItems(lista);
         break;
     default:
-//        nomeComboBox->clear();
-//        nomeComboBox->addItem("");
+        effettoLineEdit->clear();
+        turniLineEdit->clear();
         break;
     }
 }
@@ -191,12 +193,11 @@ bool creationDialog::doneEverything() const {
 }
 
 void creationDialog::resetDialog() {
-//    setupDialog();
-    effettoLineEdit->clear();
-    turniLineEdit->clear();
-    effettoLineEdit->setReadOnly(true);
-    turniLineEdit->setReadOnly(true);
+    listTipi->clearSelection();
     rowSel = -1;
+    turni = -1;
+    comboBoxTipo();
+    comboBoxNome();
     fromComboTipo = "";
     effetto = 0;
     nome = "";
@@ -213,12 +214,12 @@ creationDialog::creationDialog(QWidget* parent) :
     setupDialog();
     tipobox->setPlaceholderText("Tipologia Oggetto");
     nomeComboBox->setPlaceholderText("Nome Oggetto");
-    connect(listTipi, SIGNAL(currentRowChanged(int)), this, SLOT(onListWidget(int)));
-    connect(tipobox, SIGNAL(currentTextChanged(QString)), this, SLOT(onTipoBox(QString)));
-    connect(nomeComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onNomeBox(QString)));
-    connect(creaButton, SIGNAL(clicked()), this, SLOT(onCreationButton()));
-    connect(effettoLineEdit, SIGNAL(textEdited(QString)), this, SLOT(onEffetto(QString)));
-    connect(turniLineEdit, SIGNAL(textEdited(QString)), this, SLOT(onturni(QString)));
+    connect(listTipi,        SIGNAL(currentRowChanged(int)),      this, SLOT(onListWidget(int)));
+    connect(tipobox,         SIGNAL(currentTextChanged(QString)), this, SLOT(onTipoBox(QString)));
+    connect(nomeComboBox,    SIGNAL(currentTextChanged(QString)), this, SLOT(onNomeBox(QString)));
+    connect(creaButton,      SIGNAL(clicked()),                   this, SLOT(onCreateButton()));
+    connect(effettoLineEdit, SIGNAL(textEdited(QString)),         this, SLOT(onEffetto(QString)));
+    connect(turniLineEdit,   SIGNAL(textEdited(QString)),         this, SLOT(onturni(QString)));
 }
 
 void creationDialog::onListWidget(int _row) {
@@ -250,32 +251,37 @@ void creationDialog::onturni(QString _t) {
     if(turni < 0) QMessageBox::warning(this, "Turni", "Scegliere un numero positivo.");
 }
 
-void creationDialog::onCreationButton() {
+void creationDialog::onCreateButton() {
 
     if(!doneEverything()) {
-        QMessageBox::warning(this, "Missing Fields", "Completare l'intero Form");
+        string s = "Completare l'intero Form.\nCampi mancanti:";
+        if(!tipo) s += "\n> Tipologia";
+        if(!effect) s += "\n> Effetto";
+        if(!nomeCheck) s += "\n> Nome";
+
+        QMessageBox::warning(this, "Missing Fields", QString::fromStdString(s));
         resetDialog();
     } else {
         switch(rowSel) {
         case 0: // consumabili
-            emit onCreateButton(new Consumable(effetto, nome));
+            emit onCreationButton(new Consumable(effetto, nome));
             break;
         case 1: // ot
             if(effetto > 0) {effect = false; QMessageBox::warning(this, "Effetto", "L'effetto deve essere negativo");}
-            else if(fromComboTipo == "Veleno") emit onCreateButton(new overTime(overtime::POISON, effetto, turni, nome));
-            else emit onCreateButton(new overTime(overtime::TOXIC, effetto, turni, nome));
+            else if(fromComboTipo == "Veleno") emit onCreationButton(new overTime(overtime::POISON, effetto, turni, nome));
+            else emit onCreationButton(new overTime(overtime::TOXIC, effetto, turni, nome));
             break;
         case 2: // pozioni
-            if(fromComboTipo == "Veleno") emit onCreateButton(new Potion(potion::POISON, nome));
-            else emit onCreateButton(new Potion(potion::TOXIC, nome));
+            if(fromComboTipo == "Veleno") emit onCreationButton(new Potion(potion::POISON, nome));
+            else emit onCreationButton(new Potion(potion::TOXIC, nome));
             break;
         case 3: // armi
             if(effetto < 0) {effect = false; QMessageBox::warning(this, "Effetto", "L'effetto deve essere positivo");}
-            else emit onCreateButton(new Regular(effetto, nome));
+            else emit onCreationButton(new Regular(effetto, nome));
             break;
         case 4: // scudi
             if(effetto < 0) {effect = false; QMessageBox::warning(this, "Effetto", "L'effetto deve essere positivo");}
-            else emit onCreateButton(new Shield(effetto, nome));
+            else emit onCreationButton(new Shield(effetto, nome));
             break;
         default: // -1
             break;

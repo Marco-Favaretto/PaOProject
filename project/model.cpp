@@ -19,7 +19,13 @@ model::model(Player* _pl, Inventario _inv) : player(_pl), inv(_inv) {
 // }
 
 void model::insert(Item *x) {
+
     inv.insert(x);
+
+//    for(Inventario::iteratore i = inv.begin(); i != inv.end(); i++) {
+//        cout << inv[i].getID() << ") " << inv[i].getName() << endl;
+//    }
+    cout << "-------------------------\n";
 }
 
 void model::remove(Item *x) {

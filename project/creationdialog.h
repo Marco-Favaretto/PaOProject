@@ -62,10 +62,10 @@ private slots:
     void onTipoBox(QString);
     void onNomeBox(QString);
     void onEffetto(QString);
-    void onCreationButton();
+    void onCreateButton();
     void onturni(QString);
 signals:
-    void onCreateButton(Item*);
+    void onCreationButton(Item*);
 };
 
 #endif // CREATIONDIALOG_H
