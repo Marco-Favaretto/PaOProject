@@ -19,7 +19,6 @@ cose da fare:
 
 ----------------------
 Issue:
-- problemi creazione duplicati
 
 -------------------------
 Da ricordare:

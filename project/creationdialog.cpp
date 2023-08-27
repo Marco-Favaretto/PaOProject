@@ -192,6 +192,8 @@ bool creationDialog::doneEverything() const {
 
 void creationDialog::resetDialog() {
 //    setupDialog();
+    effettoLineEdit->clear();
+    turniLineEdit->clear();
     effettoLineEdit->setReadOnly(true);
     turniLineEdit->setReadOnly(true);
     rowSel = -1;

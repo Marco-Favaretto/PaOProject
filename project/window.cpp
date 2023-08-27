@@ -117,6 +117,7 @@ void Window::onRemoveButton() {
 }
 
 void Window::onCreateButton() {
+    creation->resetDialog();
     creation->show();
     creation->setModal(true);
 }

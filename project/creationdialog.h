@@ -54,9 +54,9 @@ private:
     void comboBoxTipo();
     void comboBoxNome();
     bool doneEverything() const;
-    void resetDialog();
 public:
     creationDialog(QWidget* parent = nullptr);
+    void resetDialog();
 private slots:
     void onListWidget(int);
     void onTipoBox(QString);
