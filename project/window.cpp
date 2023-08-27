@@ -177,7 +177,6 @@ void Window::loadRow(u_int i) {
         invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(it->getID())));
         invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(it->getName())));
         invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(it->description())));
-        std::cout << it->getID() << ") " << it->getName() << "\n";
     }
 }
 
@@ -186,7 +185,6 @@ void Window::showOnly(showbutton::tipo t) {
     switch(t) {
         case showbutton::TUTTI:
         for(u_int i = 0; i < mod->invSize(); i++) {loadRow(i);}
-        std::cout << "--------------------\n";
         break;
         case showbutton::CONSUMABILI:
             for(u_int i = 0; i < mod->invSize(); i++) {

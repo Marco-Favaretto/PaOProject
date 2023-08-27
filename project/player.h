@@ -11,8 +11,8 @@
 #define NORMAL_PIC_FULL ":player/images/playerHpFull.png"
 #define POISONED_PIC ":player/images/playerV.png"
 #define POISONED_PIC_2 ":player/images/player30hpV.png"
-#define TOXIC_PIC ":player/images/playerT.png"
-#define TOXIC_PIC_2 ":player/images/player30hpT.png"
+#define TOXIC_PLAYER_PIC ":player/images/playerT.png"
+#define TOXIC_PLAYER_PIC_2 ":player/images/player30hpT.png"
 #define DEAD_PIC ":player/images/playerD.png"
 
 namespace player {

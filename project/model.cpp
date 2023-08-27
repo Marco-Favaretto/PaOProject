@@ -22,10 +22,6 @@ void model::insert(Item *x) {
 
     inv.insert(x);
 
-//    for(Inventario::iteratore i = inv.begin(); i != inv.end(); i++) {
-//        cout << inv[i].getID() << ") " << inv[i].getName() << endl;
-//    }
-    cout << "-------------------------\n";
 }
 
 void model::remove(Item *x) {
@@ -112,7 +108,7 @@ void model::connectToPlayer() const {
 
 void model::stopOverTime(overTime *x) {
     if(player->getStatus() != player::DEAD) player->changeStatus(player::NORMAL);
-//    remove(x);
+    remove(x);
 }
 
 void model::playerHpChanged() {

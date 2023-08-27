@@ -98,8 +98,8 @@ bool Player::pathCorrectness() const {
             else return path == POISONED_PIC;
             break;
         case TOXIC:
-            if(hp <= MAX_HEALTH/3) return path == TOXIC_PIC_2;
-            else return path == TOXIC_PIC;
+            if(hp <= MAX_HEALTH/3) return path == TOXIC_PLAYER_PIC_2;
+            else return path == TOXIC_PLAYER_PIC;
             break;
         case DEAD:
             return path == DEAD_PIC;
@@ -120,8 +120,8 @@ void Player::pathCorrect() {
             else path = POISONED_PIC;
             break;
         case TOXIC:
-            if(hp <= MAX_HEALTH/3) path = TOXIC_PIC_2;
-            else path = TOXIC_PIC;
+            if(hp <= MAX_HEALTH/3) path = TOXIC_PLAYER_PIC_2;
+            else path = TOXIC_PLAYER_PIC;
             break;
         case DEAD:
             path = DEAD_PIC;
