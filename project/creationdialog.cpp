@@ -222,7 +222,6 @@ creationDialog::creationDialog(QWidget* parent) :
 void creationDialog::onListWidget(int _row) {
     resetDialog();
     rowSel = _row;
-    std::cout << rowSel << " ";
     comboBoxTipo();
     comboBoxNome();
 }
