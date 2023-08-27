@@ -37,6 +37,7 @@ namespace overtime {
             bool isActive() const;
             double getTimer() const;
             virtual string description() const;
+            tipo getType() const;
         public slots:
             virtual void effect();
             void stopOT();

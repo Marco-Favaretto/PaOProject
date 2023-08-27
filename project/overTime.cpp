@@ -34,6 +34,10 @@ string overTime::description() const {
     return s;
 }
 
+overtime::tipo overTime::getType() const {
+    return t;
+}
+
 overTime::~overTime() {
     delete timer;
 }

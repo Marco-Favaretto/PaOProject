@@ -45,11 +45,11 @@ void model::use(Item *x) {
                 overTime* it = dynamic_cast<overTime*>(&inv[i]);
                 if(it && it->isActive()) {
                     connect(it, SIGNAL(over(overtime::classe::overTime*)), this, SLOT(stopOverTime(overtime::classe::overTime*)));
-                    if(it->getName() == "toxic" &&  (pt->getType() == potion::TOXIC  && player->getStatus() == player::TOXIC)) {
+                    if((pt->getType() == potion::TOXIC  && player->getStatus() == player::TOXIC)) {
                         it->stopOT();
                         found = true;
                     }
-                    if(it->getName() == "poison" && (pt->getType() == potion::POISON && player->getStatus() == player::POISONED)) {
+                    if((pt->getType() == potion::POISON && player->getStatus() == player::POISONED)) {
                         it->stopOT();
                         found = true;
                     }
@@ -61,8 +61,8 @@ void model::use(Item *x) {
         connect(ot, SIGNAL(effectSignal(int)), player, SLOT(changeHP(int)));
         connect(ot, SIGNAL(over(overtime::classe::overTime*)), this, SLOT(stopOverTime(overtime::classe::overTime*)));
         ot->startOT();
-        if(ot->getName() == "poison") player->changeStatus(player::POISONED);
-        if(ot->getName() == "toxic") player->changeStatus(player::TOXIC);
+        if(ot->getType() == overtime::POISON) player->changeStatus(player::POISONED);
+        if(ot->getType() == overtime::TOXIC) player->changeStatus(player::TOXIC);
     }
     if(s) {
         connect(s, SIGNAL(statSignal(uint)), player, SLOT(setDefense(uint)));
