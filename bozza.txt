@@ -19,7 +19,7 @@ cose da fare:
 
 ----------------------
 Issue:
-- programma crasha quando manca un id (è stato rimosso)
+- problemi creazione duplicati
 
 -------------------------
 Da ricordare:

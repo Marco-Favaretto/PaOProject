@@ -34,13 +34,9 @@ Window::Window(QWidget *parent)
 void Window::fillInv() {
     Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
     Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
-    Consumable* cure3 = new Consumable(15, "cure", CURA_PIC);
-    Consumable* cure4 = new Consumable(5 , "cure", CURA_PIC);
     Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
     mod->insert(cure1);
     mod->insert(cure2);
-    mod->insert(cure3);
-    mod->insert(cure4);
     mod->insert(cura5);
     overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
     mod->insert(ot);
@@ -161,11 +157,14 @@ void Window::loadItemPicDefault() {
 }
 
 void Window::loadRow(u_int i) {
-    int rows = invDisplay->rowCount();
-    invDisplay->insertRow(rows);
-    invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(mod->searchItemByID(i)->getID())));
-    invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->getName())));
-    invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
+    Item* it = mod->searchItemByID(i);
+    if(it) {
+        int rows = invDisplay->rowCount();
+        invDisplay->insertRow(rows);
+        invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(it->getID())));
+        invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(it->getName())));
+        invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(it->description())));
+    }
 }
 
 void Window::showOnly(showbutton::tipo t) {

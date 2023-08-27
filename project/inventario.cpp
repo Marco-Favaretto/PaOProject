@@ -1,5 +1,8 @@
 #include "inventario.h"
 
+#include <iostream>
+using std::cout; using std::endl;
+
 Inventario::Inventario() : first(0) {}
 
 Inventario::nodo::~nodo() {
@@ -30,7 +33,7 @@ void Inventario::remove(Item *x) {
             prev = current;
             current = current->next;
         }
-        if(current) {
+        if(current) { // itm == x
             prev->next = current->next;
             current->next = nullptr;
             delete current;
@@ -43,7 +46,7 @@ void Inventario::remove(Item *x) {
 }
 
 Inventario::nodo::nodo(Item* x, nodo* p)
-    : itm(x), next(p) {}
+    : itm(x), next(p) {  }
 
 bool Inventario::iteratore::operator==(const iteratore& i) const  {
     return ptr == i.ptr;
@@ -73,7 +76,7 @@ Item* Inventario::iteratore::operator->() const {
 }
 
 u_int Inventario::getHighestID() const {
-    int max = 0;
+    u_int max = 0;
     for(iteratore i = begin(); i != end(); i++) {
         if(i->getID() > max) max = i->getID(); 
     }

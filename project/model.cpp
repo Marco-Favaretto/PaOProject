@@ -75,15 +75,17 @@ void model::use(Item *x) {
 
 }
 
-Item *model::searchItemByID(u_int _id) const {
+Item* model::searchItemByID(u_int _id) const {
     bool found = false;
+    Item* it = nullptr;
     for(Inventario::iteratore i = inv.begin(); i != inv.end() && !found; i++) {
         if((inv[i]).getID() == _id) {
             found = true;
-            return &(inv[i]);
+            it = &(inv[i]);
         }
     }
     if(!found) return nullptr;
+    else return it;
 }
 
 unsigned int model::invSize() const {
