@@ -3,9 +3,6 @@
 Inventario::Inventario() : first(0) {}
 
 Inventario::nodo::~nodo() {
-    if(next) {
-        delete next;
-    }
     delete itm;
 }
 

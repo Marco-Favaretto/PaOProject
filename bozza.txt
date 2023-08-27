@@ -2,7 +2,7 @@ cose da fare:
 
 - mettere immagini:
    - img player                                         : fatte
-   - img item: cura, pozioni, funghi                    : fatte
+   - img item: cura, pozioni, robe                      : fatte
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
