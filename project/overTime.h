@@ -7,6 +7,13 @@
 #include<string>
 using std::string;
 
+/* -- Per lettura/scrittura file JSON -- */
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
+
 #include <QTimer>
 
 namespace overtime {
@@ -31,6 +38,9 @@ namespace overtime {
             tipo t;
             bool pathCorrectness() const;
             void pathCorrect();
+            overTime();
+            void setTimer(int);
+            static tipo intToTipo(int);
         public:
             overTime(tipo, int hp = -10, int c = INFCOUNTER, string = "unnamed_item", string = "error");
             overTime(const overTime&);
@@ -40,6 +50,8 @@ namespace overtime {
             double getTimer() const;
             virtual string description() const;
             tipo getType() const;
+            static overTime fromJson(const QJsonObject&);
+            QJsonObject toJson() const;
         public slots:
             virtual void effect();
             void stopOT();

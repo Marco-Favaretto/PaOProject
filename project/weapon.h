@@ -18,6 +18,7 @@ class Weapon : public Item {
         Weapon(const Weapon&);
         virtual ~Weapon() =0;
         bool isEquipped() const;
+        void setValue(int);
         u_int getValue() const;
         virtual string description() const;
     public slots:

@@ -9,6 +9,10 @@ bool Weapon::isEquipped() const {
     return equip;
 }
 
+void Weapon::setValue(int i) {
+    atk = static_cast<unsigned int>(i);
+}
+
 unsigned int Weapon::getValue() const {
     return atk;
 }

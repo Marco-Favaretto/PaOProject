@@ -2,6 +2,8 @@
 using namespace potion;
 using namespace potion::classe;
 
+Potion::Potion() {}
+
 Potion::Potion(tipo _t, std::string name, std::string pic) : Consumable(0, name, pic), t(_t) {
     if(!pathCorrectness()) pathCorrect();
 }
@@ -50,4 +52,40 @@ string Potion::getTypeString() const {
 string Potion::description() const {
     string s = " cures from " + getTypeString() + " status";
     return s;
+}
+
+potion::tipo Potion::intToTipo(int i) {
+    switch(i) {
+    case 0:
+        return POISON;
+        break;
+    case 1:
+        return TOXIC;
+        break;
+    }
+}
+
+Potion Potion::fromJson(const QJsonObject &json) {
+    Potion p;
+    if (const QJsonValue v = json["id"]; v.isDouble())
+            p.setID(v.toInt());
+    if (const QJsonValue v = json["name"]; v.isString())
+            p.setName(v.toString().toStdString());
+    if (const QJsonValue v = json["path"]; v.isString())
+            p.setPath(v.toString().toStdString());
+    if (const QJsonValue v = json["effect"]; v.isDouble())
+            p.setEffect(v.toInt());
+    if (const QJsonValue v = json["tipo"]; v.isDouble())
+            p.t = intToTipo(v.toInt());
+    return p;
+}
+
+QJsonObject Potion::toJson() const {
+    QJsonObject obj;
+    obj["id"] = static_cast<int>(getID());
+    obj["name"] = QString::fromStdString(getName());
+    obj["path"] = QString::fromStdString(getItemPath());
+    obj["effect"] = getEffect();
+    obj["tipo"] = t;
+    return obj;
 }

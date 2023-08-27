@@ -66,6 +66,9 @@ private slots:
     // menu
     // create
     void creationItem(Item*);
+    // save and load
+    void saveGame();
+    void loadGame();
 
 // elementi gui
 private:

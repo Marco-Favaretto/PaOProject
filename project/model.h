@@ -10,6 +10,13 @@ using namespace overtime::classe;
 
 #include <QObject>
 
+/* -- Per lettura/scrittura file JSON -- */
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
+
 class model : public QObject {
     Q_OBJECT
 private:
@@ -17,14 +24,19 @@ private:
     Inventario inv;
     void connectToPlayer() const;
 public:
+    model();
     model(Player*, Inventario);
-    // ~model();
+//     ~model();
     void insert(Item*);
     void remove(Item*);
     void use(Item*);
     Item* searchItemByID(u_int) const;
     u_int invSize() const;
     Player* getPlayer() const;
+    void fromJson(const QJsonObject&);
+    QJsonObject toJson() const;
+    void loadGame(const string&);
+    void saveGame(const string&) const;
 public slots:
     void stopOverTime(overtime::classe::overTime*);
     void playerHpChanged();

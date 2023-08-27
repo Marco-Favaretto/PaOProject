@@ -22,6 +22,10 @@ void Item::setID(unsigned int _id) {
     id = _id;
 }
 
+void Item::setName(std::string _n) {
+    name = _n;
+}
+
 void Item::setPath(string _path) {
     path = _path;
 }

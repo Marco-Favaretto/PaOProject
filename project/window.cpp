@@ -12,6 +12,7 @@ using namespace potion::classe;
 using namespace player::classe;
 
 #include <QPixmap>
+#include <QFileDialog>
 
 #include<iostream>
 
@@ -23,7 +24,7 @@ Window::Window(QWidget *parent)
     loadItemPicDefault();
     connectModel();
     connectGui();
-    fillInv();
+//    fillInv();
     loadInv();
     hpChanged();
     statusChanged();
@@ -32,28 +33,28 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-    Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
-    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
-    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
-    mod->insert(cure1);
-    mod->insert(cure2);
-    mod->insert(cura5);
-    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
-    mod->insert(ot);
-    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
-    mod->insert(otoxic);
-    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
-    mod->insert(cure4poison);
-    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
-    mod->insert(cure4toxic);
-    Regular* swrd = new Regular(25, "longSword");
-    Regular* swrd2 = new Regular(15, "shortSword");
-    Shield* shild = new Shield(15, "shield1");
-    Shield* shild2 = new Shield(30, "PortoneDeCasa");
-    mod->insert(swrd);
-    mod->insert(swrd2);
-    mod->insert(shild);
-    mod->insert(shild2);
+//    Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
+//    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
+//    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
+//    mod->insert(cure1);
+//    mod->insert(cure2);
+//    mod->insert(cura5);
+//    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
+//    mod->insert(ot);
+//    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
+//    mod->insert(otoxic);
+//    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
+//    mod->insert(cure4poison);
+//    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
+//    mod->insert(cure4toxic);
+//    Regular* swrd = new Regular(25, "longSword");
+//    Regular* swrd2 = new Regular(15, "shortSword");
+//    Shield* shild = new Shield(15, "shield1");
+//    Shield* shild2 = new Shield(30, "PortoneDeCasa");
+//    mod->insert(swrd);
+//    mod->insert(swrd2);
+//    mod->insert(shild);
+//    mod->insert(shild2);
 }
 
 void Window::loadInv() {
@@ -209,7 +210,26 @@ void Window::showOnly(showbutton::tipo t) {
     }
 }
 
+void Window::saveGame() {
+    QString path = "C:/Users/favar/Desktop";
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save on JSON File"), path, tr("JSON (*.json)"));
+    if(!fileName.isEmpty()) mod->saveGame(fileName.toStdString());
+}
 
+void Window::loadGame() {
+    // qmessagebox::warning salvare
+    QString path = "C:/Users/favar/Desktop";
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open JSON File"), path, tr("JSON (*.json)"));
+    if(!fileName.isEmpty()) mod->loadGame(fileName.toStdString());
+    loadItemPicDefault();
+    loadInv();
+    hpChanged();
+    statusChanged();
+    atkChanged();
+    defChanged();
+}
 
 
 
@@ -242,6 +262,9 @@ void Window::connectGui() {
     connect(actionArmi_e_Scudi,   SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // creationDialog
     connect(creation, SIGNAL(onCreationButton(Item*)), this, SLOT(creationItem(Item*)));
+    // save & load
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveGame()));
+    connect(loadButton, SIGNAL(clicked()), this, SLOT(loadGame()));
 }
 
 Window::~Window() {

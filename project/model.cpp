@@ -1,14 +1,21 @@
 #include "model.h"
 
+#include<QFile>
+#include<QByteArray>
+
 #include "consumable.h"
 #include "potion.h"
 using namespace potion::classe;
-
 #include "weapon.h"
 #include "shield.h"
 #include "regular.h"
 #include<iostream>
 using std::cout; using std::endl;
+
+
+model::model() : player(new Player()), inv(Inventario()) {
+    connectToPlayer();
+}
 
 model::model(Player* _pl, Inventario _inv) : player(_pl), inv(_inv) {
     connectToPlayer();
@@ -133,4 +140,44 @@ void model::playerDied() {
         if(ot && ot->isActive()) ot->stopOT();
     }
     emit playerDead();
+}
+
+void model::fromJson(const QJsonObject &json) {
+    if(const QJsonValue v = json["inv"]; v.isObject())
+        inv = Inventario::fromJson(v.toObject());
+    if(const QJsonValue v = json["player"]; v.isObject())
+        player = new Player(Player::fromJson(v.toObject()));
+}
+
+QJsonObject model::toJson() const {
+    QJsonObject obj;
+    obj["inv"] = inv.toJson();
+    obj["player"] = player->toJson();
+    return obj;
+}
+
+void model::loadGame(const std::string & path) {
+    // cancellazione dati attuali
+    Player* p = player;
+    player = nullptr;
+    delete p;
+    inv.clear();
+
+    QFile loadfile(QString::fromStdString(path));
+    if(loadfile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray loaddata = loadfile.readAll();
+        QJsonDocument jsdoc(QJsonDocument::fromJson(loaddata));
+        fromJson(jsdoc.object());
+    }
+    loadfile.close();
+}
+
+void model::saveGame(const string& path) const {
+    QFile saveFile(QString::fromStdString(path));
+    QJsonObject obj = toJson();
+    QByteArray byteArray = QJsonDocument(obj).toJson();
+    if(saveFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        saveFile.write(byteArray);
+    }
+    saveFile.close();
 }

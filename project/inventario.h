@@ -21,11 +21,14 @@ class Inventario {
                 ~nodo();
                 Item* itm;
                 nodo* next;
+                static Item* fromJson(const QJsonObject&);
+                QJsonObject toJson() const;
         };
         nodo* first;
         u_int getHighestID() const;
         void setID(Item*);
-        // static void distruggi(nodo*);
+        static nodo* copia(const Inventario&);
+        static void distruggi(nodo*);
     public:
         class iteratore {
             friend class Inventario;
@@ -48,10 +51,12 @@ class Inventario {
 
         Inventario();
         Inventario(const Inventario&);
+        Inventario& operator=(const Inventario&);
         // ~Inventario();
         u_int size() const;
         void insert(Item*);
         void remove(Item*);
+        void clear();
 };
 
 #endif // INVENTARIO_H

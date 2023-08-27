@@ -24,6 +24,7 @@ class Item : public QObject {
         unsigned int getID() const;
         void setID(unsigned int);
         void setPath(string);
+        void setName(string);
         virtual string description() const;
     public slots:
         virtual void effect() =0;

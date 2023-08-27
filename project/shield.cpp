@@ -15,3 +15,25 @@ string Shield::description() const {
 unsigned int Shield::getDEF() const {
     return Weapon::getValue();
 }
+
+Shield Shield::fromJson(const QJsonObject &json) {
+    Shield s;
+    if (const QJsonValue v = json["id"]; v.isDouble())
+            s.setID(v.toInt());
+    if (const QJsonValue v = json["name"]; v.isString())
+        s.setName(v.toString().toStdString());
+    if (const QJsonValue v = json["path"]; v.isString())
+        s.setPath(v.toString().toStdString());
+    if (const QJsonValue v = json["effect"]; v.isDouble())
+        s.setValue(v.toInt());
+    return s;
+}
+
+QJsonObject Shield::toJson() const {
+    QJsonObject obj;
+    obj["id"] = static_cast<int>(getID());
+    obj["name"] = QString::fromStdString(getName());
+    obj["path"] = QString::fromStdString(getItemPath());
+    obj["effect"] = static_cast<int>(getDEF());
+    return obj;
+}

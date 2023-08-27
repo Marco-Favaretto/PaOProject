@@ -19,6 +19,11 @@ cose da fare:
 
 ----------------------
 Issue:
+- caricare, carica, ma inv di roba di default
+   - non prende nome
+   Dal ramo consumable:
+      prende solo consumable -> salva tutti come consumable
+      salva nome ed effetto, ma non li carica
 
 -------------------------
 Da ricordare:
