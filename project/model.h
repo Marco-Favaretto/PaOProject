@@ -37,6 +37,7 @@ public:
     QJsonObject toJson() const;
     bool loadGame(const string&);
     void saveGame(const string&) const;
+    u_int getMaxId() const;
 public slots:
     void stopOverTime(overtime::classe::overTime*);
     void playerHpChanged();

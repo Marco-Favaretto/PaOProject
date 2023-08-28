@@ -97,6 +97,10 @@ Item* model::searchItemByID(u_int _id) const {
     else return it;
 }
 
+u_int model::getMaxId() const {
+    return inv.getHighestID();
+}
+
 unsigned int model::invSize() const {
     return inv.size();
 }

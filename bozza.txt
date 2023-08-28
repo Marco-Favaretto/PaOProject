@@ -6,10 +6,6 @@ cose da fare:
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
-- collegare QAction:
-   - crea oggetto
-   - salva
-   - carica
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
    - prompt chiusura: fatto
    - prompt caricamento file: fatto
@@ -179,8 +175,8 @@ inventario:
       + operator..
    - distruggi(nodo*) static
    - copia(const Inventario&) static
-   - getHighestID() const
    - setID(item*)
+   + getHighestID() const
    + operator[] const
    + begin() const
    + end() const
@@ -206,6 +202,7 @@ model:
    + insert(item*)
    + remove(item*)
    + use(item*)
+   + getMaxId() const
    + fromJson(...);
    + toJson() const;
    + loadGame();

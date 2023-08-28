@@ -5,8 +5,9 @@
 using namespace overtime::classe;
 #include "potion.h"
 using namespace potion::classe;
-#include "shield.h"
-#include "regular.h"
+//#include "shield.h"
+//#include "regular.h"
+#include "weapon.h"
 #include "inventario.h"
 #include "player.h"
 using namespace player::classe;
@@ -117,7 +118,6 @@ void Window::onRemoveButton() {
     mod->remove(mod->searchItemByID(it->text().toInt()));
     invDisplay->removeRow(invDisplay->currentRow());
     loadItemPicDefault();
-//    loadInv();
     invDisplay->clearSelection();
     delete it;
 }
@@ -187,27 +187,29 @@ void Window::loadRow(u_int i) {
 
 void Window::showOnly(showbutton::tipo t) {
     invDisplay->setRowCount(0); // reset tabella
+    u_int count = mod->getMaxId() + 1;
     switch(t) {
         case showbutton::TUTTI:
-        for(u_int i = 0; i < mod->invSize(); i++) {loadRow(i);}
+            for(u_int i = 0; i < count; i++)
+                loadRow(i);
         break;
         case showbutton::CONSUMABILI:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<Consumable*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
         case showbutton::TEMPO:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<overTime*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
         case showbutton::POZIONI:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<Potion*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
         case showbutton::ARMI:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<Weapon*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
@@ -260,6 +262,8 @@ void Window::connectGui() {
     connect(dispWeap,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // menu
     connect(actionCrea_oggetto, SIGNAL(triggered()), this, SLOT(onCreateButton()));
+    connect(actionSalva, SIGNAL(triggered()), this, SLOT(saveGame()));
+    connect(actionCarica, SIGNAL(triggered()), this, SLOT(loadGame()));
     // menu mostra solo
     connect(actionTutti,          SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionConsumabili,    SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));

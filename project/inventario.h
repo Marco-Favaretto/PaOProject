@@ -25,7 +25,6 @@ class Inventario {
                 QJsonObject toJson() const;
         };
         nodo* first;
-        u_int getHighestID() const;
         void setID(Item*);
         static nodo* copia(const Inventario&);
         static void distruggi(nodo*);
@@ -54,6 +53,7 @@ class Inventario {
         Inventario& operator=(const Inventario&);
         // ~Inventario();
         u_int size() const;
+        u_int getHighestID() const;
         void insert(Item*);
         void remove(Item*);
         void clear();
