@@ -23,10 +23,11 @@ Window::Window(QWidget *parent)
 {
     setupGui();
     creation = new creationDialog(this);
+    gameOver_dialog = new gameOverDialog();
     loadItemPicDefault();
     connectModel();
     connectGui();
-//    fillInv();
+    fillInv();
     loadInv();
     hpChanged();
     statusChanged();
@@ -35,10 +36,10 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-//    Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
+    Consumable* cure1 = new Consumable(-100, "cure", CURA_PIC);
+    mod->insert(cure1);
 //    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
 //    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
-//    mod->insert(cure1);
 //    mod->insert(cure2);
 //    mod->insert(cura5);
 //    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
@@ -104,7 +105,8 @@ void Window::defChanged() {
 void Window::playerDeath() {
     statusChanged();
     hpChanged();
-    // gameOver
+    gameOver_dialog->show();
+    gameOver_dialog->setModal(true);
 }
 
 void Window::cellSelected(int row, int column) {
@@ -155,6 +157,8 @@ void Window::onEquipButton() { // valido solo per ramo weapon della gerarchia
     if(!c) {
         mod->use(mod->searchItemByID(it->text().toInt()));
         invDisplay->clearSelection();
+    } else {
+        QMessageBox::warning(this, "On Item equip", "Solo armi e gli scudi possono essere solo equipaggiati");
     }
 }
 
@@ -239,6 +243,10 @@ void Window::loadGame() {
         }
 }
 
+void Window::closeSlot() {
+    exit(0);
+}
+
 
 
 
@@ -272,6 +280,9 @@ void Window::connectGui() {
     connect(actionArmi_e_Scudi,   SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // creationDialog
     connect(creation, SIGNAL(onCreationButton(Item*)), this, SLOT(creationItem(Item*)));
+    // death dialog
+    connect(gameOver_dialog, SIGNAL(endgame()), this, SLOT(closeSlot()));
+    connect(gameOver_dialog, SIGNAL(reload()), this, SLOT(loadGame()));
     // save & load
     connect(saveButton, SIGNAL(clicked()), this, SLOT(saveGame()));
     connect(loadButton, SIGNAL(clicked()), this, SLOT(loadGame()));
@@ -283,6 +294,7 @@ Window::~Window() {
 
 void Window::setupGui() {
     setObjectName("Progetto PaO");
+    setWindowTitle("ProgettoPao");
     resize(900, 595);
     // setup centrale
     centralWidget = new QWidget(this);

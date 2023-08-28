@@ -22,6 +22,7 @@ using namespace showbutton;
 #include "showaction.h"
 using namespace showaction;
 #include "creationdialog.h"
+#include "gameoverdialog.h"
 
 #include "model.h"
 
@@ -35,6 +36,7 @@ private:
     int colSel;
 
     creationDialog* creation;
+    gameOverDialog* gameOver_dialog;
 
     void connectModel();
     void fillInv();
@@ -69,6 +71,8 @@ private slots:
     // save and load
     void saveGame();
     void loadGame();
+    // death - close
+    void closeSlot();
 
 // elementi gui
 private:

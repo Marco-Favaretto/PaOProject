@@ -16,6 +16,8 @@ cose da fare:
 
 ----------------------
 Issue:
+- on deathscreen close -> program doesn't close
+- controllo bottoni in caso di riga non selezionata
 
 ------------------------
 Proposals:

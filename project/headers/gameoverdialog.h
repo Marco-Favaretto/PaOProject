@@ -12,6 +12,7 @@ class gameOverDialog : public QDialog {
     private:
         QLabel* lp;
         QLabel* l;
+        QLabel* l2;
         QVBoxLayout* v;
         QVBoxLayout* v2;
         QHBoxLayout* h2;
@@ -24,7 +25,7 @@ class gameOverDialog : public QDialog {
         void newGameSlot();
     signals:
         void endgame();
-        void reroll();
+        void reload();
 };
 
 #endif // GAMEOVERDIALOG_H
