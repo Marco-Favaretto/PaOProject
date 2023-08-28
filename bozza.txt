@@ -22,7 +22,6 @@ Proposals:
 - loadLastGame();
 - passaggi per riferimento dove possibile
 - implementare anche operator= dove non è già stato implementato, ma è stato implementato il costruttore di copia
-- separazione directories
 
 -------------------------
 Da ricordare:
