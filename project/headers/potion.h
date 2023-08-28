@@ -5,6 +5,13 @@
 #include<string>
 using std::string;
 
+/* -- Per lettura/scrittura file JSON -- */
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
+
 namespace potion {
 
     #define POTIONT_PIC  ":/consumabili/images/curaT.png"
@@ -20,11 +27,17 @@ namespace potion {
             tipo t;
             bool pathCorrectness() const;
             void pathCorrect();
+            Potion();
+            static tipo intToTipo(int);
         public:
             Potion(tipo, string = "unnamed_item", string = "error");
+            Potion(const Potion&);
+            Potion* clone() const override;
             tipo getType() const;
             string getTypeString() const;
             virtual string description() const;
+            static Potion fromJson(const QJsonObject&);
+            QJsonObject toJson() const;
         };
     }
 }

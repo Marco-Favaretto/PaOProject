@@ -5,27 +5,28 @@
 using namespace overtime::classe;
 #include "potion.h"
 using namespace potion::classe;
-#include "shield.h"
-#include "regular.h"
+//#include "shield.h"
+//#include "regular.h"
+#include "weapon.h"
 #include "inventario.h"
 #include "player.h"
 using namespace player::classe;
 
 #include <QPixmap>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include<iostream>
 
 Window::Window(QWidget *parent)
-    : QMainWindow{parent},
-      mod(new model(new Player(), Inventario())),
-      deathScreen(new gameOverDialog(this)),
-      rowSel(-1), colSel(-1)
+    : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
 {
     setupGui();
+    creation = new creationDialog(this);
     loadItemPicDefault();
     connectModel();
     connectGui();
-    fillInv();
+//    fillInv();
     loadInv();
     hpChanged();
     statusChanged();
@@ -34,37 +35,33 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-    Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
-    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
-    Consumable* cure3 = new Consumable(15, "cure", CURA_PIC);
-    Consumable* cure4 = new Consumable(5 , "cure", CURA_PIC);
-    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
-    Consumable* cura6 = new Consumable(-100 , "instaDeath", CURA_PIC);
-    mod->insert(cure1);
-    mod->insert(cure2);
-    mod->insert(cure3);
-    mod->insert(cure4);
-    mod->insert(cura5);
-    mod->insert(cura6);
-    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
-    mod->insert(ot);
-    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
-    mod->insert(otoxic);
-    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
-    mod->insert(cure4poison);
-    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
-    mod->insert(cure4toxic);
-    Regular* swrd = new Regular(25, "longSword");
-    Regular* swrd2 = new Regular(15, "shortSword");
-    Shield* shild = new Shield(15, "shield1");
-    Shield* shild2 = new Shield(30, "PortoneDeCasa");
-    mod->insert(swrd);
-    mod->insert(swrd2);
-    mod->insert(shild);
-    mod->insert(shild2);
+//    Consumable* cure1 = new Consumable(20, "cure", CURA_PIC);
+//    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
+//    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
+//    mod->insert(cure1);
+//    mod->insert(cure2);
+//    mod->insert(cura5);
+//    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
+//    mod->insert(ot);
+//    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
+//    mod->insert(otoxic);
+//    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
+//    mod->insert(cure4poison);
+//    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
+//    mod->insert(cure4toxic);
+//    Regular* swrd = new Regular(25, "longSword");
+//    Regular* swrd2 = new Regular(15, "shortSword");
+//    Shield* shild = new Shield(15, "shield1");
+//    Shield* shild2 = new Shield(30, "PortoneDeCasa");
+//    mod->insert(swrd);
+//    mod->insert(swrd2);
+//    mod->insert(shild);
+//    mod->insert(shild2);
 }
 
 void Window::loadInv() {
+    invDisplay->clear();
+    invDisplay->clearSelection();
     invDisplay->horizontalHeader()->setStretchLastSection(true);
     invDisplay->setEditTriggers(QAbstractItemView::NoEditTriggers);
     invDisplay->verticalHeader()->setVisible(false);
@@ -107,7 +104,7 @@ void Window::defChanged() {
 void Window::playerDeath() {
     statusChanged();
     hpChanged();
-    deathScreen->show();
+    // gameOver
 }
 
 void Window::cellSelected(int row, int column) {
@@ -117,30 +114,48 @@ void Window::cellSelected(int row, int column) {
 }
 
 void Window::onRemoveButton() {
-    QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
+    QTableWidgetItem* it = invDisplay->takeItem(invDisplay->currentRow(), 0);
     mod->remove(mod->searchItemByID(it->text().toInt()));
     invDisplay->removeRow(invDisplay->currentRow());
-    delete it;
     loadItemPicDefault();
+    invDisplay->clearSelection();
+    delete it;
 }
 
 void Window::onCreateButton() {
-    // crea prompt per nuovo oggetto
-    // mod->insert
-    // table->insert
+    creation->resetDialog();
+    creation->show();
+    creation->setModal(true);
 }
 
-void Window::onUseButton() {
+void Window::creationItem(Item* it) {
+    mod->insert(it);
+    loadRow(it->getID());
+    creation->close();
+}
+
+void Window::onUseButton() { // valido solo per ramo consumable della gerarchia
     QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
-    mod->use(mod->searchItemByID(it->text().toInt()));
-    invDisplay->removeRow(invDisplay->currentRow());
-    delete it;
-    loadItemPicDefault();
+    Weapon* w = dynamic_cast<Weapon*>(mod->searchItemByID(it->text().toInt()));
+    if(!w) {
+        mod->use(mod->searchItemByID(it->text().toInt()));
+        invDisplay->removeRow(invDisplay->currentRow());
+        delete it;
+        loadItemPicDefault();
+        invDisplay->clearSelection();
+    } else {
+        invDisplay->setItem(rowSel, 0, it);
+        QMessageBox::warning(this, "On weapon use", "Le armi e gli scudi possono essere solo equipaggiati o rimossi");
+    }
 }
 
-void Window::onEquipButton() {
+void Window::onEquipButton() { // valido solo per ramo weapon della gerarchia
     QTableWidgetItem* it = invDisplay->item(rowSel, 0);
-    mod->use(mod->searchItemByID(it->text().toInt()));
+    Consumable* c = dynamic_cast<Consumable*>(mod->searchItemByID(it->text().toInt()));
+    if(!c) {
+        mod->use(mod->searchItemByID(it->text().toInt()));
+        invDisplay->clearSelection();
+    }
 }
 
 void Window::loadPlayerPic() {
@@ -160,45 +175,69 @@ void Window::loadItemPicDefault() {
 }
 
 void Window::loadRow(u_int i) {
-    int rows = invDisplay->rowCount();
-    invDisplay->insertRow(rows);
-    invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(mod->searchItemByID(i)->getID())));
-    invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->getName())));
-    invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(mod->searchItemByID(i)->description())));
+    Item* it = mod->searchItemByID(i);
+    if(it) {
+        int rows = invDisplay->rowCount();
+        invDisplay->insertRow(rows);
+        invDisplay->setItem(rows, 0, new QTableWidgetItem(QString::number(it->getID())));
+        invDisplay->setItem(rows, 1, new QTableWidgetItem(QString::fromStdString(it->getName())));
+        invDisplay->setItem(rows, 2, new QTableWidgetItem(QString::fromStdString(it->description())));
+    }
 }
 
 void Window::showOnly(showbutton::tipo t) {
     invDisplay->setRowCount(0); // reset tabella
+    u_int count = mod->getMaxId() + 1;
     switch(t) {
         case showbutton::TUTTI:
-            for(u_int i = 0; i < mod->invSize(); i++) loadRow(i);
+            for(u_int i = 0; i < count; i++)
+                loadRow(i);
         break;
         case showbutton::CONSUMABILI:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<Consumable*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
         case showbutton::TEMPO:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<overTime*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
         case showbutton::POZIONI:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<Potion*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
         case showbutton::ARMI:
-            for(u_int i = 0; i < mod->invSize(); i++) {
+            for(u_int i = 0; i < count; i++) {
                 if(dynamic_cast<Weapon*>(mod->searchItemByID(i))) loadRow(i);
             }
         break;
     }
 }
 
+void Window::saveGame() {
+    QString path = "C:/Users/favar/Desktop";
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save on JSON File"), path, tr("JSON (*.json)"));
+    if(!fileName.isEmpty()) mod->saveGame(fileName.toStdString());
+}
 
-
-
+void Window::loadGame() {
+    // qmessagebox::warning salvare
+    QString path = "C:/Users/favar/Desktop";
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open JSON File"), path, tr("JSON (*.json)"));
+    if(!fileName.isEmpty())
+        if(mod->loadGame(fileName.toStdString())) {
+            loadItemPicDefault();
+            loadInv();
+            hpChanged();
+            statusChanged();
+            atkChanged();
+            defChanged();
+        }
+}
 
 
 
@@ -222,12 +261,20 @@ void Window::connectGui() {
     connect(dispPot,   SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(dispWeap,  SIGNAL(click(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     // menu
+    connect(actionCrea_oggetto, SIGNAL(triggered()), this, SLOT(onCreateButton()));
+    connect(actionSalva, SIGNAL(triggered()), this, SLOT(saveGame()));
+    connect(actionCarica, SIGNAL(triggered()), this, SLOT(loadGame()));
     // menu mostra solo
     connect(actionTutti,          SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionConsumabili,    SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionOggetti_a_Tempo,SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionPozioni,        SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
     connect(actionArmi_e_Scudi,   SIGNAL(trig(showbutton::tipo)), this, SLOT(showOnly(showbutton::tipo)));
+    // creationDialog
+    connect(creation, SIGNAL(onCreationButton(Item*)), this, SLOT(creationItem(Item*)));
+    // save & load
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveGame()));
+    connect(loadButton, SIGNAL(clicked()), this, SLOT(loadGame()));
 }
 
 Window::~Window() {

@@ -2,12 +2,46 @@
 using namespace player;
 using namespace player::classe;
 
-Player::Player(int base, STATUS status, std::string _path, u_int _def, u_int _atk)
+Player::Player(int base, STATUS status, u_int _def, u_int _atk, std::string _path)
     : hp(base), def(_def), atk(_atk), st(status), path(_path) {
     if(!pathCorrectness()) pathCorrect();
 }
 
+Player::Player(const Player & pl) : hp(pl.getHP()), def(pl.getDef()), atk(pl.getAtk()), st(pl.getStatus()), path(pl.getPath()) {}
+
 Player::~Player() {}
+
+Player Player::fromJson(const QJsonObject &json)
+{
+    Player pl;
+    if (const QJsonValue v = json["hp"]; v.isDouble())
+        pl.hp = v.toInt();
+
+    if (const QJsonValue v = json["status"]; v.isDouble())
+        pl.st = Player::intToStatus(v.toInt());
+
+    if (const QJsonValue v = json["def"]; v.isDouble())
+        pl.atk = v.toInt();
+
+    if (const QJsonValue v = json["atk"]; v.isDouble())
+        pl.def = v.toInt();
+
+    if(!pl.pathCorrectness()) pl.pathCorrect();
+
+    return pl;
+}
+
+QJsonObject Player::toJson() const
+{
+    QJsonObject jsonobj;
+
+    jsonobj.insert("hp", hp);
+    jsonobj.insert("status", st);
+    jsonobj.insert("def", static_cast<int>(getDef()));
+    jsonobj.insert("atk", static_cast<int>(getAtk()));
+
+    return jsonobj;
+}
 
 int Player::getHP() const {
     return hp;
@@ -44,6 +78,23 @@ void Player::death() {
 
 STATUS Player::getStatus() const {
     return st;
+}
+
+STATUS Player::intToStatus(int i) {
+    switch(i) {
+    case 0:
+        return NORMAL;
+        break;
+    case 1:
+        return POISONED;
+        break;
+    case 2:
+        return TOXIC;
+        break;
+    case 3:
+        return DEAD;
+        break;
+    }
 }
 
 std::string Player::getStatusString() const {
@@ -98,8 +149,8 @@ bool Player::pathCorrectness() const {
             else return path == POISONED_PIC;
             break;
         case TOXIC:
-            if(hp <= MAX_HEALTH/3) return path == TOXIC_PIC_2;
-            else return path == TOXIC_PIC;
+            if(hp <= MAX_HEALTH/3) return path == TOXIC_PLAYER_PIC_2;
+            else return path == TOXIC_PLAYER_PIC;
             break;
         case DEAD:
             return path == DEAD_PIC;
@@ -120,8 +171,8 @@ void Player::pathCorrect() {
             else path = POISONED_PIC;
             break;
         case TOXIC:
-            if(hp <= MAX_HEALTH/3) path = TOXIC_PIC_2;
-            else path = TOXIC_PIC;
+            if(hp <= MAX_HEALTH/3) path = TOXIC_PLAYER_PIC_2;
+            else path = TOXIC_PLAYER_PIC;
             break;
         case DEAD:
             path = DEAD_PIC;

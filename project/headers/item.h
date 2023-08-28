@@ -16,12 +16,15 @@ class Item : public QObject {
         unsigned int id;
     public:
         Item(string = "unnamed_item", string = DEFAULTPIC);
+        Item(const Item&);
         virtual ~Item() =0;
+        virtual Item* clone() const =0;
         string getName() const;
         string getItemPath() const;
         unsigned int getID() const;
         void setID(unsigned int);
         void setPath(string);
+        void setName(string);
         virtual string description() const;
     public slots:
         virtual void effect() =0;

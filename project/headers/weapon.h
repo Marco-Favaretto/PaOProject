@@ -15,8 +15,10 @@ class Weapon : public Item {
         bool equip;
     public:
         Weapon(u_int = 10, string = "unnamed_item", string = "error");
+        Weapon(const Weapon&);
         virtual ~Weapon() =0;
         bool isEquipped() const;
+        void setValue(int);
         u_int getValue() const;
         virtual string description() const;
     public slots:

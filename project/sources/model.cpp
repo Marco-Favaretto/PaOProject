@@ -1,14 +1,21 @@
 #include "model.h"
 
+#include<QFile>
+#include<QByteArray>
+
 #include "consumable.h"
 #include "potion.h"
 using namespace potion::classe;
-
 #include "weapon.h"
 #include "shield.h"
 #include "regular.h"
 #include<iostream>
 using std::cout; using std::endl;
+
+
+model::model() : player(new Player()), inv(Inventario()) {
+    connectToPlayer();
+}
 
 model::model(Player* _pl, Inventario _inv) : player(_pl), inv(_inv) {
     connectToPlayer();
@@ -19,7 +26,9 @@ model::model(Player* _pl, Inventario _inv) : player(_pl), inv(_inv) {
 // }
 
 void model::insert(Item *x) {
+
     inv.insert(x);
+
 }
 
 void model::remove(Item *x) {
@@ -45,11 +54,11 @@ void model::use(Item *x) {
                 overTime* it = dynamic_cast<overTime*>(&inv[i]);
                 if(it && it->isActive()) {
                     connect(it, SIGNAL(over(overtime::classe::overTime*)), this, SLOT(stopOverTime(overtime::classe::overTime*)));
-                    if(it->getName() == "toxic" &&  (pt->getType() == potion::TOXIC  && player->getStatus() == player::TOXIC)) {
+                    if((pt->getType() == potion::TOXIC  && player->getStatus() == player::TOXIC)) {
                         it->stopOT();
                         found = true;
                     }
-                    if(it->getName() == "poison" && (pt->getType() == potion::POISON && player->getStatus() == player::POISONED)) {
+                    if((pt->getType() == potion::POISON && player->getStatus() == player::POISONED)) {
                         it->stopOT();
                         found = true;
                     }
@@ -61,8 +70,8 @@ void model::use(Item *x) {
         connect(ot, SIGNAL(effectSignal(int)), player, SLOT(changeHP(int)));
         connect(ot, SIGNAL(over(overtime::classe::overTime*)), this, SLOT(stopOverTime(overtime::classe::overTime*)));
         ot->startOT();
-        if(ot->getName() == "poison") player->changeStatus(player::POISONED);
-        if(ot->getName() == "toxic") player->changeStatus(player::TOXIC);
+        if(ot->getType() == overtime::POISON) player->changeStatus(player::POISONED);
+        if(ot->getType() == overtime::TOXIC) player->changeStatus(player::TOXIC);
     }
     if(s) {
         connect(s, SIGNAL(statSignal(uint)), player, SLOT(setDefense(uint)));
@@ -75,15 +84,21 @@ void model::use(Item *x) {
 
 }
 
-Item *model::searchItemByID(u_int _id) const {
+Item* model::searchItemByID(u_int _id) const {
     bool found = false;
+    Item* it = nullptr;
     for(Inventario::iteratore i = inv.begin(); i != inv.end() && !found; i++) {
         if((inv[i]).getID() == _id) {
             found = true;
-            return &(inv[i]);
+            it = &(inv[i]);
         }
     }
     if(!found) return nullptr;
+    else return it;
+}
+
+u_int model::getMaxId() const {
+    return inv.getHighestID();
 }
 
 unsigned int model::invSize() const {
@@ -104,7 +119,7 @@ void model::connectToPlayer() const {
 
 void model::stopOverTime(overTime *x) {
     if(player->getStatus() != player::DEAD) player->changeStatus(player::NORMAL);
-//    remove(x);
+    remove(x);
 }
 
 void model::playerHpChanged() {
@@ -129,4 +144,49 @@ void model::playerDied() {
         if(ot && ot->isActive()) ot->stopOT();
     }
     emit playerDead();
+}
+
+void model::fromJson(const QJsonObject &json) {
+    if(const QJsonValue v = json["inv"]; v.isObject())
+        inv.fromJson(v.toObject());
+    if(const QJsonValue v = json["player"]; v.isObject())
+        player = new Player(Player::fromJson(v.toObject()));
+}
+
+QJsonObject model::toJson() const {
+    QJsonObject obj;
+    obj["inv"] = inv.toJson();
+    obj["player"] = player->toJson();
+    return obj;
+}
+
+bool model::loadGame(const std::string & path) {
+    // cancellazione dati attuali
+    Player* p = player;
+    player = nullptr;
+    delete p;
+    inv.clear();
+
+    QFile loadfile(QString::fromStdString(path));
+    if(loadfile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray loaddata = loadfile.readAll();
+        QJsonDocument jsdoc(QJsonDocument::fromJson(loaddata));
+        fromJson(jsdoc.object());
+        connectToPlayer();
+        loadfile.close();
+        return true;
+    } else {
+        loadfile.close();
+        return false;
+    }
+}
+
+void model::saveGame(const string& path) const {
+    QFile saveFile(QString::fromStdString(path));
+    QJsonObject obj = toJson();
+    QByteArray byteArray = QJsonDocument(obj).toJson();
+    if(saveFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        saveFile.write(byteArray);
+    }
+    saveFile.close();
 }

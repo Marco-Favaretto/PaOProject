@@ -21,7 +21,7 @@
 using namespace showbutton;
 #include "showaction.h"
 using namespace showaction;
-#include "gameoverdialog.h"
+#include "creationdialog.h"
 
 #include "model.h"
 
@@ -31,9 +31,10 @@ class Window : public QMainWindow
 
 private:
     model* mod;
-    gameOverDialog* deathScreen;
     int rowSel;
     int colSel;
+
+    creationDialog* creation;
 
     void connectModel();
     void fillInv();
@@ -63,6 +64,11 @@ private slots:
     // up Buttons
     void showOnly(showbutton::tipo);
     // menu
+    // create
+    void creationItem(Item*);
+    // save and load
+    void saveGame();
+    void loadGame();
 
 // elementi gui
 private:

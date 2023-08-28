@@ -2,21 +2,30 @@ cose da fare:
 
 - mettere immagini:
    - img player                                         : fatte
-   - img item: cura, pozioni, funghi                    : fatte
+   - img item: cura, pozioni, robe                      : fatte
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
-- fare prompt per creazione oggetti (si può creare: arma, scudo, curaHP, cura status, veleno, tossicità)
-- cambio costruttori per consentire meno modifiche possibili durante la creazione di oggetti
-- gestione salvataggio su file
-- gestione upload file
-- collegare QAction
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
-   - prompt chiusura
-   - prompt caricamento file
-- riconsiderare distruttori
+   - prompt chiusura: fatto
+   - prompt caricamento file: fatto
+   - da collegare
+
 - test su vm
 - relazione
+
+----------------------
+Issue:
+
+------------------------
+Proposals:
+- loadLastGame();
+- passaggi per riferimento dove possibile
+- implementare anche operator= dove non è già stato implementato, ma è stato implementato il costruttore di copia
+
+-------------------------
+Da ricordare:
+Scrivere dei distruttori di Qt in relazione
 
 ---------------------------------------------------------
 
@@ -30,16 +39,28 @@ item:                     // classe astratta in cima alla gerarchia
    - nome
    - path
    - id
+   + Item(...)
+   + Item(const Item&)
    + getID() const
    + setID(u_int)
    + string getName() const
+   + getItemPath() const
+   + setPath(string)
+   + setName(string)
    + virtual string descrizione() const
+   + clone() const =0
    + effect() =0         // slot
 
 consumable: item
    - hpEffect            // può essere positivo o negativo a seconda di cosa sia
+   + Consumable(...)
+   + Consumable(const Consumable&)
    + getEffect() const
    + virtual string descrizione() const
+   + setEffect(int)
+   + static fromJson(...);
+   + clone() const
+   + toJson() const;
    + effect()            // slot
    + effectSignal(int)   // segnale
 
@@ -49,41 +70,68 @@ overTime: consumable     // oggetti a tempo (ogni tot chiamano effect)
    - counter             // attivazioni massime (default: -1 -> infinite)
    - pathCorrect()
    - pathCorrectness() const
+   - setTimer(int)
+   - static intToTipo()
+   + overTime(tipo, ...)
+   + overTime(const overTime&)
+   + clone() const
    + isActive() const
    + getTimer() const
+   + getType() const
    + virtual string descrizione() const
+   + static fromJson(...);
+   + toJson() const;
    + effect()              // modifica counter e ritorna il valore direttamente da Consumable::effect() -> hpEffect
    + stopOT()              // ferma l'effetto fermando il timer (emette segnale di stop)
    + startOT()             // attiva il timer
-   + over()                // segnale di termine effetto
+   + over(overTime*)       // segnale di termine effetto
 
 potion: consumable
    - tipo t 
    - pathCorrect()
    - pathCorrectness() const
+   - static intToTipo(int)
+   + Potion(tipo,...)
+   + Potion(const Potion&)
+   + clone() const
    + getType() const
    + getTypeString() const
    + virtual string descrizione() const
+   + static fromJson(...);
+   + toJson() const;
 
 weapon: item
    - atk
    - bool equipped
+   + Weapon(...)
+   + Weapon(const Weapon&)
    + getValue() const
    + effect()            // ritorna atk
    + isEquipped() const
    + virtual string descrizione() const
+   + statSignal(int)    // segnale
 
 regular: weapon
    - atk
+   + Regular(...)
+   + Regular(const Regular&)
    + effect()
+   + clone() const
    + getAtTK() const
    + virtual string descrizione() const
+   + static fromJson(...);
+   + toJson() const;
 
 shield: weapon
    - def                 // percentuale riduzione danni fisici
+   + Shield(...)
+   + Shield(const Shield&)
+   + clone() const
    + effect()
    + getDEF() const
    + virtual string descrizione() const
+   + static fromJson(...);
+   + toJson() const;
 
 Player: 
    - hp
@@ -94,12 +142,17 @@ Player:
    - pathCorrect()
    - pathCorrectness() const
    - death()
+   - static intToTipo(int)
+   + Player(...)
+   + Player(const Player&)
    + getStatus() const
    + getPath() const
    + getStatusString() const
    + getHp() const
    + getDefense() const
    + getAttack() const
+   + static fromJson(...);
+   + toJson() const;
    + setDef()            // slot
    + setAtk()            // slot
    + changeHP()          // slot
@@ -114,30 +167,46 @@ inventario:
    - nodo:
       + item* itm
       + nodo* next
+      + static fromJson(...);
+      + toJson() const;
    - nodo* first
    + iteratore:
       - nodo* ptr
       + operator..
-   - distruggi static
-   - getHighestID() const
+   - distruggi(nodo*) static
+   - copia(const Inventario&) static
    - setID(item*)
+   + getHighestID() const
    + operator[] const
    + begin() const
    + end() const
    + insertItm(item*)
    + removeItm(item*)
+   + Inventario()
+   + Inventario(const Inventario&)
+   + operator=(const Inventario&)
+   + static fromJson(...);
+   + toJson() const;
    + size() const
+   + clear()
 
 model: 
    - Player* pl
    - inventario inv 
    - connectToPlayer() const
+   + model()
+   + model(Player*, Inventario)
    + Item* selectItemByID(int id) const
    + invSize() const
    + Player* getPlayer() const;
    + insert(item*)
    + remove(item*)
    + use(item*)
+   + getMaxId() const
+   + fromJson(...);
+   + toJson() const;
+   + loadGame();
+   + saveGame() const;
    + stopOverTime()         // slot
    + playerHpChanged();     // slot
    + playerStatusChanged(); // slot
@@ -160,6 +229,29 @@ ShowAction : QAction
    + onClicked()    // slot
    + click(tipo)
 
+creationDialog: QDialog
+   - ... cose GUI
+   - rowSel
+   - fromComboTipo
+   - effetto
+   - nome
+   - turni
+   - bool tipo
+   - bool effect
+   - bool nomeCheck
+   - void setupDialog()
+   - void comboBoxTipo()
+   - void comboBoxNome()
+   - bool doneEverything() const
+   - void resetDialog()
+   - onListWidget()
+   - onTipoBox()            // slot
+   - onNomeBox()            // slot
+   - onEffetto()            // slot
+   - onturni()              // slot
+   - onCreationButton()     // slot
+   - onCreateButton(item*)  // signal
+
 View:
    - model*
    - rowSel
@@ -169,7 +261,7 @@ View:
    - setupGui()
    - connectGui()
    - loadInv()
-   - loadRow()
+   - loadRow(int)
    - loadPlayerPic()
    - loadItemPic()
    - loadItemPicDefault();
@@ -177,4 +269,7 @@ View:
    - slot per model:         hp/status/atk/def
    - slot per tabella:       cellSelected
    - slot per bottomButtons: on Remove/Create/Use/Equip
-   - slot per upButton:      showOnly()
+   - slot per upButton:      showOnly(Showbutton::tipo)
+   - slot creation:          creationItem(Item*);
+   - slot per load:          loadGame()
+   - slot per save:          saveGame()

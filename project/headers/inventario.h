@@ -5,6 +5,12 @@
 
 #define u_int unsigned int
 
+/* -- Per lettura/scrittura file JSON -- */
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
 
 class Inventario {
     private:
@@ -12,15 +18,16 @@ class Inventario {
             public:
                 nodo();
                 nodo(Item* x, nodo* p);
-                // ~nodo();
+                ~nodo();
                 Item* itm;
                 nodo* next;
-                // u_int quantity;
+                static Item* fromJson(const QJsonObject&);
+                QJsonObject toJson() const;
         };
         nodo* first;
-        u_int getHighestID() const;
         void setID(Item*);
-        // static void distruggi(nodo*);
+        static nodo* copia(const Inventario&);
+        static void distruggi(nodo*);
     public:
         class iteratore {
             friend class Inventario;
@@ -38,11 +45,18 @@ class Inventario {
         iteratore end() const;
         Item& operator[] (const iteratore&) const;
 
+        void fromJson(const QJsonObject&);
+        QJsonObject toJson() const;
+
         Inventario();
+        Inventario(const Inventario&);
+        Inventario& operator=(const Inventario&);
         // ~Inventario();
         u_int size() const;
+        u_int getHighestID() const;
         void insert(Item*);
         void remove(Item*);
+        void clear();
 };
 
 #endif // INVENTARIO_H
