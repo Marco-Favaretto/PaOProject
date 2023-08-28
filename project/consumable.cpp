@@ -12,22 +12,36 @@ void Consumable::setEffect(int n) {
     hpEffect = n;
 }
 
+#include <QCborValue>
+
 Consumable Consumable::fromJson(const QJsonObject &json) {
-    Consumable c;
-    if (const QJsonValue v = json["id"]; v.isDouble())
-            c.setID(v.toInt());
-    if (const QJsonValue v = json["name"]; v.isString())
-        c.setName(v.toString().toStdString());
-    if (const QJsonValue v = json["path"]; v.isString())
-        c.setPath(v.toString().toStdString());
-    if (const QJsonValue v = json["effect"]; v.isDouble())
-        c.hpEffect = v.toInt();
-    return c;
+
+    // int _id = 0,
+    int _effect =0;
+    string _name = "", _path = "";
+
+    // const QJsonValue vid = json["id"];
+    // if (vid.isDouble())
+    //         _id = vid.toInt();
+
+    const QJsonValue vname = json["name"];
+    if (vname.isString())
+        _name = vname.toString().toStdString();
+
+    const QJsonValue vpath = json["path"];
+    if (vpath.isString())
+        _path = vpath.toString().toStdString();
+
+    const QJsonValue veffect = json["effect"];
+    if (veffect.isDouble())
+        _effect = veffect.toInt();
+
+    return Consumable(_effect, _name, _path);
 }
 
 QJsonObject Consumable::toJson() const {
     QJsonObject obj;
-    obj["id"] = static_cast<int>(getID());
+    // obj["id"] = static_cast<int>(getID());
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = hpEffect;

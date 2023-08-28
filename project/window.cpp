@@ -13,6 +13,7 @@ using namespace player::classe;
 
 #include <QPixmap>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include<iostream>
 
@@ -142,6 +143,9 @@ void Window::onUseButton() { // valido solo per ramo consumable della gerarchia
         delete it;
         loadItemPicDefault();
         invDisplay->clearSelection();
+    } else {
+        invDisplay->setItem(rowSel, 0, it);
+        QMessageBox::warning(this, "On weapon use", "Le armi e gli scudi possono essere solo equipaggiati o rimossi");
     }
 }
 
@@ -222,13 +226,15 @@ void Window::loadGame() {
     QString path = "C:/Users/favar/Desktop";
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open JSON File"), path, tr("JSON (*.json)"));
-    if(!fileName.isEmpty()) mod->loadGame(fileName.toStdString());
-    loadItemPicDefault();
-    loadInv();
-    hpChanged();
-    statusChanged();
-    atkChanged();
-    defChanged();
+    if(!fileName.isEmpty())
+        if(mod->loadGame(fileName.toStdString())) {
+            loadItemPicDefault();
+            loadInv();
+            hpChanged();
+            statusChanged();
+            atkChanged();
+            defChanged();
+        }
 }
 
 

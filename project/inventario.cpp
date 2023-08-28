@@ -111,6 +111,7 @@ u_int Inventario::getHighestID() const {
 
 void Inventario::setID(Item* x) {
     if(first) x->setID(getHighestID()+1);
+    else x->setID(0);
 }
 
 unsigned int Inventario::size() const {
@@ -140,11 +141,26 @@ Item& Inventario::operator[] (const Inventario::iteratore& i) const {
 Item* Inventario::nodo::fromJson(const QJsonObject &json)
 {
     if (const QJsonValue v = json["tipo"]; v.isString()){
-        if(v.toString() == "consumable") return (Consumable::fromJson(json)).clone();
-        if(v.toString() == "overtime")   return (overtime::classe::overTime::fromJson(json)).clone();
-        if(v.toString() == "potion")     return (potion::classe::Potion::fromJson(json)).clone();
-        if(v.toString() == "regular")    return (Regular::fromJson(json)).clone();
-        if(v.toString() == "shield")     return (Shield::fromJson(json)).clone();
+        if(v.toString() == "consumable") {
+            const QJsonObject obj = json["item"].toObject();
+            return (Consumable::fromJson(obj)).clone();
+        }
+        if(v.toString() == "overtime") {
+            const QJsonObject obj = json["item"].toObject();
+            return (overtime::classe::overTime::fromJson(obj)).clone();
+        }
+        if(v.toString() == "potion") {
+            const QJsonObject obj = json["item"].toObject();
+            return (potion::classe::Potion::fromJson(obj)).clone();
+        }
+        if(v.toString() == "regular") {
+            const QJsonObject obj = json["item"].toObject();
+            return (Regular::fromJson(obj)).clone();
+        }
+        if(v.toString() == "shield") {
+            const QJsonObject obj = json["item"].toObject();
+            return (Shield::fromJson(obj)).clone();
+        }
     }
 }
 
@@ -160,23 +176,22 @@ QJsonObject Inventario::nodo::toJson() const
 
     if(s) {obj["tipo"] = "shield";     obj["item"] = s->toJson(); }
     if(r) {obj["tipo"] = "regular";    obj["item"] = r->toJson(); }
-    if(ot) {obj["tipo"] = "overtime";  obj["item"] = ot->toJson(); }
-    if(pt) {obj["tipo"] = "potion";    obj["item"] = pt->toJson(); }
-    if(c) {obj["tipo"] = "consumable"; obj["item"] = c->toJson(); }
+
+    if(c && !(ot || pt)) {obj["tipo"] = "consumable"; obj["item"] = c->toJson(); }
+    else if(ot && !pt) {obj["tipo"] = "overtime";  obj["item"] = ot->toJson(); }
+    else if(pt && !ot) {obj["tipo"] = "potion";    obj["item"] = pt->toJson(); }
 
     return obj;
 }
 
-Inventario Inventario::fromJson(const QJsonObject &json)
+void Inventario::fromJson(const QJsonObject &json)
 {
-    Inventario inv;
     if (const QJsonValue v = json["itms"]; v.isArray()) {
         const QJsonArray jinv = v.toArray();
         for (const QJsonValue &jitm : jinv) {
-            inv.insert(nodo::fromJson(jitm.toObject()));
+            insert(nodo::fromJson(jitm.toObject()));
         }
     }
-    return inv;
 }
 
 QJsonObject Inventario::toJson() const
@@ -191,5 +206,6 @@ QJsonObject Inventario::toJson() const
 }
 
 void Inventario::clear() {
-    distruggi(first);
+    if(first) distruggi(first);
+    first = nullptr;
 }

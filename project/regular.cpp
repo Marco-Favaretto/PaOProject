@@ -18,21 +18,32 @@ unsigned int Regular::getATK() const {
 
 
 Regular Regular::fromJson(const QJsonObject &json) {
-    Regular w;
-    if (const QJsonValue v = json["id"]; v.isDouble())
-            w.setID(v.toInt());
-    if (const QJsonValue v = json["name"]; v.isString())
-        w.setName(v.toString().toStdString());
-    if (const QJsonValue v = json["path"]; v.isString())
-        w.setPath(v.toString().toStdString());
-    if (const QJsonValue v = json["effect"]; v.isDouble())
-        w.setValue(v.toInt());
-    return w;
+    // int _id = 0, 
+    int _effect =0;
+    string _name = "", _path = "";
+
+    // const QJsonValue vid = json["id"];
+    // if (vid.isDouble())
+    //         _id = vid.toInt();
+
+    const QJsonValue vname = json["name"];
+    if (vname.isString())
+        _name = vname.toString().toStdString();
+
+    const QJsonValue vpath = json["path"];
+    if (vpath.isString())
+        _path = vpath.toString().toStdString();
+
+    const QJsonValue veffect = json["effect"];
+    if (veffect.isDouble())
+        _effect = veffect.toInt();
+
+    return Regular(_effect, _name, _path);
 }
 
 QJsonObject Regular::toJson() const {
     QJsonObject obj;
-    obj["id"] = static_cast<int>(getID());
+    // obj["id"] = static_cast<int>(getID());
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = static_cast<int>(getATK());

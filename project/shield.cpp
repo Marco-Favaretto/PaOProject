@@ -17,21 +17,33 @@ unsigned int Shield::getDEF() const {
 }
 
 Shield Shield::fromJson(const QJsonObject &json) {
-    Shield s;
-    if (const QJsonValue v = json["id"]; v.isDouble())
-            s.setID(v.toInt());
-    if (const QJsonValue v = json["name"]; v.isString())
-        s.setName(v.toString().toStdString());
-    if (const QJsonValue v = json["path"]; v.isString())
-        s.setPath(v.toString().toStdString());
-    if (const QJsonValue v = json["effect"]; v.isDouble())
-        s.setValue(v.toInt());
-    return s;
+
+    // int _id = 0, 
+    int _effect =0;
+    string _name = "", _path = "";
+
+    // const QJsonValue vid = json["id"];
+    // if (vid.isDouble())
+    //         _id = vid.toInt();
+
+    const QJsonValue vname = json["name"];
+    if (vname.isString())
+        _name = vname.toString().toStdString();
+
+    const QJsonValue vpath = json["path"];
+    if (vpath.isString())
+        _path = vpath.toString().toStdString();
+
+    const QJsonValue veffect = json["effect"];
+    if (veffect.isDouble())
+        _effect = veffect.toInt();
+
+    return Shield(_effect, _name, _path);
 }
 
 QJsonObject Shield::toJson() const {
     QJsonObject obj;
-    obj["id"] = static_cast<int>(getID());
+    // obj["id"] = static_cast<int>(getID());
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = static_cast<int>(getDEF());

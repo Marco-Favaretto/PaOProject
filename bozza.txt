@@ -6,24 +6,20 @@ cose da fare:
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
-- gestione salvataggio su file
-- gestione upload file
-
-- collegare QAction
+- collegare QAction:
+   - crea oggetto
+   - salva
+   - carica
 - decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
-   - prompt chiusura
-   - prompt caricamento file
+   - prompt chiusura: fatto
+   - prompt caricamento file: fatto
+   - da collegare
 
 - test su vm
 - relazione
 
 ----------------------
 Issue:
-- caricare, carica, ma inv di roba di default
-   - non prende nome
-   Dal ramo consumable:
-      prende solo consumable -> salva tutti come consumable
-      salva nome ed effetto, ma non li carica
 
 -------------------------
 Da ricordare:

@@ -35,7 +35,7 @@ public:
     Player* getPlayer() const;
     void fromJson(const QJsonObject&);
     QJsonObject toJson() const;
-    void loadGame(const string&);
+    bool loadGame(const string&);
     void saveGame(const string&) const;
 public slots:
     void stopOverTime(overtime::classe::overTime*);

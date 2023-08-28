@@ -46,7 +46,7 @@ class Inventario {
         iteratore end() const;
         Item& operator[] (const iteratore&) const;
 
-        static Inventario fromJson(const QJsonObject&);
+        void fromJson(const QJsonObject&);
         QJsonObject toJson() const;
 
         Inventario();

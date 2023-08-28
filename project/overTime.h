@@ -45,7 +45,7 @@ namespace overtime {
             overTime(tipo, int hp = -10, int c = INFCOUNTER, string = "unnamed_item", string = "error");
             overTime(const overTime&);
             overTime* clone() const override;
-            virtual ~overTime();
+//            virtual ~overTime();
             bool isActive() const;
             double getTimer() const;
             virtual string description() const;

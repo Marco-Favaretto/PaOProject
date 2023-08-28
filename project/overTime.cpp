@@ -5,7 +5,7 @@ using namespace overtime::classe;
 #include <iomanip>
 #include <sstream>
 
-overTime::overTime() {}
+overTime::overTime() : Consumable(), timer(new QTimer()), counter(-1), t(POISON) {}
 
 overTime::overTime(tipo _t, int hp, int c, string _name, string _path)
     : Consumable(hp, _name, _path),
@@ -48,9 +48,9 @@ overtime::tipo overTime::getType() const {
     return t;
 }
 
-overTime::~overTime() {
-    delete timer;
-}
+//overTime::~overTime() {
+//    delete timer;
+//}
 
 bool overTime::pathCorrectness() const {
     switch(t) {
@@ -108,32 +108,49 @@ overtime::tipo overTime::intToTipo(int i) {
 }
 
 overTime overTime::fromJson(const QJsonObject &json) {
-    overTime ot;
-    if (const QJsonValue v = json["id"]; v.isDouble())
-            ot.setID(v.toInt());
+    
+    // int _id = 0, _timer = 0,
+    int _effect =0, _counter = -1;
+    tipo _t = POISON;
+//    bool _st = false;
+    string _name = "", _path = "";
+
+    // if (const QJsonValue v = json["id"]; v.isDouble())
+    //         _id = v.toInt();
+    
     if (const QJsonValue v = json["name"]; v.isString())
-            ot.setName(v.toString().toStdString());
+            _name = v.toString().toStdString();
+    
     if (const QJsonValue v = json["path"]; v.isString())
-            ot.setPath(v.toString().toStdString());
+            _path = v.toString().toStdString();
+    
     if (const QJsonValue v = json["effect"]; v.isDouble())
-            ot.setEffect(v.toInt());
-    if (const QJsonValue v = json["timer"]; v.isDouble())
-            ot.setTimer(v.toInt());
+            _effect = v.toInt();
+    
+//    if (const QJsonValue v = json["timer"]; v.isDouble())
+//            _timer = v.toInt();
+    
     if (const QJsonValue v = json["tipo"]; v.isDouble())
-            ot.t = intToTipo(v.toInt());
-    if (const QJsonValue v = json["status"]; v.isBool())
-            ot.status = v.toBool();
-    return ot;
+            _t = intToTipo(v.toInt());
+
+    if (const QJsonValue v = json["counter"]; v.isDouble())
+            _counter = intToTipo(v.toInt());
+    
+//    if (const QJsonValue v = json["status"]; v.isBool())
+//            _st = v.toBool();
+   
+   return overTime(_t, _effect, _counter, _name, _path);
 }
 
 QJsonObject overTime::toJson() const {
     QJsonObject obj;
-    obj["id"] = static_cast<int>(getID());
+    // obj["id"] = static_cast<int>(getID());
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = getEffect();
-    obj["timer"] = timer->interval();
+//    obj["timer"] = timer->interval();
+    obj["counter"] = counter;
     obj["tipo"] = t;
-    obj["status"] = status;
+//    obj["status"] = status;
     return obj;
 }

@@ -144,7 +144,7 @@ void model::playerDied() {
 
 void model::fromJson(const QJsonObject &json) {
     if(const QJsonValue v = json["inv"]; v.isObject())
-        inv = Inventario::fromJson(v.toObject());
+        inv.fromJson(v.toObject());
     if(const QJsonValue v = json["player"]; v.isObject())
         player = new Player(Player::fromJson(v.toObject()));
 }
@@ -156,7 +156,7 @@ QJsonObject model::toJson() const {
     return obj;
 }
 
-void model::loadGame(const std::string & path) {
+bool model::loadGame(const std::string & path) {
     // cancellazione dati attuali
     Player* p = player;
     player = nullptr;
@@ -168,8 +168,13 @@ void model::loadGame(const std::string & path) {
         QByteArray loaddata = loadfile.readAll();
         QJsonDocument jsdoc(QJsonDocument::fromJson(loaddata));
         fromJson(jsdoc.object());
+        connectToPlayer();
+        loadfile.close();
+        return true;
+    } else {
+        loadfile.close();
+        return false;
     }
-    loadfile.close();
 }
 
 void model::saveGame(const string& path) const {
