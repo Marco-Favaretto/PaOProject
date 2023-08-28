@@ -1,13 +1,7 @@
 cose da fare:
 
-- mettere immagini:
-   - img player                                         : fatte
-      - da rifare?
-   - pastiglia
-   - ascia, mazza, spada                                : da fare
-   - scudo assi di legno, scudo piccolo, scudo grande   : da fare
-
 - test su vm
+   - correzione path
 - relazione
 
 ----------------------
@@ -19,7 +13,6 @@ Proposals:
    - implica creare un ulteriore file in cui salvare il path dell'ultimo salvataggio
    - caricare l'ultimo salvataggio
 - passaggi per riferimento dove possibile
-- implementare anche operator= dove non è già stato implementato, ma è stato implementato il costruttore di copia
 
 -------------------------
 Da ricordare:

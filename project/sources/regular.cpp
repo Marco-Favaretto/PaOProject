@@ -1,14 +1,70 @@
 #include "regular.h"
+using namespace regular;
+using namespace regular::Tipo;
 
-Regular::Regular(u_int _atk, string _name, string _path)
-    : Weapon(_atk, _name, _path) {}
+tipo Regular::intToTipo(int n)
+{
+    switch(n) {
+    case 0:
+        return SPADA;
+        break;
+    case 1:
+        return STOCCO;
+        break;
+    case 2:
+        return ASCIA;
+        break;
+    case 3:
+        return MAZZA;
+        break;
+    }
+}
 
-Regular::Regular(const Regular& other) : Weapon(other) {}
+bool Regular::pathCorrectness() const {
+    switch(t) {
+    case SPADA:
+        return SPADA_PIC == getItemPath();
+        break;
+    case STOCCO:
+        return STOCCO_PIC == getItemPath();
+        break;
+    case ASCIA:
+        return ASCIA_PIC == getItemPath();
+        break;
+    case MAZZA:
+        return MAZZA_PIC == getItemPath();
+        break;
+    }
+}
+
+void Regular::pathCorrect() {
+    switch(t) {
+    case SPADA:
+        setPath(SPADA_PIC);
+        break;
+    case STOCCO:
+        setPath(STOCCO_PIC);
+        break;
+    case ASCIA:
+        setPath(ASCIA_PIC);
+        break;
+    case MAZZA:
+        setPath(MAZZA_PIC);
+        break;
+    }
+}
+
+Regular::Regular(tipo _t, u_int _atk, string _name, string _path)
+    : Weapon(_atk, _name, _path), t(_t) {
+    if(!pathCorrectness()) pathCorrect();
+}
+
+Regular::Regular(const Regular& other) : Weapon(other), t(other.t) {}
 
 Regular* Regular::clone() const { return new Regular(*this); }
 
 string Regular::description() const {
-    string s = " atk: " + std::to_string(getATK());
+    string s = getName() +  " atk: " + std::to_string(getATK());
     return s;
 }
 
@@ -18,13 +74,10 @@ unsigned int Regular::getATK() const {
 
 
 Regular Regular::fromJson(const QJsonObject &json) {
-    // int _id = 0, 
-    int _effect =0;
-    string _name = "", _path = "";
 
-    // const QJsonValue vid = json["id"];
-    // if (vid.isDouble())
-    //         _id = vid.toInt();
+    int _effect =0;
+    tipo _t = SPADA;
+    string _name = "", _path = "";
 
     const QJsonValue vname = json["name"];
     if (vname.isString())
@@ -34,18 +87,22 @@ Regular Regular::fromJson(const QJsonObject &json) {
     if (vpath.isString())
         _path = vpath.toString().toStdString();
 
+    const QJsonValue vtipo = json["tipo"];
+    if (vpath.isDouble())
+        _t = intToTipo(vtipo.toInt());
+
     const QJsonValue veffect = json["effect"];
     if (veffect.isDouble())
         _effect = veffect.toInt();
 
-    return Regular(_effect, _name, _path);
+    return Regular(_t, _effect, _name, _path);
 }
 
 QJsonObject Regular::toJson() const {
     QJsonObject obj;
-    // obj["id"] = static_cast<int>(getID());
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
+    obj["tipo"] = t;
     obj["effect"] = static_cast<int>(getATK());
     return obj;
 }

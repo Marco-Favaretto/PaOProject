@@ -39,8 +39,8 @@ void model::use(Item *x) {
     Consumable* c = dynamic_cast<Consumable*>(x);
     overTime* ot = dynamic_cast<overTime*>(x);
     Potion* pt = dynamic_cast<Potion*>(x);
-    Regular* r = dynamic_cast<Regular*>(x);
-    Shield* s = dynamic_cast<Shield*>(x);
+    regular::Regular* r = dynamic_cast<regular::Regular*>(x);
+    shield::Shield* s = dynamic_cast<shield::Shield*>(x);
 
     if((c || pt) && !ot) {
         if(!pt) {            // caso in cui è solo consumable

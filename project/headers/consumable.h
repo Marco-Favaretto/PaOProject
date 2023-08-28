@@ -12,12 +12,15 @@ using std::string;
 #include <QJsonValue>
 #include <QJsonArray>
 
-#define CURA_PIC ":/consumabili/images/curaHP"
+#define CURA_PIC ":/consumabili/images/curaHP.png"
+#define PASTIGLIA_PIC ":/consumabili/images/pastiglia.png"
 
 class Consumable : public Item {
     Q_OBJECT
     private:
         int hpEffect;
+        bool pathCorrectness() const;
+        void pathCorrect();
     public:
         Consumable(int=0, string = "unnamed_item", string = "error");
         Consumable(const Consumable&);

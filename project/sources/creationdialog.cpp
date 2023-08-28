@@ -241,6 +241,19 @@ void creationDialog::onEffetto(QString lineEdited) {
     comboBoxNome();
 }
 
+regular::Tipo::tipo creationDialog::fromNomeToRegTipo() const {
+    if(nome == "Spada") return regular::Tipo::SPADA;
+    else if(nome == "Stocco") return regular::Tipo::STOCCO;
+    else if(nome == "Ascia") return regular::Tipo::ASCIA;
+    else if(nome == "Mazza") return regular::Tipo::MAZZA;
+}
+
+shield::Tipo::tipo creationDialog::fromNomeToShieldTipo() const {
+    if(nome == "Scudo di legno") return shield::Tipo::LEGNO;
+    else if(nome == "Scudo medio") return shield::Tipo::MEDIO;
+    else if(nome == "Scudo grande") return shield::Tipo::GRANDE;
+}
+
 void creationDialog::onNomeBox(QString row) {
     nome = row.toStdString();
     nomeCheck = true;
@@ -278,11 +291,11 @@ void creationDialog::onCreateButton() {
             break;
         case 3: // armi
             if(effetto < 0) {effect = false; QMessageBox::warning(this, "Effetto", "L'effetto deve essere positivo");}
-            else emit onCreationButton(new Regular(effetto, nome));
+            else emit onCreationButton(new regular::Regular(fromNomeToRegTipo(), effetto, nome));
             break;
         case 4: // scudi
             if(effetto < 0) {effect = false; QMessageBox::warning(this, "Effetto", "L'effetto deve essere positivo");}
-            else emit onCreationButton(new Shield(effetto, nome));
+            else emit onCreationButton(new shield::Shield(fromNomeToShieldTipo(), effetto, nome));
             break;
         default: // -1
             break;

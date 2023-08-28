@@ -16,6 +16,15 @@
         <file>images/tossicita.png</file>
         <file>images/veleno.png</file>
         <file>images/defaultItem.png</file>
+        <file>images/pastiglia.png</file>
     </qresource>
-    <qresource prefix="/weapon"/>
+    <qresource prefix="/weapon">
+        <file>images/ascia.png</file>
+        <file>images/mazza.png</file>
+        <file>images/scudodilegno.png</file>
+        <file>images/scudogrande.png</file>
+        <file>images/scudomedio.png</file>
+        <file>images/spada.png</file>
+        <file>images/stocco.png</file>
+    </qresource>
 </RCC>

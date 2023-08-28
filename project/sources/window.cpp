@@ -5,8 +5,10 @@
 using namespace overtime::classe;
 #include "potion.h"
 using namespace potion::classe;
-//#include "shield.h"
-//#include "regular.h"
+#include "shield.h"
+using namespace shield;
+#include "regular.h"
+using namespace regular;
 #include "weapon.h"
 #include "inventario.h"
 #include "player.h"
@@ -36,28 +38,28 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-    Consumable* cure1 = new Consumable(-100, "cure", CURA_PIC);
+    Consumable* cure1 = new Consumable(-100, "instDeathReal", CURA_PIC);
     mod->insert(cure1);
-//    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
-//    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
-//    mod->insert(cure2);
-//    mod->insert(cura5);
-//    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
-//    mod->insert(ot);
-//    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
-//    mod->insert(otoxic);
-//    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
-//    mod->insert(cure4poison);
-//    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
-//    mod->insert(cure4toxic);
-//    Regular* swrd = new Regular(25, "longSword");
-//    Regular* swrd2 = new Regular(15, "shortSword");
-//    Shield* shild = new Shield(15, "shield1");
-//    Shield* shild2 = new Shield(30, "PortoneDeCasa");
-//    mod->insert(swrd);
-//    mod->insert(swrd2);
-//    mod->insert(shild);
-//    mod->insert(shild2);
+    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
+    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
+    mod->insert(cure2);
+    mod->insert(cura5);
+    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
+    mod->insert(ot);
+    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
+    mod->insert(otoxic);
+    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
+    mod->insert(cure4poison);
+    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
+    mod->insert(cure4toxic);
+    Regular* swrd = new Regular(regular::Tipo::SPADA, 25, "longSword");
+    Regular* swrd2 = new Regular(regular::Tipo::STOCCO, 15, "shortSword");
+    Shield* shild = new Shield(shield::Tipo::LEGNO, 15, "shield1");
+    Shield* shild2 = new Shield(shield::Tipo::GRANDE, 30, "PortoneDeCasa");
+    mod->insert(swrd);
+    mod->insert(swrd2);
+    mod->insert(shild);
+    mod->insert(shild2);
 }
 
 void Window::loadInv() {

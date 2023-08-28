@@ -1,14 +1,62 @@
 #include "shield.h"
+using namespace shield;
+using namespace shield::Tipo;
 
-Shield::Shield(u_int _def, string _name, string _path)
-    : Weapon(_def, _name, _path) {}
 
-Shield::Shield(const Shield& other) : Weapon(other) {}
+Shield::Shield(tipo _t, u_int _def, string _name, string _path)
+    : Weapon(_def, _name, _path), t(_t) {
+    if(!pathCorrectness()) pathCorrect();
+}
+
+Shield::Shield(const Shield& other) : Weapon(other), t(other.t) {}
 
 Shield* Shield::clone() const { return new Shield(*this); }
 
+tipo Shield::intToTipo(int n)
+{
+    switch(n) {
+    case 0:
+        return LEGNO;
+        break;
+    case 1:
+        return MEDIO;
+        break;
+    case 2:
+        return GRANDE;
+        break;
+    }
+}
+
+bool Shield::pathCorrectness() const {
+    switch(t) {
+    case LEGNO:
+        return SCUDOLEGNO_PIC == getItemPath();
+        break;
+    case MEDIO:
+        return SCUDOMEDIO_PIC == getItemPath();
+        break;
+    case GRANDE:
+        return SCUDOGRANDE_PIC == getItemPath();
+        break;
+    }
+}
+
+void Shield::pathCorrect() {
+    switch(t) {
+    case LEGNO:
+        setPath(SCUDOLEGNO_PIC);
+        break;
+    case MEDIO:
+        setPath(SCUDOMEDIO_PIC);
+        break;
+    case GRANDE:
+        setPath(SCUDOGRANDE_PIC);
+        break;
+    }
+}
+
 string Shield::description() const {
-    string s = " def: " + std::to_string(getDEF()) + "%";
+    string s = getName() +  " def: " + std::to_string(getDEF()) + "%";
     return s;
 }
 
@@ -18,13 +66,9 @@ unsigned int Shield::getDEF() const {
 
 Shield Shield::fromJson(const QJsonObject &json) {
 
-    // int _id = 0, 
     int _effect =0;
+    tipo _t = LEGNO;
     string _name = "", _path = "";
-
-    // const QJsonValue vid = json["id"];
-    // if (vid.isDouble())
-    //         _id = vid.toInt();
 
     const QJsonValue vname = json["name"];
     if (vname.isString())
@@ -34,18 +78,22 @@ Shield Shield::fromJson(const QJsonObject &json) {
     if (vpath.isString())
         _path = vpath.toString().toStdString();
 
+     const QJsonValue vtipo = json["tipo"];
+     if (vtipo.isDouble())
+             _t = intToTipo(vtipo.toInt());
+
     const QJsonValue veffect = json["effect"];
     if (veffect.isDouble())
         _effect = veffect.toInt();
 
-    return Shield(_effect, _name, _path);
+    return Shield(_t, _effect, _name, _path);
 }
 
 QJsonObject Shield::toJson() const {
     QJsonObject obj;
-    // obj["id"] = static_cast<int>(getID());
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
+    obj["tipo"] = t;
     obj["effect"] = static_cast<int>(getDEF());
     return obj;
 }

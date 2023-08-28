@@ -155,11 +155,11 @@ Item* Inventario::nodo::fromJson(const QJsonObject &json)
         }
         if(v.toString() == "regular") {
             const QJsonObject obj = json["item"].toObject();
-            return (Regular::fromJson(obj)).clone();
+            return (regular::Regular::fromJson(obj)).clone();
         }
         if(v.toString() == "shield") {
             const QJsonObject obj = json["item"].toObject();
-            return (Shield::fromJson(obj)).clone();
+            return (shield::Shield::fromJson(obj)).clone();
         }
     }
 }
@@ -171,8 +171,8 @@ QJsonObject Inventario::nodo::toJson() const
     Consumable* c = dynamic_cast<Consumable*>(this->itm);
     overtime::classe::overTime* ot = dynamic_cast<overtime::classe::overTime*>(this->itm);
     potion::classe::Potion* pt = dynamic_cast<potion::classe::Potion*>(this->itm);
-    Regular* r = dynamic_cast<Regular*>(this->itm);
-    Shield* s = dynamic_cast<Shield*>(this->itm);
+    regular::Regular* r = dynamic_cast<regular::Regular*>(this->itm);
+    shield::Shield* s = dynamic_cast<shield::Shield*>(this->itm);
 
     if(s) {obj["tipo"] = "shield";     obj["item"] = s->toJson(); }
     if(r) {obj["tipo"] = "regular";    obj["item"] = r->toJson(); }

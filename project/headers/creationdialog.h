@@ -15,6 +15,8 @@
 using std::string;
 
 #include "item.h"
+#include "regular.h"
+#include "shield.h"
 
 class creationDialog : public QDialog {
     Q_OBJECT
@@ -53,6 +55,8 @@ private:
     void setupDialog();
     void comboBoxTipo();
     void comboBoxNome();
+    regular::Tipo::tipo fromNomeToRegTipo() const;
+    shield::Tipo::tipo fromNomeToShieldTipo() const;
     bool doneEverything() const;
 public:
     creationDialog(QWidget* parent = nullptr);

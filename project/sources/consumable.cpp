@@ -1,6 +1,8 @@
 #include "consumable.h"
 
-Consumable::Consumable(int c, string a, string b) : Item(a, b), hpEffect(c) {}
+Consumable::Consumable(int c, string a, string b) : Item(a, b), hpEffect(c) {
+    if(!pathCorrectness()) pathCorrect();
+}
 
 Consumable::Consumable(const Consumable& other) : Item(other), hpEffect(other.hpEffect) {}
 
@@ -8,11 +10,20 @@ Consumable* Consumable::clone() const {
     return new Consumable(*this);
 }
 
+
+bool Consumable::pathCorrectness() const {
+    return (hpEffect >= 0 && getItemPath() == CURA_PIC) || (hpEffect < 0 && getItemPath() == PASTIGLIA_PIC);
+}
+
+void Consumable::pathCorrect() {
+    if(hpEffect >= 0) setPath(CURA_PIC);
+    else setPath(PASTIGLIA_PIC);
+}
+
+
 void Consumable::setEffect(int n) {
     hpEffect = n;
 }
-
-#include <QCborValue>
 
 Consumable Consumable::fromJson(const QJsonObject &json) {
 
