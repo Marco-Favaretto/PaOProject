@@ -2,7 +2,8 @@ cose da fare:
 
 - mettere immagini:
    - img player                                         : fatte
-   - img item: cura, pozioni, robe                      : fatte
+      - da rifare?
+   - pastiglia
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
@@ -14,7 +15,9 @@ Issue:
 
 ------------------------
 Proposals:
-- loadLastGame();
+- loadLastGame() -> carica ultimo salvataggio
+   - implica creare un ulteriore file in cui salvare il path dell'ultimo salvataggio
+   - caricare l'ultimo salvataggio
 - passaggi per riferimento dove possibile
 - implementare anche operator= dove non è già stato implementato, ma è stato implementato il costruttore di copia
 
@@ -24,9 +27,9 @@ Scrivere dei distruttori di Qt in relazione
 
 ---------------------------------------------------------
 
-            item (effect()=0)         |Inventario | Player | Model | View
-      +---------+---------+           | lista di  |        | + inv |
- consumable             weapon        | item in   |        | + pl  |
+           item (effect()=0)          |Inventario | Player | Model | View
+      +---------+---------+           | lista di  |        | - inv | - mod*
+ consumable             weapon        | item in   |        | - pl* |
    |     |             +-------+      | possesso  |        |       |
 potion overTime     shield   regular  |           |        |       |
 
@@ -225,7 +228,7 @@ ShowAction : QAction
    + click(tipo)
 
 creationDialog: QDialog
-   - ... cose GUI
+   - ... (tutti gli elementi gui del dialog)
    - rowSel
    - fromComboTipo
    - effetto
@@ -260,11 +263,12 @@ View:
    - loadPlayerPic()
    - loadItemPic()
    - loadItemPicDefault();
-   - slot per model:         playerDeath()
-   - slot per model:         hp/status/atk/def
-   - slot per tabella:       cellSelected
-   - slot per bottomButtons: on Remove/Create/Use/Equip
-   - slot per upButton:      showOnly(Showbutton::tipo)
-   - slot creation:          creationItem(Item*);
-   - slot per load:          loadGame()
-   - slot per save:          saveGame()
+   - slot per model:          playerDeath()
+   - slot per model:          hp/status/atk/def
+   - slot per tabella:        cellSelected
+   - slot per bottomButtons:  on Remove/Create/Use/Equip
+   - slot per upButton:       showOnly(Showbutton::tipo)
+   - slot creation:           creationItem(Item*);
+   - slot per load:           loadGame()
+   - slot per save:           saveGame()
+   - slot per close on death: closeSlot()

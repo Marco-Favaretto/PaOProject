@@ -135,7 +135,7 @@ void creationDialog::comboBoxTipo() {
         tipobox->clear();
         effettoLineEdit->clear();
         turniLineEdit->clear();
-        effettoLineEdit->setReadOnly(true);
+        effettoLineEdit->setReadOnly(false);
         turniLineEdit->setReadOnly(true);
         effettoLineEdit->setPlaceholderText("");
         break;
@@ -181,7 +181,7 @@ void creationDialog::comboBoxNome() {
         else lista.append("Scudo grande");
         nomeComboBox->addItems(lista);
         break;
-    default:
+    default: // -1
         effettoLineEdit->clear();
         turniLineEdit->clear();
         break;
@@ -238,6 +238,7 @@ void creationDialog::onTipoBox(QString row) {
 void creationDialog::onEffetto(QString lineEdited) {
     effetto = lineEdited.toInt();
     effect = true;
+    comboBoxNome();
 }
 
 void creationDialog::onNomeBox(QString row) {
