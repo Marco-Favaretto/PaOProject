@@ -6,18 +6,11 @@ cose da fare:
    - ascia, mazza, spada                                : da fare
    - scudo assi di legno, scudo piccolo, scudo grande   : da fare
 
-- decidere che fare in caso di Game Over -> (prompt chiusura / caricamento ultimo file)
-   - prompt chiusura: fatto
-   - prompt caricamento file: fatto
-   - da collegare
-
 - test su vm
 - relazione
 
 ----------------------
 Issue:
-- on deathscreen close -> program doesn't close
-- controllo bottoni in caso di riga non selezionata
 
 ------------------------
 Proposals:

@@ -116,12 +116,16 @@ void Window::cellSelected(int row, int column) {
 }
 
 void Window::onRemoveButton() {
-    QTableWidgetItem* it = invDisplay->takeItem(invDisplay->currentRow(), 0);
-    mod->remove(mod->searchItemByID(it->text().toInt()));
-    invDisplay->removeRow(invDisplay->currentRow());
-    loadItemPicDefault();
-    invDisplay->clearSelection();
-    delete it;
+    if(rowSel != -1) {
+        QTableWidgetItem* it = invDisplay->takeItem(invDisplay->currentRow(), 0);
+        mod->remove(mod->searchItemByID(it->text().toInt()));
+        invDisplay->removeRow(invDisplay->currentRow());
+        loadItemPicDefault();
+        invDisplay->clearSelection();
+        delete it;
+    } else {
+        QMessageBox::warning(this, "No Item Selected", "Selezionare un Item dalla tabella.");
+    }
 }
 
 void Window::onCreateButton() {
@@ -137,28 +141,36 @@ void Window::creationItem(Item* it) {
 }
 
 void Window::onUseButton() { // valido solo per ramo consumable della gerarchia
-    QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
-    Weapon* w = dynamic_cast<Weapon*>(mod->searchItemByID(it->text().toInt()));
-    if(!w) {
-        mod->use(mod->searchItemByID(it->text().toInt()));
-        invDisplay->removeRow(invDisplay->currentRow());
-        delete it;
-        loadItemPicDefault();
-        invDisplay->clearSelection();
+    if(rowSel != -1) {
+        QTableWidgetItem* it = invDisplay->takeItem(rowSel, 0);
+        Weapon* w = dynamic_cast<Weapon*>(mod->searchItemByID(it->text().toInt()));
+        if(!w) {
+            mod->use(mod->searchItemByID(it->text().toInt()));
+            invDisplay->removeRow(invDisplay->currentRow());
+            delete it;
+            loadItemPicDefault();
+            invDisplay->clearSelection();
+        } else {
+            invDisplay->setItem(rowSel, 0, it);
+            QMessageBox::warning(this, "On weapon use", "Le armi e gli scudi possono essere solo equipaggiati o rimossi.");
+        }
     } else {
-        invDisplay->setItem(rowSel, 0, it);
-        QMessageBox::warning(this, "On weapon use", "Le armi e gli scudi possono essere solo equipaggiati o rimossi");
+        QMessageBox::warning(this, "No Item Selected", "Selezionare un Item dalla tabella.");
     }
 }
 
 void Window::onEquipButton() { // valido solo per ramo weapon della gerarchia
-    QTableWidgetItem* it = invDisplay->item(rowSel, 0);
-    Consumable* c = dynamic_cast<Consumable*>(mod->searchItemByID(it->text().toInt()));
-    if(!c) {
-        mod->use(mod->searchItemByID(it->text().toInt()));
-        invDisplay->clearSelection();
+    if(rowSel != -1) {
+        QTableWidgetItem* it = invDisplay->item(rowSel, 0);
+        Consumable* c = dynamic_cast<Consumable*>(mod->searchItemByID(it->text().toInt()));
+        if(!c) {
+            mod->use(mod->searchItemByID(it->text().toInt()));
+            invDisplay->clearSelection();
+        } else {
+            QMessageBox::warning(this, "On Item equip", "Solo armi e gli scudi possono essere equipaggiati.");
+        }
     } else {
-        QMessageBox::warning(this, "On Item equip", "Solo armi e gli scudi possono essere solo equipaggiati");
+        QMessageBox::warning(this, "No Item Selected", "Selezionare un Item dalla tabella.");
     }
 }
 
@@ -170,7 +182,8 @@ void Window::loadPlayerPic() {
 void Window::loadItemPic() {
     QTableWidgetItem* it = invDisplay->item(rowSel, 0);
     QPixmap itemPixmap(QString::fromStdString( mod->searchItemByID(it->text().toInt())->getItemPath() ));
-    imgItem->setPixmap( itemPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
+    if(itemPixmap.isNull()) loadItemPicDefault();
+    else imgItem->setPixmap( itemPixmap.scaled(imgPlayer->width(), imgPlayer->height(), Qt::KeepAspectRatio) );
 }
 
 void Window::loadItemPicDefault() {
