@@ -2,39 +2,42 @@
 using namespace regular;
 using namespace regular::Tipo;
 
-tipo Regular::intToTipo(int n)
-{
+tipo Regular::intToTipo(int n) {
+    tipo _t = SPADA;
     switch(n) {
     case 0:
-        return SPADA;
+        _t = SPADA;
         break;
     case 1:
-        return STOCCO;
+        _t = STOCCO;
         break;
     case 2:
-        return ASCIA;
+        _t = ASCIA;
         break;
     case 3:
-        return MAZZA;
+        _t = MAZZA;
         break;
     }
+    return _t;
 }
 
 bool Regular::pathCorrectness() const {
+    bool ok = false;
     switch(t) {
     case SPADA:
-        return SPADA_PIC == getItemPath();
+        ok = SPADA_PIC == getItemPath();
         break;
     case STOCCO:
-        return STOCCO_PIC == getItemPath();
+        ok = STOCCO_PIC == getItemPath();
         break;
     case ASCIA:
-        return ASCIA_PIC == getItemPath();
+        ok = ASCIA_PIC == getItemPath();
         break;
     case MAZZA:
-        return MAZZA_PIC == getItemPath();
+        ok = MAZZA_PIC == getItemPath();
         break;
     }
+    return ok;
 }
 
 void Regular::pathCorrect() {

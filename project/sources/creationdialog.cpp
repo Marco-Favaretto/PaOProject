@@ -242,16 +242,22 @@ void creationDialog::onEffetto(const QString& lineEdited) {
 }
 
 regular::Tipo::tipo creationDialog::fromNomeToRegTipo() const {
-    if(nome == "Spada") return regular::Tipo::SPADA;
-    else if(nome == "Stocco") return regular::Tipo::STOCCO;
-    else if(nome == "Ascia") return regular::Tipo::ASCIA;
-    else if(nome == "Mazza") return regular::Tipo::MAZZA;
+    regular::Tipo::tipo _t = regular::Tipo::SPADA;
+    if(nome == "Spada") _t = regular::Tipo::SPADA;
+    else if(nome == "Stocco") _t = regular::Tipo::STOCCO;
+    else if(nome == "Ascia") _t = regular::Tipo::ASCIA;
+    else if(nome == "Mazza") _t = regular::Tipo::MAZZA;
+    
+    return _t;
 }
 
 shield::Tipo::tipo creationDialog::fromNomeToShieldTipo() const {
-    if(nome == "Scudo di legno") return shield::Tipo::LEGNO;
-    else if(nome == "Scudo medio") return shield::Tipo::MEDIO;
-    else if(nome == "Scudo grande") return shield::Tipo::GRANDE;
+    shield::Tipo::tipo _t = shield::Tipo::LEGNO;
+    if(nome == "Scudo di legno") _t = shield::Tipo::LEGNO;
+    else if(nome == "Scudo medio") _t = shield::Tipo::MEDIO;
+    else if(nome == "Scudo grande") _t = shield::Tipo::GRANDE;
+
+    return _t;
 }
 
 void creationDialog::onNomeBox(const QString& row) {

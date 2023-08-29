@@ -50,14 +50,16 @@ overtime::tipo overTime::getType() const {
 }
 
 bool overTime::pathCorrectness() const {
+    bool ok = false;
     switch(t) {
         case POISON:
-            return getItemPath() == POISON_PIC;
+            ok = getItemPath() == POISON_PIC;
             break;
         case TOXIC:
-            return getItemPath() == TOXIC_PIC;
+            ok = getItemPath() == TOXIC_PIC;
             break;
     }
+    return ok;
 }
 
 void overTime::pathCorrect() {
@@ -94,14 +96,16 @@ void overTime::startOT(){
 }
 
 overtime::tipo overTime::intToTipo(int i) {
+    overtime::tipo _t = POISON;
     switch(i) {
     case 0:
-        return POISON;
+        _t = POISON;
         break;
     case 1:
-        return TOXIC;
+        _t = TOXIC;
         break;
     }
+    return _t;
 }
 
 overTime overTime::fromJson(const QJsonObject &json) {

@@ -81,37 +81,41 @@ STATUS Player::getStatus() const {
 }
 
 STATUS Player::intToStatus(int i) {
+    player::STATUS _st = NORMAL;
     switch(i) {
     case 0:
-        return NORMAL;
+        _st = NORMAL;
         break;
     case 1:
-        return POISONED;
+        _st = POISONED;
         break;
     case 2:
-        return TOXIC;
+        _st = TOXIC;
         break;
     case 3:
-        return DEAD;
+        _st = DEAD;
         break;
     }
+    return _st;
 }
 
 std::string Player::getStatusString() const {
+    std::string stat = ""; 
     switch(st) {
         case NORMAL:
-            return "NORMAL";
+            stat = "NORMAL";
             break;
         case POISONED:
-            return "POISONED";
+            stat = "POISONED";
             break;
         case TOXIC:
-            return "TOXIC";
+            stat = "TOXIC";
             break;
         case DEAD:
-            return "DEAD";
+            stat = "DEAD";
             break;
     }
+    return stat;
 }
 
 // modifica hp del player, se hp tocca lo 0, player muore
@@ -138,24 +142,26 @@ void Player::changeStatus(STATUS _st) {
 
 // controlla che l'immagine assegnata sia corretta
 bool Player::pathCorrectness() const {
+    bool ok = false;
     switch(st) {
         case NORMAL:
-            if(hp == MAX_HEALTH) return path == NORMAL_PIC_FULL;
-            else if(hp <= MAX_HEALTH/3) return path == NORMAL_PIC_2;
-            else return path == NORMAL_PIC;
+            if(hp == MAX_HEALTH) ok = path == NORMAL_PIC_FULL;
+            else if(hp <= MAX_HEALTH/3) ok = path == NORMAL_PIC_2;
+            else ok = path == NORMAL_PIC;
             break;
         case POISONED:
-            if(hp <= MAX_HEALTH/3) return path == POISONED_PIC_2;
-            else return path == POISONED_PIC;
+            if(hp <= MAX_HEALTH/3) ok = path == POISONED_PIC_2;
+            else ok = path == POISONED_PIC;
             break;
         case TOXIC:
-            if(hp <= MAX_HEALTH/3) return path == TOXIC_PLAYER_PIC_2;
-            else return path == TOXIC_PLAYER_PIC;
+            if(hp <= MAX_HEALTH/3) ok = path == TOXIC_PLAYER_PIC_2;
+            else ok = path == TOXIC_PLAYER_PIC;
             break;
         case DEAD:
-            return path == DEAD_PIC;
+            ok = path == DEAD_PIC;
             break;
     }
+    return ok;
 }
 
 // corregge errori di assegnazione dell'immagine

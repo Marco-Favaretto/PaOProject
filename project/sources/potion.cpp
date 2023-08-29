@@ -17,14 +17,16 @@ tipo Potion::getType() const {
 }
 
 bool Potion::pathCorrectness() const {
+    bool ok = false;
     switch(t) {
         case POISON:
-            return getItemPath() == POTIONP_PIC;
+            ok = getItemPath() == POTIONP_PIC;
             break;
         case TOXIC:
-            return getItemPath() == POTIONT_PIC;
+            ok = getItemPath() == POTIONT_PIC;
             break;
     }
+    return ok;
 }
 
 void Potion::pathCorrect() {
@@ -39,14 +41,16 @@ void Potion::pathCorrect() {
 }
 
 string Potion::getTypeString() const {
+    string s = "";
     switch(t) {
         case POISON:
-            return "POISON";
+            s = "POISON";
         break;
         case TOXIC:
-            return "TOXIC";
+            s = "TOXIC";
         break;
     }
+    return s;
 }
 
 string Potion::description() const {
@@ -55,14 +59,16 @@ string Potion::description() const {
 }
 
 potion::tipo Potion::intToTipo(int i) {
+    potion::tipo _t = POISON;
     switch(i) {
     case 0:
-        return POISON;
+        _t = POISON;
         break;
     case 1:
-        return TOXIC;
+        _t = TOXIC;
         break;
     }
+    return _t;
 }
 
 Potion Potion::fromJson(const QJsonObject &json) {    

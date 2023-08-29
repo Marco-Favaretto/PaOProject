@@ -18,7 +18,7 @@ using std::string;
 
 namespace overtime {
 
-    #define STDTIMERPOISON 2000
+    #define STDTIMERPOISON 1000
     #define STDTIMERTOXIC 500
     #define MAXCOUNTER 10
     #define INFCOUNTER -1

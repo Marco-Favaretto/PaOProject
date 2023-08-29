@@ -12,33 +12,36 @@ Shield::Shield(const Shield& other) : Weapon(other), t(other.t) {}
 
 Shield* Shield::clone() const { return new Shield(*this); }
 
-tipo Shield::intToTipo(int n)
-{
+tipo Shield::intToTipo(int n) {
+    tipo _t = LEGNO;
     switch(n) {
     case 0:
-        return LEGNO;
+        _t = LEGNO;
         break;
     case 1:
-        return MEDIO;
+        _t = MEDIO;
         break;
     case 2:
-        return GRANDE;
+        _t = GRANDE;
         break;
     }
+    return _t;
 }
 
 bool Shield::pathCorrectness() const {
+    bool ok = false;
     switch(t) {
     case LEGNO:
-        return SCUDOLEGNO_PIC == getItemPath();
+        ok = SCUDOLEGNO_PIC == getItemPath();
         break;
     case MEDIO:
-        return SCUDOMEDIO_PIC == getItemPath();
+        ok = SCUDOMEDIO_PIC == getItemPath();
         break;
     case GRANDE:
-        return SCUDOGRANDE_PIC == getItemPath();
+        ok = SCUDOGRANDE_PIC == getItemPath();
         break;
     }
+    return ok;
 }
 
 void Shield::pathCorrect() {

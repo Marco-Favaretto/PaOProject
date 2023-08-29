@@ -13,8 +13,6 @@ Proposals:
 - loadLastGame() -> carica ultimo salvataggio
    - implica creare un ulteriore file in cui salvare il path dell'ultimo salvataggio
    - caricare l'ultimo salvataggio
-- rimozione path dalle variabili dei costruttori
-   - implementare pathCorrect e pathCorrectness come astratte pure e delegare la gestione foto ad ogni classe
 
 -------------------------
 Da ricordare:
