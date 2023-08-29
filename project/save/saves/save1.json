@@ -1,0 +1,99 @@
+{
+    "inv": {
+        "itms": [
+            {
+                "item": {
+                    "effect": 30,
+                    "name": "Scudo grande",
+                    "tipo": 2
+                },
+                "tipo": "shield"
+            },
+            {
+                "item": {
+                    "effect": 15,
+                    "name": "Scudo di legno",
+                    "tipo": 0
+                },
+                "tipo": "shield"
+            },
+            {
+                "item": {
+                    "effect": 15,
+                    "name": "Stocco",
+                    "tipo": 1
+                },
+                "tipo": "regular"
+            },
+            {
+                "item": {
+                    "effect": 25,
+                    "name": "Spada",
+                    "tipo": 0
+                },
+                "tipo": "regular"
+            },
+            {
+                "item": {
+                    "effect": 0,
+                    "name": "Potion-T",
+                    "tipo": 1
+                },
+                "tipo": "potion"
+            },
+            {
+                "item": {
+                    "effect": 0,
+                    "name": "Potion-V",
+                    "tipo": 0
+                },
+                "tipo": "potion"
+            },
+            {
+                "item": {
+                    "counter": 4,
+                    "effect": -20,
+                    "name": "Toxic",
+                    "tipo": 1
+                },
+                "tipo": "overtime"
+            },
+            {
+                "item": {
+                    "counter": 8,
+                    "effect": -10,
+                    "name": "Poison",
+                    "tipo": 0
+                },
+                "tipo": "overtime"
+            },
+            {
+                "item": {
+                    "effect": 30,
+                    "name": "Cura"
+                },
+                "tipo": "consumable"
+            },
+            {
+                "item": {
+                    "effect": 10,
+                    "name": "Cura"
+                },
+                "tipo": "consumable"
+            },
+            {
+                "item": {
+                    "effect": -100,
+                    "name": "Pastiglia Insta-Death"
+                },
+                "tipo": "consumable"
+            }
+        ]
+    },
+    "player": {
+        "atk": 10,
+        "def": 10,
+        "hp": 100,
+        "status": 0
+    }
+}

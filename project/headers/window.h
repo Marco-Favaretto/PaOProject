@@ -17,6 +17,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
+#include <QCloseEvent>
 #include "showbutton.h"
 using namespace showbutton;
 #include "showaction.h"
@@ -34,20 +35,24 @@ private:
     model* mod;
     int rowSel;
     int colSel;
+    QString lastLoadedFile;
 
     creationDialog* creation;
     gameOverDialog* gameOver_dialog;
 
     void connectModel();
-    void fillInv();
+//    void fillInv();
     void loadInv();
     void loadRow(u_int);
     void loadPlayerPic();
     void loadItemPic();
     void loadItemPicDefault();
+    void writeLastLoad();
+    void closeEvent(QCloseEvent* event);
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
+    void loadLastGame();
 
 private slots:
     // model

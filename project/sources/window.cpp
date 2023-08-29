@@ -5,10 +5,6 @@
 using namespace overtime::classe;
 #include "potion.h"
 using namespace potion::classe;
-#include "shield.h"
-using namespace shield;
-#include "regular.h"
-using namespace regular;
 #include "weapon.h"
 #include "inventario.h"
 #include "player.h"
@@ -17,8 +13,6 @@ using namespace player::classe;
 #include <QPixmap>
 #include <QFileDialog>
 #include <QMessageBox>
-
-#include<iostream>
 
 Window::Window(QWidget *parent)
     : QMainWindow{parent}, mod(new model(new Player(), Inventario())), rowSel(-1), colSel(-1)
@@ -29,37 +23,11 @@ Window::Window(QWidget *parent)
     loadItemPicDefault();
     connectModel();
     connectGui();
-    fillInv();
     loadInv();
     hpChanged();
     statusChanged();
     atkChanged();
     defChanged();
-}
-
-void Window::fillInv() {
-    Consumable* cure1 = new Consumable(-100, "Pastiglia Insta-Death");
-    mod->insert(cure1);
-    Consumable* cure2 = new Consumable(10, "Cura");
-    Consumable* cura5 = new Consumable(30, "Cura");
-    mod->insert(cure2);
-    mod->insert(cura5);
-    overTime* ot = new overTime(overtime::POISON, -10, 8, "Poison");
-    mod->insert(ot);
-    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "Toxic");
-    mod->insert(otoxic);
-    Potion* cure4poison = new Potion(potion::POISON , "Potion-V");
-    mod->insert(cure4poison);
-    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion-T");
-    mod->insert(cure4toxic);
-    Regular* swrd = new Regular(regular::Tipo::SPADA, 25, "Spada");
-    Regular* swrd2 = new Regular(regular::Tipo::STOCCO, 15, "Stocco");
-    Shield* shild = new Shield(shield::Tipo::LEGNO, 15, "Scudo di legno");
-    Shield* shild2 = new Shield(shield::Tipo::GRANDE, 30, "Scudo grande");
-    mod->insert(swrd);
-    mod->insert(swrd2);
-    mod->insert(shild);
-    mod->insert(shild2);
 }
 
 void Window::loadInv() {
@@ -236,18 +204,22 @@ void Window::showOnly(showbutton::tipo t) {
 }
 
 void Window::saveGame() {
-    QString path = "C:/Users/favar/Desktop/uni/p2/PaoProject/project/saves";
+    QString path = "./../project/save/saves";
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save on JSON File"), path, tr("JSON (*.json)"));
-    if(!fileName.isEmpty()) mod->saveGame(fileName.toStdString());
+    if(!fileName.isEmpty()) {
+        lastLoadedFile = fileName;
+        writeLastLoad();
+        mod->saveGame(fileName.toStdString());
+    }
 }
 
 void Window::loadGame() {
     // qmessagebox::warning salvare
-    QString path = "C:/Users/favar/Desktop/uni/p2/PaoProject/project/saves";
+    QString path = "./../project/saves/saves";
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open JSON File"), path, tr("JSON (*.json)"));
-    if(!fileName.isEmpty())
+    if(!fileName.isEmpty()) {
         if(mod->loadGame(fileName.toStdString())) {
             loadItemPicDefault();
             loadInv();
@@ -256,9 +228,78 @@ void Window::loadGame() {
             atkChanged();
             defChanged();
         }
+    }
+}
+
+
+void Window::loadLastGame() {
+
+    QMessageBox msgLastLoad;
+    msgLastLoad.setText("Caricamento Ultima Partita");
+    msgLastLoad.setInformativeText("Caricare l'ultimo file salvato?");
+    msgLastLoad.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    int response = msgLastLoad.exec();
+
+    if(response == QMessageBox::Ok) {
+        QFile lastLoad("./../project/save/window/window.json");
+        if(lastLoad.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QByteArray loaddata = lastLoad.readAll();
+            QJsonDocument jsdoc(QJsonDocument::fromJson(loaddata));
+            // from json
+            QJsonObject json = jsdoc.object();
+            if(const QJsonValue v = json["lastPath"]; v.isString()) lastLoadedFile = v.toString();
+
+            if(!lastLoadedFile.isEmpty()) {
+                if(mod->loadGame(lastLoadedFile.toStdString())) {
+                    loadItemPicDefault();
+                    loadInv();
+                    hpChanged();
+                    statusChanged();
+                    atkChanged();
+                    defChanged();
+                }
+            }
+            lastLoad.close();
+        } else {
+            lastLoad.close();
+        }
+    }
+}
+
+void Window::writeLastLoad() {
+    QString path = "./../project/save/window/window.json";
+    QFile saveFile(path);
+    QJsonObject obj;
+    obj["lastPath"] = lastLoadedFile;
+    QByteArray byteArray = QJsonDocument(obj).toJson();
+    if(saveFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        saveFile.write(byteArray);
+    }
+    saveFile.close();
+}
+
+void Window::closeEvent(QCloseEvent *event) {
+    QMessageBox msgLastLoad;
+    msgLastLoad.setText("Proposal: Save before quit.");
+    msgLastLoad.setInformativeText("Salvare la partita prima di chiudere?");
+    msgLastLoad.setStandardButtons(QMessageBox::Save | QMessageBox::Cancel);
+    int response = msgLastLoad.exec();
+
+    if(response == QMessageBox::Save) saveGame();
+
+    event->accept();
 }
 
 void Window::closeSlot() {
+
+    QMessageBox msgLastLoad;
+    msgLastLoad.setText("Proposal: Save before quit.");
+    msgLastLoad.setInformativeText("Salvare la partita prima di chiudere?");
+    msgLastLoad.setStandardButtons(QMessageBox::Save | QMessageBox::Cancel);
+    int response = msgLastLoad.exec();
+
+    if(response == QMessageBox::Save) saveGame();
+
     exit(0);
 }
 

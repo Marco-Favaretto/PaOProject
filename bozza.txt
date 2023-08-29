@@ -9,10 +9,6 @@ Issue:
 
 ------------------------
 Proposals:
-- testare json nuovo per reg e shield
-- loadLastGame() -> carica ultimo salvataggio
-   - implica creare un ulteriore file in cui salvare il path dell'ultimo salvataggio
-   - caricare l'ultimo salvataggio
 
 -------------------------
 Da ricordare:
