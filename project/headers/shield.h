@@ -26,7 +26,7 @@ namespace shield {
         virtual void pathCorrect();
         static Tipo::tipo intToTipo(int);
     public:
-        Shield(Tipo::tipo, u_int = 10, const string& = "unnamed_item", const string& = "error");
+        Shield(Tipo::tipo, u_int = 10, const string& = "unnamed_item");
         Shield(const Shield&);
         Shield* clone() const override;
         virtual string description() const;

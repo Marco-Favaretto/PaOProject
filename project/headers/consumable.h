@@ -22,7 +22,7 @@ class Consumable : public Item {
         virtual bool pathCorrectness() const;
         virtual void pathCorrect();
     public:
-        Consumable(int=0, const string& = "unnamed_item", const string& = "error");
+        Consumable(int=0, const string& = "unnamed_item");
         Consumable(const Consumable&);
         virtual ~Consumable();
         int getEffect() const;

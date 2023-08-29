@@ -54,8 +54,8 @@ void Regular::pathCorrect() {
     }
 }
 
-Regular::Regular(tipo _t, u_int _atk, const string& _name, const string& _path)
-    : Weapon(_atk, _name, _path), t(_t) {
+Regular::Regular(tipo _t, u_int _atk, const string& _name)
+    : Weapon(_atk, _name), t(_t) {
     if(!pathCorrectness()) pathCorrect();
 }
 
@@ -83,25 +83,20 @@ Regular Regular::fromJson(const QJsonObject &json) {
     if (vname.isString())
         _name = vname.toString().toStdString();
 
-    const QJsonValue vpath = json["path"];
-    if (vpath.isString())
-        _path = vpath.toString().toStdString();
-
     const QJsonValue vtipo = json["tipo"];
-    if (vpath.isDouble())
+    if (vtipo.isDouble())
         _t = intToTipo(vtipo.toInt());
 
     const QJsonValue veffect = json["effect"];
     if (veffect.isDouble())
         _effect = veffect.toInt();
 
-    return Regular(_t, _effect, _name, _path);
+    return Regular(_t, _effect, _name);
 }
 
 QJsonObject Regular::toJson() const {
     QJsonObject obj;
     obj["name"] = QString::fromStdString(getName());
-    obj["path"] = QString::fromStdString(getItemPath());
     obj["tipo"] = t;
     obj["effect"] = static_cast<int>(getATK());
     return obj;

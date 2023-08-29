@@ -27,7 +27,7 @@ namespace regular {
         virtual void pathCorrect();
         static Tipo::tipo intToTipo(int);
     public:
-        Regular(Tipo::tipo, u_int = 10, const string& = "unnamed_item", const string& = "error");
+        Regular(Tipo::tipo, u_int = 10, const string& = "unnamed_item");
         Regular(const Regular&);
         Regular* clone() const override;
         virtual string description() const;

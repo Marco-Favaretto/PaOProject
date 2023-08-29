@@ -4,7 +4,7 @@ using namespace potion::classe;
 
 Potion::Potion() : Consumable(), t(POISON) {}
 
-Potion::Potion(tipo _t, const std::string& name, const std::string& pic) : Consumable(0, name, pic), t(_t) {
+Potion::Potion(tipo _t, const std::string& name) : Consumable(0, name), t(_t) {
     if(!pathCorrectness()) pathCorrect();
 }
 
@@ -73,20 +73,16 @@ Potion Potion::fromJson(const QJsonObject &json) {
     if (const QJsonValue v = json["name"]; v.isString())
             _name = v.toString().toStdString();
     
-    if (const QJsonValue v = json["path"]; v.isString())
-            _path = v.toString().toStdString();
-    
     if (const QJsonValue v = json["tipo"]; v.isDouble())
             _t = intToTipo(v.toInt());
    
-   return Potion(_t, _name, _path);
+   return Potion(_t, _name);
 }
 
 QJsonObject Potion::toJson() const {
     QJsonObject obj;
 
     obj["name"] = QString::fromStdString(getName());
-    obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = getEffect();
     obj["tipo"] = t;
     

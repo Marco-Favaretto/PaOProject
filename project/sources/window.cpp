@@ -38,10 +38,10 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-    Consumable* cure1 = new Consumable(-100, "instDeathReal", CURA_PIC);
+    Consumable* cure1 = new Consumable(-100, "instDeathReal");
     mod->insert(cure1);
-    Consumable* cure2 = new Consumable(10, "cure", CURA_PIC);
-    Consumable* cura5 = new Consumable(-99 , "instaDeath", CURA_PIC);
+    Consumable* cure2 = new Consumable(10, "cure");
+    Consumable* cura5 = new Consumable(-99 , "instaDeath");
     mod->insert(cure2);
     mod->insert(cura5);
     overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");

@@ -42,7 +42,7 @@ namespace overtime {
             void setTimer(int);
             static tipo intToTipo(int);
         public:
-            overTime(tipo, int hp = -10, int c = INFCOUNTER, const string& = "unnamed_item", const string& = "error");
+            overTime(tipo, int hp = -10, int c = INFCOUNTER, const string& = "unnamed_item");
             overTime(const overTime&);
             overTime* clone() const override;
             bool isActive() const;

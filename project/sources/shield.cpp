@@ -3,8 +3,8 @@ using namespace shield;
 using namespace shield::Tipo;
 
 
-Shield::Shield(tipo _t, u_int _def, const string& _name, const string& _path)
-    : Weapon(_def, _name, _path), t(_t) {
+Shield::Shield(tipo _t, u_int _def, const string& _name)
+    : Weapon(_def, _name), t(_t) {
     if(!pathCorrectness()) pathCorrect();
 }
 
@@ -74,10 +74,6 @@ Shield Shield::fromJson(const QJsonObject &json) {
     if (vname.isString())
         _name = vname.toString().toStdString();
 
-    const QJsonValue vpath = json["path"];
-    if (vpath.isString())
-        _path = vpath.toString().toStdString();
-
      const QJsonValue vtipo = json["tipo"];
      if (vtipo.isDouble())
              _t = intToTipo(vtipo.toInt());
@@ -86,13 +82,12 @@ Shield Shield::fromJson(const QJsonObject &json) {
     if (veffect.isDouble())
         _effect = veffect.toInt();
 
-    return Shield(_t, _effect, _name, _path);
+    return Shield(_t, _effect, _name);
 }
 
 QJsonObject Shield::toJson() const {
     QJsonObject obj;
     obj["name"] = QString::fromStdString(getName());
-    obj["path"] = QString::fromStdString(getItemPath());
     obj["tipo"] = t;
     obj["effect"] = static_cast<int>(getDEF());
     return obj;

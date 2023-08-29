@@ -1,6 +1,6 @@
 #include "consumable.h"
 
-Consumable::Consumable(int c, const string& a, const string& b) : Item(a, b), hpEffect(c) {
+Consumable::Consumable(int c, const string& a) : Item(a), hpEffect(c) {
     if(!pathCorrectness()) pathCorrect();
 }
 
@@ -34,21 +34,16 @@ Consumable Consumable::fromJson(const QJsonObject &json) {
     if (vname.isString())
         _name = vname.toString().toStdString();
 
-    const QJsonValue vpath = json["path"];
-    if (vpath.isString())
-        _path = vpath.toString().toStdString();
-
     const QJsonValue veffect = json["effect"];
     if (veffect.isDouble())
         _effect = veffect.toInt();
 
-    return Consumable(_effect, _name, _path);
+    return Consumable(_effect, _name);
 }
 
 QJsonObject Consumable::toJson() const {
     QJsonObject obj;
     obj["name"] = QString::fromStdString(getName());
-    obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = hpEffect;
     return obj;
 }

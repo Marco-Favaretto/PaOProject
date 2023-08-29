@@ -8,8 +8,8 @@ using namespace overtime::classe;
 
 overTime::overTime() : Consumable(), timer(new QTimer()), counter(-1), t(POISON) {}
 
-overTime::overTime(tipo _t, int hp, int c, const string& _name, const string& _path)
-    : Consumable(hp, _name, _path),
+overTime::overTime(tipo _t, int hp, int c, const string& _name)
+    : Consumable(hp, _name),
       timer(new QTimer()), counter(c), t(_t) {
     if(t == POISON) timer->setInterval(STDTIMERPOISON);
     else timer->setInterval(STDTIMERTOXIC);
@@ -113,9 +113,6 @@ overTime overTime::fromJson(const QJsonObject &json) {
     if (const QJsonValue v = json["name"]; v.isString())
             _name = v.toString().toStdString();
     
-    if (const QJsonValue v = json["path"]; v.isString())
-            _path = v.toString().toStdString();
-    
     if (const QJsonValue v = json["effect"]; v.isDouble())
             _effect = v.toInt();
     
@@ -125,14 +122,13 @@ overTime overTime::fromJson(const QJsonObject &json) {
     if (const QJsonValue v = json["counter"]; v.isDouble())
             _counter = intToTipo(v.toInt());
    
-   return overTime(_t, _effect, _counter, _name, _path);
+   return overTime(_t, _effect, _counter, _name);
 }
 
 QJsonObject overTime::toJson() const {
     QJsonObject obj;
 
     obj["name"] = QString::fromStdString(getName());
-    obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = getEffect();
     obj["counter"] = counter;
     obj["tipo"] = t;

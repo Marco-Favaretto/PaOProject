@@ -1,7 +1,7 @@
 #include "weapon.h"
 
-Weapon::Weapon(u_int _atk, const string& _name, const string& _path)
-    : Item(_name, _path), atk(_atk), equip(false) {}
+Weapon::Weapon(u_int _atk, const string& _name)
+    : Item(_name), atk(_atk), equip(false) {}
 
 Weapon::Weapon(const Weapon& other) : Item(other), atk(other.atk), equip(other.equip) {}
 

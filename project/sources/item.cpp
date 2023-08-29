@@ -1,8 +1,6 @@
 #include "item.h"
 
-Item::Item(const string& a, const string& b) : name(a), path(b) {
-    id = 0;
-}
+Item::Item(const string& a) : name(a), path(DEFAULTPIC), id(0) {}
 
 Item::Item(const Item& other) : name(other.name), path(other.path) {}
 

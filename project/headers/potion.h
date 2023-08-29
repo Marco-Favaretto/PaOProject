@@ -30,7 +30,7 @@ namespace potion {
             Potion();
             static tipo intToTipo(int);
         public:
-            Potion(tipo, const string& = "unnamed_item", const string& = "error");
+            Potion(tipo, const string& = "unnamed_item");
             Potion(const Potion&);
             Potion* clone() const override;
             tipo getType() const;
