@@ -38,24 +38,24 @@ Window::Window(QWidget *parent)
 }
 
 void Window::fillInv() {
-    Consumable* cure1 = new Consumable(-100, "instDeathReal");
+    Consumable* cure1 = new Consumable(-100, "Pastiglia Insta-Death");
     mod->insert(cure1);
-    Consumable* cure2 = new Consumable(10, "cure");
-    Consumable* cura5 = new Consumable(-99 , "instaDeath");
+    Consumable* cure2 = new Consumable(10, "Cura");
+    Consumable* cura5 = new Consumable(30, "Cura");
     mod->insert(cure2);
     mod->insert(cura5);
-    overTime* ot = new overTime(overtime::POISON, -10, 8, "poison");
+    overTime* ot = new overTime(overtime::POISON, -10, 8, "Poison");
     mod->insert(ot);
-    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "toxic");
+    overTime* otoxic = new overTime(overtime::TOXIC, -20, 4, "Toxic");
     mod->insert(otoxic);
-    Potion* cure4poison = new Potion(potion::POISON , "Potion::poison");
+    Potion* cure4poison = new Potion(potion::POISON , "Potion-V");
     mod->insert(cure4poison);
-    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion::toxic");
+    Potion* cure4toxic = new Potion(potion::TOXIC , "Potion-T");
     mod->insert(cure4toxic);
-    Regular* swrd = new Regular(regular::Tipo::SPADA, 25, "longSword");
-    Regular* swrd2 = new Regular(regular::Tipo::STOCCO, 15, "shortSword");
-    Shield* shild = new Shield(shield::Tipo::LEGNO, 15, "shield1");
-    Shield* shild2 = new Shield(shield::Tipo::GRANDE, 30, "PortoneDeCasa");
+    Regular* swrd = new Regular(regular::Tipo::SPADA, 25, "Spada");
+    Regular* swrd2 = new Regular(regular::Tipo::STOCCO, 15, "Stocco");
+    Shield* shild = new Shield(shield::Tipo::LEGNO, 15, "Scudo di legno");
+    Shield* shild2 = new Shield(shield::Tipo::GRANDE, 30, "Scudo grande");
     mod->insert(swrd);
     mod->insert(swrd2);
     mod->insert(shild);
@@ -236,7 +236,7 @@ void Window::showOnly(showbutton::tipo t) {
 }
 
 void Window::saveGame() {
-    QString path = "C:/Users/favar/Desktop";
+    QString path = "C:/Users/favar/Desktop/uni/p2/PaoProject/project/saves";
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save on JSON File"), path, tr("JSON (*.json)"));
     if(!fileName.isEmpty()) mod->saveGame(fileName.toStdString());
@@ -244,7 +244,7 @@ void Window::saveGame() {
 
 void Window::loadGame() {
     // qmessagebox::warning salvare
-    QString path = "C:/Users/favar/Desktop";
+    QString path = "C:/Users/favar/Desktop/uni/p2/PaoProject/project/saves";
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open JSON File"), path, tr("JSON (*.json)"));
     if(!fileName.isEmpty())

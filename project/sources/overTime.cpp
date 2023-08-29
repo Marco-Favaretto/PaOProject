@@ -124,7 +124,7 @@ overTime overTime::fromJson(const QJsonObject &json) {
             _t = intToTipo(v.toInt());
 
     if (const QJsonValue v = json["counter"]; v.isDouble())
-            _counter = intToTipo(v.toInt());
+            _counter = v.toInt();
    
    return overTime(_t, _effect, _counter, _name);
 }
