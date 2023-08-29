@@ -36,8 +36,8 @@ namespace overtime {
             bool status;
             int counter;
             tipo t;
-            bool pathCorrectness() const;
-            void pathCorrect();
+            virtual bool pathCorrectness() const;
+            virtual void pathCorrect();
             overTime();
             void setTimer(int);
             static tipo intToTipo(int);

@@ -19,8 +19,8 @@ class Consumable : public Item {
     Q_OBJECT
     private:
         int hpEffect;
-        bool pathCorrectness() const;
-        void pathCorrect();
+        virtual bool pathCorrectness() const;
+        virtual void pathCorrect();
     public:
         Consumable(int=0, const string& = "unnamed_item", const string& = "error");
         Consumable(const Consumable&);

@@ -22,8 +22,8 @@ namespace shield {
 
     class Shield : public Weapon {
         Tipo::tipo t;
-        bool pathCorrectness() const;
-        void pathCorrect();
+        virtual bool pathCorrectness() const;
+        virtual void pathCorrect();
         static Tipo::tipo intToTipo(int);
     public:
         Shield(Tipo::tipo, u_int = 10, const string& = "unnamed_item", const string& = "error");

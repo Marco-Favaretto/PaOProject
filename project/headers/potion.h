@@ -25,8 +25,8 @@ namespace potion {
             Q_OBJECT
         private:
             tipo t;
-            bool pathCorrectness() const;
-            void pathCorrect();
+            virtual bool pathCorrectness() const;
+            virtual void pathCorrect();
             Potion();
             static tipo intToTipo(int);
         public:

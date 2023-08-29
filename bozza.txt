@@ -40,6 +40,8 @@ item:                     // classe astratta in cima alla gerarchia
    + getItemPath() const
    + setPath(string)
    + setName(string)
+   + virtual bool pathCorrectness() const =0
+   + virtual void pathCorrect()
    + virtual string descrizione() const
    + clone() const =0
    + effect() =0         // slot
