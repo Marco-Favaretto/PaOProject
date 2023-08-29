@@ -9,8 +9,6 @@ using namespace potion::classe;
 #include "weapon.h"
 #include "shield.h"
 #include "regular.h"
-#include<iostream>
-using std::cout; using std::endl;
 
 
 model::model() : player(new Player()), inv(Inventario()) {

@@ -2,6 +2,7 @@
 using namespace overtime;
 using namespace overtime::classe;
 
+// importazioni per stringa con precisione .00
 #include <iomanip>
 #include <sstream>
 
@@ -47,10 +48,6 @@ string overTime::description() const {
 overtime::tipo overTime::getType() const {
     return t;
 }
-
-//overTime::~overTime() {
-//    delete timer;
-//}
 
 bool overTime::pathCorrectness() const {
     switch(t) {
@@ -109,14 +106,9 @@ overtime::tipo overTime::intToTipo(int i) {
 
 overTime overTime::fromJson(const QJsonObject &json) {
     
-    // int _id = 0, _timer = 0,
     int _effect =0, _counter = -1;
     tipo _t = POISON;
-//    bool _st = false;
     string _name = "", _path = "";
-
-    // if (const QJsonValue v = json["id"]; v.isDouble())
-    //         _id = v.toInt();
     
     if (const QJsonValue v = json["name"]; v.isString())
             _name = v.toString().toStdString();
@@ -127,30 +119,23 @@ overTime overTime::fromJson(const QJsonObject &json) {
     if (const QJsonValue v = json["effect"]; v.isDouble())
             _effect = v.toInt();
     
-//    if (const QJsonValue v = json["timer"]; v.isDouble())
-//            _timer = v.toInt();
-    
     if (const QJsonValue v = json["tipo"]; v.isDouble())
             _t = intToTipo(v.toInt());
 
     if (const QJsonValue v = json["counter"]; v.isDouble())
             _counter = intToTipo(v.toInt());
-    
-//    if (const QJsonValue v = json["status"]; v.isBool())
-//            _st = v.toBool();
    
    return overTime(_t, _effect, _counter, _name, _path);
 }
 
 QJsonObject overTime::toJson() const {
     QJsonObject obj;
-    // obj["id"] = static_cast<int>(getID());
+
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = getEffect();
-//    obj["timer"] = timer->interval();
     obj["counter"] = counter;
     obj["tipo"] = t;
-//    obj["status"] = status;
+    
     return obj;
 }

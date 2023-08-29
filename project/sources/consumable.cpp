@@ -27,13 +27,8 @@ void Consumable::setEffect(int n) {
 
 Consumable Consumable::fromJson(const QJsonObject &json) {
 
-    // int _id = 0,
     int _effect =0;
     string _name = "", _path = "";
-
-    // const QJsonValue vid = json["id"];
-    // if (vid.isDouble())
-    //         _id = vid.toInt();
 
     const QJsonValue vname = json["name"];
     if (vname.isString())
@@ -52,7 +47,6 @@ Consumable Consumable::fromJson(const QJsonObject &json) {
 
 QJsonObject Consumable::toJson() const {
     QJsonObject obj;
-    // obj["id"] = static_cast<int>(getID());
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = hpEffect;

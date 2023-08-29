@@ -66,12 +66,9 @@ potion::tipo Potion::intToTipo(int i) {
 }
 
 Potion Potion::fromJson(const QJsonObject &json) {    
-    // int _id = 0;
+    
     tipo _t = POISON;
     string _name = "", _path = "";
-
-    // if (const QJsonValue v = json["id"]; v.isDouble())
-    //         _id = v.toInt();
     
     if (const QJsonValue v = json["name"]; v.isString())
             _name = v.toString().toStdString();
@@ -87,10 +84,11 @@ Potion Potion::fromJson(const QJsonObject &json) {
 
 QJsonObject Potion::toJson() const {
     QJsonObject obj;
-    // obj["id"] = static_cast<int>(getID());
+
     obj["name"] = QString::fromStdString(getName());
     obj["path"] = QString::fromStdString(getItemPath());
     obj["effect"] = getEffect();
     obj["tipo"] = t;
+    
     return obj;
 }

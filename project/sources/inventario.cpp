@@ -6,9 +6,6 @@
 #include "regular.h"
 #include "shield.h"
 
-#include <iostream>
-using std::cout; using std::endl;
-
 Inventario::Inventario() : first(0) {}
 
 Inventario::nodo::nodo() : itm(0), next(0) {}
