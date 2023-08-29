@@ -14,7 +14,7 @@ class Weapon : public Item {
         u_int atk;
         bool equip;
     public:
-        Weapon(u_int = 10, string = "unnamed_item", string = "error");
+        Weapon(u_int = 10, const string& = "unnamed_item", const string& = "error");
         Weapon(const Weapon&);
         virtual ~Weapon() =0;
         bool isEquipped() const;

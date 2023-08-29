@@ -15,7 +15,7 @@ class Item : public QObject {
         string path;
         unsigned int id;
     public:
-        Item(string = "unnamed_item", string = DEFAULTPIC);
+        Item(const string& = "unnamed_item", const string& = DEFAULTPIC);
         Item(const Item&);
         virtual ~Item() =0;
         virtual Item* clone() const =0;
@@ -23,8 +23,8 @@ class Item : public QObject {
         string getItemPath() const;
         unsigned int getID() const;
         void setID(unsigned int);
-        void setPath(string);
-        void setName(string);
+        void setPath(const string&);
+        void setName(const string&);
         virtual string description() const;
     public slots:
         virtual void effect() =0;

@@ -14,7 +14,7 @@ namespace showaction {
     private:
         showbutton::tipo t;
     public:
-        ShowAction(showbutton::tipo, QString title, QObject* parent = nullptr);
+        ShowAction(showbutton::tipo, const QString& title, QObject* parent = nullptr);
     public slots:
         void onClicked();
     signals:

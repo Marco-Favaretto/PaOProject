@@ -26,6 +26,7 @@ namespace player {
     #define MAX_HEALTH 100
 
     enum STATUS {NORMAL, POISONED, TOXIC, DEAD};
+
     namespace classe {
         class Player : public QObject {
             Q_OBJECT
@@ -39,7 +40,7 @@ namespace player {
             void pathCorrect();
             void death();
         public:
-            Player(int = MAX_HEALTH, STATUS = NORMAL, u_int = 10, u_int = 10, std::string = NORMAL_PIC_FULL);
+            Player(int = MAX_HEALTH, STATUS = NORMAL, u_int = 10, u_int = 10, const std::string& = NORMAL_PIC_FULL);
             Player(const Player&);
             int getHP() const;
             u_int getAtk() const;

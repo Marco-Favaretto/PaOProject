@@ -1,7 +1,7 @@
 #include "showbutton.h"
 using namespace showbutton;
 
-ShowButton::ShowButton(tipo _t, QString title, QWidget *parent) :
+ShowButton::ShowButton(tipo _t, const QString& title, QWidget *parent) :
     QPushButton(title, parent), t(_t) {
     connect(this, SIGNAL(clicked()), this, SLOT(onClicked()));
 }

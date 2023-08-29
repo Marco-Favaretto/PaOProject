@@ -54,7 +54,7 @@ void Regular::pathCorrect() {
     }
 }
 
-Regular::Regular(tipo _t, u_int _atk, string _name, string _path)
+Regular::Regular(tipo _t, u_int _atk, const string& _name, const string& _path)
     : Weapon(_atk, _name, _path), t(_t) {
     if(!pathCorrectness()) pathCorrect();
 }

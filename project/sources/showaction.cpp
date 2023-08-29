@@ -1,7 +1,7 @@
 #include "showaction.h"
 using namespace showaction;
 
-ShowAction::ShowAction(showbutton::tipo _t, QString title, QObject *parent) :
+ShowAction::ShowAction(showbutton::tipo _t, const QString& title, QObject *parent) :
     QAction(title, parent), t(_t) {
     connect(this, SIGNAL(triggered()), this, SLOT(onClicked()));
 }

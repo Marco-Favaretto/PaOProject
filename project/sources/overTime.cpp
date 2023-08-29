@@ -7,7 +7,7 @@ using namespace overtime::classe;
 
 overTime::overTime() : Consumable(), timer(new QTimer()), counter(-1), t(POISON) {}
 
-overTime::overTime(tipo _t, int hp, int c, string _name, string _path)
+overTime::overTime(tipo _t, int hp, int c, const string& _name, const string& _path)
     : Consumable(hp, _name, _path),
       timer(new QTimer()), counter(c), t(_t) {
     if(t == POISON) timer->setInterval(STDTIMERPOISON);

@@ -1,6 +1,6 @@
 #include "consumable.h"
 
-Consumable::Consumable(int c, string a, string b) : Item(a, b), hpEffect(c) {
+Consumable::Consumable(int c, const string& a, const string& b) : Item(a, b), hpEffect(c) {
     if(!pathCorrectness()) pathCorrect();
 }
 

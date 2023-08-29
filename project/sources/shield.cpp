@@ -3,7 +3,7 @@ using namespace shield;
 using namespace shield::Tipo;
 
 
-Shield::Shield(tipo _t, u_int _def, string _name, string _path)
+Shield::Shield(tipo _t, u_int _def, const string& _name, const string& _path)
     : Weapon(_def, _name, _path), t(_t) {
     if(!pathCorrectness()) pathCorrect();
 }

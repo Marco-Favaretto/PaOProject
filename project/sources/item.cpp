@@ -1,6 +1,6 @@
 #include "item.h"
 
-Item::Item(string a, string b) : name(a), path(b) {
+Item::Item(const string& a, const string& b) : name(a), path(b) {
     id = 0;
 }
 
@@ -22,11 +22,11 @@ void Item::setID(unsigned int _id) {
     id = _id;
 }
 
-void Item::setName(std::string _n) {
+void Item::setName(const string& _n) {
     name = _n;
 }
 
-void Item::setPath(string _path) {
+void Item::setPath(const string& _path) {
     path = _path;
 }
 

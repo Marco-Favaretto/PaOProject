@@ -229,13 +229,13 @@ void creationDialog::onListWidget(int _row) {
     comboBoxNome();
 }
 
-void creationDialog::onTipoBox(QString row) {
+void creationDialog::onTipoBox(const QString& row) {
     fromComboTipo = row.toStdString();
     tipo = true;
     comboBoxNome();
 }
 
-void creationDialog::onEffetto(QString lineEdited) {
+void creationDialog::onEffetto(const QString& lineEdited) {
     effetto = lineEdited.toInt();
     effect = true;
     comboBoxNome();
@@ -254,13 +254,13 @@ shield::Tipo::tipo creationDialog::fromNomeToShieldTipo() const {
     else if(nome == "Scudo grande") return shield::Tipo::GRANDE;
 }
 
-void creationDialog::onNomeBox(QString row) {
+void creationDialog::onNomeBox(const QString& row) {
     nome = row.toStdString();
     nomeCheck = true;
 }
 
 
-void creationDialog::onturni(QString _t) {
+void creationDialog::onturni(const QString& _t) {
     turni = _t.toInt();
     if(turni < 0) QMessageBox::warning(this, "Turni", "Scegliere un numero positivo.");
 }

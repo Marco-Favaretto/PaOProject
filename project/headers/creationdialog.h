@@ -63,11 +63,11 @@ public:
     void resetDialog();
 private slots:
     void onListWidget(int);
-    void onTipoBox(QString);
-    void onNomeBox(QString);
-    void onEffetto(QString);
+    void onTipoBox(const QString&);
+    void onNomeBox(const QString&);
+    void onEffetto(const QString&);
     void onCreateButton();
-    void onturni(QString);
+    void onturni(const QString&);
 signals:
     void onCreationButton(Item*);
 };

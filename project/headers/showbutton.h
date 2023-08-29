@@ -14,7 +14,7 @@ namespace showbutton {
     private:
         tipo t;
     public:
-        ShowButton(tipo, QString title, QWidget* parent = nullptr);
+        ShowButton(tipo, const QString& title, QWidget* parent = nullptr);
     public slots:
         void onClicked();
     signals:

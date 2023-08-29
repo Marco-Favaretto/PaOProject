@@ -2,7 +2,7 @@
 using namespace player;
 using namespace player::classe;
 
-Player::Player(int base, STATUS status, u_int _def, u_int _atk, std::string _path)
+Player::Player(int base, STATUS status, u_int _def, u_int _atk, const std::string& _path)
     : hp(base), def(_def), atk(_atk), st(status), path(_path) {
     if(!pathCorrectness()) pathCorrect();
 }

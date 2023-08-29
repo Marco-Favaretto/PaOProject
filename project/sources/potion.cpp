@@ -4,7 +4,7 @@ using namespace potion::classe;
 
 Potion::Potion() : Consumable(), t(POISON) {}
 
-Potion::Potion(tipo _t, std::string name, std::string pic) : Consumable(0, name, pic), t(_t) {
+Potion::Potion(tipo _t, const std::string& name, const std::string& pic) : Consumable(0, name, pic), t(_t) {
     if(!pathCorrectness()) pathCorrect();
 }
 
