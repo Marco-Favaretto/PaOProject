@@ -41,4 +41,5 @@ namespace potion {
         };
     }
 }
+
 #endif // POTION_H

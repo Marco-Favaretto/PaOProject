@@ -14,6 +14,8 @@ class Item : public QObject {
         string name;
         string path;
         unsigned int id;
+        virtual bool pathCorrectness() const =0;
+        virtual void pathCorrect() =0;
     public:
         Item(const string& = "unnamed_item");
         Item(const Item&);
@@ -25,8 +27,6 @@ class Item : public QObject {
         void setID(unsigned int);
         void setPath(const string&);
         void setName(const string&);
-        virtual bool pathCorrectness() const =0;
-        virtual void pathCorrect() =0;
         virtual string description() const;
     public slots:
         virtual void effect() =0;

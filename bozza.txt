@@ -1,15 +1,11 @@
 cose da fare:
 
-- test su vm
-   - correzione path
 - relazione
 
 ----------------------
 Issue:
-
 ------------------------
 Proposals:
-
 -------------------------
 Da ricordare:
 Scrivere dei distruttori di Qt in relazione
@@ -26,6 +22,8 @@ item:                     // classe astratta in cima alla gerarchia
    - nome
    - path
    - id
+   - virtual bool pathCorrectness() const =0
+   - virtual void pathCorrect()
    + Item(...)
    + Item(const Item&)
    + getID() const
@@ -34,21 +32,21 @@ item:                     // classe astratta in cima alla gerarchia
    + getItemPath() const
    + setPath(string)
    + setName(string)
-   + virtual bool pathCorrectness() const =0
-   + virtual void pathCorrect()
    + virtual string descrizione() const
-   + clone() const =0
+   + virtual clone() const =0
    + effect() =0         // slot
 
 consumable: item
    - hpEffect            // può essere positivo o negativo a seconda di cosa sia
+   - pathCorrect()
+   - pathCorrectness() const
    + Consumable(...)
    + Consumable(const Consumable&)
    + getEffect() const
    + virtual string descrizione() const
    + setEffect(int)
    + static fromJson(...);
-   + clone() const
+   + virtual clone() const
    + toJson() const;
    + effect()            // slot
    + effectSignal(int)   // segnale
@@ -102,6 +100,9 @@ weapon: item
 
 regular: weapon
    - atk
+   - pathCorrect()
+   - pathCorrectness() const
+   - static intToTipo(int)
    + Regular(...)
    + Regular(const Regular&)
    + effect()
@@ -113,7 +114,9 @@ regular: weapon
 
 shield: weapon
    - def                 // percentuale riduzione danni fisici
-   + Shield(...)
+   - pathCorrect()
+   - pathCorrectness() const
+   - static intToTipo(int)+ Shield(...)
    + Shield(const Shield&)
    + clone() const
    + effect()
@@ -131,7 +134,7 @@ Player:
    - pathCorrect()
    - pathCorrectness() const
    - death()
-   - static intToTipo(int)
+   + static intToStatus(int)
    + Player(...)
    + Player(const Player&)
    + getStatus() const
@@ -241,6 +244,14 @@ creationDialog: QDialog
    - onCreationButton()     // slot
    - onCreateButton(item*)  // signal
 
+gameOverDialog : QDialog
+   - cose GUI(...)
+   + gameOverDialog(QWidget*)
+   + endGameSlot()
+   + newGameSlot()
+   + emit endgame()
+   + emit reload()
+
 View:
    - model*
    - rowSel
@@ -254,6 +265,9 @@ View:
    - loadPlayerPic()
    - loadItemPic()
    - loadItemPicDefault();
+   - writeLastLoad()
+   - closeEvent(QCloseEvent*)
+   - loadLastGame()
    - slot per model:          playerDeath()
    - slot per model:          hp/status/atk/def
    - slot per tabella:        cellSelected
